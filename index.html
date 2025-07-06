@@ -378,11 +378,11 @@
     <script>
         // --- Global State ---
         const products = [
-            { id: 1, name: "Stylish Smartwatch", price: 199.99, image: "images/smartwatch.jpg", description: "Stay connected and track your fitness with this elegant smartwatch.", category: "Electronics", tryOnModel: { type: 'sphere', color: 0x8b5cf6, scale: 0.3, positionY: 0.8 } },
+            { id: 1, name: "Men's Casual T-Shirt", price: 25.00, image: "images/tshirtmen.jpg", description: "Comfortable and stylish cotton t-shirt for everyday wear.", category: "Men's Collection", tryOnModel: null },
             { id: 2, name: "Wireless Noise-Cancelling Headphones", price: 149.99, image: "images/headphone.jpg", description: "Immerse yourself in pure sound with these comfortable headphones.", category: "Electronics", tryOnModel: { type: 'headphone', color: 0x6366f1, scale: 0.8, positionY: 0.1 } },
             { id: 3, name: "Ergonomic Office Chair", price: 299.99, image: "images/chair.jpg", description: "Work in comfort and style with our premium ergonomic chair.", category: "Furniture", tryOnModel: null },
-            { id: 4, name: "Portable Bluetooth Speaker", price: 79.99, image: "https://placehold.co/400x400/c084fc/ffffff?text=Speaker", description: "Enjoy high-quality audio on the go with this compact speaker.", category: "Electronics", tryOnModel: null },
-            { id: 5, name: "Men's Casual T-Shirt", price: 25.00, image: "https://placehold.co/400x400/7c3aed/ffffff?text=Men's+T-Shirt", description: "Comfortable and stylish cotton t-shirt for everyday wear.", category: "Men's Collection", tryOnModel: null },
+            { id: 4, name: "Portable Bluetooth Speaker", price: 79.99, image: "images/speaker.jpg", description: "Enjoy high-quality audio on the go with this compact speaker.", category: "Electronics", tryOnModel: null },
+            { id: 5, name: "Stylish Smartwatch", price: 199.99, image: "images/smartwatch.jpg", description: "Stay connected and track your fitness with this elegant smartwatch.", category: "Electronics", tryOnModel: { type: 'sphere', color: 0x8b5cf6, scale: 0.3, positionY: 0.8 } },
             { id: 6, name: "Smart Home Hub", price: 129.99, image: "https://placehold.co/400x400/9333ea/ffffff?text=Smart+Hub", description: "Control all your smart devices from one central hub.", category: "Electronics", tryOnModel: null },
             { id: 7, name: "Espresso Machine", price: 219.99, image: "https://placehold.co/400x400/6d28d9/ffffff?text=Espresso+Machine", description: "Brew the perfect espresso at home with ease.", category: "Home & Kitchen", tryOnModel: null },
             { id: 8, name: "Mechanical Gaming Keyboard", price: 99.99, image: "https://placehold.co/400x400/5b21b6/ffffff?text=Gaming+Keyboard", description: "Responsive mechanical keys for a superior gaming experience.", category: "Electronics", tryOnModel: null },
@@ -491,7 +491,7 @@
             productsToRender.forEach(product => {
                 const productCard = `
                     <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden flex flex-col justify-between p-6">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <img src="${product.image}" alt="${product.name}" class="w-full aspect-square object-cover rounded-xl bg-white mb-4">
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">${product.name}</h3>
                         <p class="text-gray-600 text-sm mb-4 line-clamp-3">${product.description}</p>
                         <div class="flex justify-between items-center mt-auto">
