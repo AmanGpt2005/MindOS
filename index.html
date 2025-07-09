@@ -170,12 +170,30 @@
         <section id="home-page" class="page">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Featured Products</h1>
             <div class="flex flex-wrap justify-center gap-4 mb-8">
-                <button class="category-button active" data-category="All" onclick="filterProducts('All', this)">All Products</button>
-                <button class="category-button" data-category="Men's Collection" onclick="filterProducts('Men\'s Collection', this)">Men's Collection</button>
-                <button class="category-button" data-category="Women's Collection" onclick="filterProducts('Women\'s Collection', this)">Women's Collection</button>
-                <button class="category-button" data-category="Furniture" onclick="filterProducts('Furniture', this)">Furniture</button>
-                <button class="category-button" data-category="Electronics" onclick="filterProducts('Electronics', this)">Electronics</button>
-                <button class="category-button" data-category="Home & Kitchen" onclick="filterProducts('Home & Kitchen', this)">Home & Kitchen</button>
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+                    All Products
+                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
+                </button>
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+                    Men's Collection
+                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
+                </button>
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+                    Women's Collection
+                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
+                </button>
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+                    Furniture
+                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
+                </button>
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+                    Electronics
+                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
+                </button>
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+                    Home & Kitchen
+                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
+                </button>
             </div>
             <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 <!-- Product cards will be injected here by JavaScript -->
@@ -377,7 +395,7 @@
 
     <script>
         // --- Global State ---
-        const products = [
+        let products = [
             { id: 1, name: "Men's Casual T-Shirt", price: 25.00, image: "images/tshirtmen.jpg", description: "Comfortable and stylish cotton t-shirt for everyday wear.", category: "Men's Collection", tryOnModel: null },
             { id: 2, name: "Wireless Noise-Cancelling Headphones", price: 149.99, image: "images/headphone.jpg", description: "Immerse yourself in pure sound with these comfortable headphones.", category: "Electronics", tryOnModel: { type: 'headphone', color: 0x6366f1, scale: 0.8, positionY: 0.1 } },
             { id: 3, name: "Ergonomic Office Chair", price: 299.99, image: "images/chair.jpg", description: "Work in comfort and style with our premium ergonomic chair.", category: "Furniture", tryOnModel: null },
@@ -401,7 +419,11 @@
             { id: 21, name: "Men's Running Shoes", price: 75.00, image: "images/runningshoes.jpg", description: "Lightweight and supportive shoes for your daily runs.", category: "Men's Collection", tryOnModel: null },
             { id: 22, name: "Women's Yoga Pants", price: 40.00, image: "images/legging.jpg", description: "Comfortable and flexible yoga pants for your workout.", category: "Women's Collection", tryOnModel: null },
             { id: 23, name: "Bookshelf", price: 150.00, image: "images/bookshelf.jpg", description: "Stylish and sturdy bookshelf for your living room.", category: "Furniture", tryOnModel: null },
-            { id: 24, name: "Smart Coffee Mug", price: 45.00, image: "images/coffeemug.jpg", description: "Keep your coffee at the perfect temperature all day.", category: "Home & Kitchen", tryOnModel: null }
+            { id: 24, name: "Smart Coffee Mug", price: 45.00, image: "images/coffeemug.jpg", description: "Keep your coffee at the perfect temperature all day.", category: "Home & Kitchen", tryOnModel: null },
+            { id: 25, name: "Luxury Sectional Sofa", price: 1299.99, image: "images/luxury-sectional-sofa.jpg", description: "Spacious and luxurious sectional sofa for ultimate living room comfort.", category: "Furniture", tryOnModel: null },
+            { id: 26, name: "Mid-Century Modern Sofa", price: 899.99, image: "images/mid-century-sofa.jpg", description: "A stylish sofa with a timeless design, perfect for any contemporary space.", category: "Furniture", tryOnModel: null },
+            { id: 27, name: "Compact Apartment Sofa", price: 549.99, image: "images/compact-sofa.jpg", description: "Ideal for smaller spaces, this sofa offers comfort without compromising on style.", category: "Furniture", tryOnModel: null },
+            { id: 28, name: "King Size Platform Bed", price: 699.99, image: "images/king-bed.jpg", description: "A sturdy and elegant king size platform bed, perfect for a master bedroom.", category: "Furniture", tryOnModel: null }
         ];
 
         // Assign a default tryOnModel to products that don't have one
@@ -630,6 +652,85 @@
             setTimeout(() => {
                 messageModal.classList.add('hidden');
             }, 300); // Match transition duration
+        }
+
+        // --- Cognitive AI: User Behavior Tracking ---
+        let userBehavior = {
+            scrollDepth: 0,
+            clicks: 0,
+            timeSpent: 0
+        };
+
+        let timeStart = Date.now();
+
+        window.addEventListener("scroll", () => {
+            const scrolled = window.scrollY + window.innerHeight;
+            const totalHeight = document.body.offsetHeight;
+            userBehavior.scrollDepth = Math.max(
+                userBehavior.scrollDepth,
+                Math.floor((scrolled / totalHeight) * 100)
+            );
+        });
+
+        document.addEventListener("click", () => {
+            userBehavior.clicks++;
+        });
+
+        window.addEventListener("beforeunload", () => {
+            userBehavior.timeSpent = Math.floor((Date.now() - timeStart) / 1000);
+            localStorage.setItem("userBehavior", JSON.stringify(userBehavior));
+        });
+
+        // --- Cognitive Style Detection ---
+        function detectUserCognitiveStyle() {
+            const data = JSON.parse(localStorage.getItem("userBehavior")) || {};
+            console.log("🧠 User Behavior Data:", data);
+
+            let style;
+            if (data.scrollDepth > 80 && data.clicks > 10 && data.timeSpent > 60) {
+                style = "Detailed Explorer";
+            } else if (data.clicks < 5 && data.scrollDepth < 40) {
+                style = "Quick Scanner";
+            } else {
+                style = "Average";
+            }
+
+            localStorage.setItem("userStyle", style); // persist style
+            console.log("🧠 Cognitive Style Detected:", style);
+            return style;
+        }
+
+        // --- UI Adaptation ---
+        function adaptUIForUser(style) {
+            console.log(`🧠 UI Adapting for: ${style}`);
+
+            if (style === "Quick Scanner") {
+                document.body.style.backgroundColor = "#fff7ed";
+                document.body.style.fontSize = "0.95rem";
+                document.querySelectorAll(".product-card").forEach(card => {
+                    card.style.border = "2px solid #f87171";
+                });
+            } else if (style === "Detailed Explorer") {
+                document.body.style.backgroundColor = "#ecfeff";
+                document.body.style.fontSize = "1.1rem";
+                document.querySelectorAll(".product-card").forEach(card => {
+                    card.style.boxShadow = "0 0 10px rgba(59,130,246,0.5)";
+                });
+            }
+        }
+
+        // --- Product Sorting by Style ---
+        function sortProductsByStyle(products, style) {
+            if (style === "Quick Scanner") {
+                return products.sort((a, b) => a.price - b.price);
+            } else if (style === "Detailed Explorer") {
+                return products.sort((a, b) => {
+                    if (a.category === "Electronics" && b.category !== "Electronics") return -1;
+                    if (b.category === "Electronics" && a.category !== "Electronics") return 1;
+                    return b.price - a.price;
+                });
+            }
+            return products;
         }
 
         // --- Three.js Virtual Try-On ---
@@ -950,12 +1051,16 @@
 
 
         // --- Initial Load ---
-        window.onload = function() {
-            showPage('home'); // Show home page initially
-            updateCartUI(); // Initialize cart count
-            // renderFeedback() is now called by showPage('feedback')
-            // renderHomeRatings() is now called by showPage('home')
+        window.onload = function () {
+            const style = detectUserCognitiveStyle();
+            adaptUIForUser(style);
+            products = sortProductsByStyle(products, style); // re-sort based on style
+            renderProducts(products); // force display of sorted products
+            showPage('home');
+            updateCartUI();
         };
+
+
 
     </script>
 </body>
