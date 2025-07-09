@@ -247,31 +247,33 @@
 
         <section id="home-page" class="page">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Featured Products</h1>
-            <div class="grid grid-cols-3 gap-4 sm:flex sm:flex-wrap sm:justify-center mb-8">
-                <button class="relative category-button group col-span-1" style="font-weight: bold; font-size: large;" onclick="filterProducts('All', this)" data-category="All">
+            <!-- Mobile-first grid (3x2), switches to flex on small screens and up -->
+            <div class="grid grid-cols-3 gap-3 px-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-4 mb-8">
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('All', this)" data-category="All">
                     All Products
                 </button>
 
-                <button class="relative category-button group col-span-1" style="font-weight: bold; font-size: large;" onclick="filterProducts('Men\'s Collection', this)" data-category="Men's Collection">
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Men\'s Collection', this)" data-category="Men's Collection">
                     Men's Collection
                 </button>
 
-                <button class="relative category-button group col-span-1" style="font-weight: bold; font-size: large;" onclick="filterProducts('Women\'s Collection', this)" data-category="Women's Collection">
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Women\'s Collection', this)" data-category="Women's Collection">
                     Women's Collection
                 </button>
 
-                <button class="relative category-button group col-span-1" style="font-weight: bold; font-size: large;" onclick="filterProducts('Furniture', this)" data-category="Furniture">
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Furniture', this)" data-category="Furniture">
                     Furniture
                 </button>
 
-                <button class="relative category-button group col-span-1" style="font-weight: bold; font-size: large;" onclick="filterProducts('Electronics', this)" data-category="Electronics">
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Electronics', this)" data-category="Electronics">
                     Electronics
                 </button>
 
-                <button class="relative category-button group col-span-1" style="font-weight: bold; font-size: large;" onclick="filterProducts('Home & Kitchen', this)" data-category="Home & Kitchen">
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Home & Kitchen', this)" data-category="Home & Kitchen">
                     Home & Kitchen
                 </button>
             </div>
+
 
 
             <div id="product-list" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
