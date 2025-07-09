@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mindos - Your Modern E-commerce Store</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Three.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         body {
@@ -24,7 +20,6 @@
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            /* REMOVE display: flex and flex-direction */
         }
 
         /* Overlay for better text readability on top of the background image */
@@ -95,12 +90,29 @@
         .category-button {
             @apply px-4 py-2 rounded-full font-medium text-sm transition duration-300;
             @apply bg-gray-200 text-gray-700 hover:bg-indigo-100 hover:text-indigo-700;
+            position: relative; /* Needed for absolute positioning of the pseudo-element */
+            overflow: hidden; /* Hide the pseudo-element overflow initially */
+        }
+        .category-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px; /* Thickness of the bar */
+            background-color: #6366f1; /* Indigo-600 */
+            transform: translateX(-100%); /* Start off-screen to the left */
+            transition: transform 0.3s ease-out; /* Smooth transition */
+        }
+        .category-button:hover::after,
+        .category-button.active::after {
+            transform: translateX(0); /* Slide in from the left */
         }
         .category-button.active {
             @apply bg-indigo-600 text-white shadow-md;
         }
 
-        
+
         /* Ensure main content has good spacing */
         main {
             display: flex;
@@ -142,64 +154,117 @@
             font-size: 0.9rem;
             flex-shrink: 0; /* Prevent shrinking */
         }
+
+        /* New CSS for h1 hover effect */
+        .page h1 {
+            transition: font-size 0.3s ease-in-out; /* Smooth transition for font-size */
+        }
+
+        .page h1:hover {
+            font-size: 2.75rem; /* Equivalent to text-5xl, or slightly larger than text-4xl */
+        }
+
+        /* Keep the original font size for h1 elements */
+        #home-page h1,
+        #cart-page h1,
+        #checkout-page h1,
+        #try-on-page h1,
+        #about-page h1,
+        #feedback-page h1 {
+            font-size: 2.25rem; /* text-4xl */
+        }
+
+        /* Mobile navigation styles */
+        .mobile-nav-menu {
+            transition: transform 0.3s ease-out;
+            transform: translateX(100%); /* Start off-screen to the right */
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 70%; /* Adjust as needed */
+            height: 100%;
+            background-color: white;
+            z-index: 60; /* Higher than header */
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .mobile-nav-menu.open {
+            transform: translateX(0); /* Slide in */
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- Header -->
     <header class="bg-white shadow-md py-4 px-6 sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="#" class="text-3xl font-bold text-indigo-600" onclick="showPage('home')">Mindos</a>
-            <nav class="flex items-center space-x-6">
-                <a href="#" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('home')">Home</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('try-on')">Virtual Try-On</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('about')">About Us</a>
-                <a href="#" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('feedback')">Feedback & Ratings</a>
+            <a href="#" class="text-3xl font-bold text-indigo-600" ">Mindos</a>
+
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-indigo-600 text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav id="desktop-nav" class="hidden md:flex items-center space-x-6">
+                <a href="#home" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" ">Home</a>
+                <a href="#try-on" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('try-on')">Virtual Try-On</a>
+                <a href="#about" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" ">About Us</a>
+                <a href="#feedback" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" ">Feedback & Ratings</a>
                 <button class="relative text-gray-700 hover:text-indigo-600 transition duration-300" onclick="showPage('cart')">
                     <i class="fas fa-shopping-cart text-xl"></i>
                     <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
                 </button>
             </nav>
         </div>
+
+        <nav id="mobile-nav" class="mobile-nav-menu hidden">
+            <button id="close-menu-button" class="absolute top-4 right-4 text-gray-700 hover:text-indigo-600 text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="#home" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('home'); toggleMobileMenu();">Home</a>
+            <a href="#try-on" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('try-on'); toggleMobileMenu();">Virtual Try-On</a>
+            <a href="#about" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('about'); toggleMobileMenu();">About Us</a>
+            <a href="#feedback" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('feedback'); toggleMobileMenu();">Feedback & Ratings</a>
+            <button class="relative block py-3 text-lg text-gray-700 hover:text-indigo-600 transition duration-300 w-full text-left" onclick="showPage('cart'); toggleMobileMenu();">
+                <i class="fas fa-shopping-cart text-xl mr-2"></i>
+                Cart (<span id="mobile-cart-count">0</span>)
+            </button>
+        </nav>
     </header>
 
-    <!-- Main Content Area -->
     <main class="flex-grow container mx-auto p-6">
 
-        <!-- Home Page -->
         <section id="home-page" class="page">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Featured Products</h1>
             <div class="flex flex-wrap justify-center gap-4 mb-8">
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('All', this)" data-category="All">
                     All Products
-                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
                 </button>
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Men\'s Collection', this)" data-category="Men's Collection">
                     Men's Collection
-                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
                 </button>
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Women\'s Collection', this)" data-category="Women's Collection">
                     Women's Collection
-                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
                 </button>
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Furniture', this)" data-category="Furniture">
                     Furniture
-                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
                 </button>
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Electronics', this)" data-category="Electronics">
                     Electronics
-                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
                 </button>
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;">
+
+                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Home & Kitchen', this)" data-category="Home & Kitchen">
                     Home & Kitchen
-                    <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-600 transition-all group-hover:w-full"></span>
                 </button>
+
             </div>
             <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                <!-- Product cards will be injected here by JavaScript -->
-            </div>
+                </div>
 
-            <!-- Short About Section -->
             <div class="bg-white p-8 rounded-xl shadow-lg max-w-5xl mx-auto mt-16 mb-16 text-gray-700 leading-relaxed text-center">
                 <h2 class="text-3xl font-bold text-indigo-600 mb-4">About Mindos</h2>
                 <p class="mb-4">
@@ -208,18 +273,14 @@
                 <a href="#" class="text-indigo-600 hover:underline font-medium" onclick="showPage('about')">Read More About Us &rarr;</a>
             </div>
 
-            <!-- Featured Ratings Section -->
             <h2 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">What Our Customers Say</h2>
             <div id="home-ratings-list" class="flex flex-wrap justify-center gap-6">
-                <!-- Featured ratings will be injected here by JavaScript -->
-            </div>
+                </div>
         </section>
 
-        <!-- Cart Page -->
         <section id="cart-page" class="page hidden">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Your Shopping Cart</h1>
             <div id="cart-items" class="bg-white p-6 rounded-xl shadow-lg mb-8">
-                <!-- Cart items will be injected here by JavaScript -->
                 <p id="empty-cart-message" class="text-gray-500 text-center text-lg hidden">Your cart is empty.</p>
             </div>
             <div class="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-xl shadow-lg">
@@ -228,7 +289,6 @@
             </div>
         </section>
 
-        <!-- Checkout Page -->
         <section id="checkout-page" class="page hidden">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Checkout</h1>
             <div class="bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto">
@@ -281,7 +341,6 @@
             </div>
         </section>
 
-        <!-- Virtual Try-On Page -->
         <section id="try-on-page" class="page hidden">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Virtual Try-On Experience</h1>
             <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center">
@@ -292,14 +351,12 @@
                     <label for="tryOnProductSelect" class="block text-gray-700 font-medium mb-2">Select an item to try on:</label>
                     <select id="tryOnProductSelect" class="custom-select w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" onchange="loadTryOnItemFromSelect()">
                         <option value="">-- Select Product --</option>
-                        <!-- Options will be populated by JavaScript -->
-                    </select>
+                        </select>
                 </div>
                 <canvas id="tryOnCanvas" class="w-full h-96 md:h-[600px]"></canvas>
             </div>
         </section>
 
-        <!-- About Us Page -->
         <section id="about-page" class="page hidden">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">About Mindos</h1>
             <div class="bg-white p-8 rounded-xl shadow-lg max-w-3xl mx-auto text-gray-700 leading-relaxed">
@@ -322,7 +379,6 @@
             </div>
         </section>
 
-        <!-- Feedback & Ratings Page -->
         <section id="feedback-page" class="page hidden">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Share Your Feedback</h1>
             <div class="bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto">
@@ -356,14 +412,12 @@
                 <div id="feedback-list" class="mt-10 pt-6 border-t border-gray-200">
                     <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Recent Feedback</h2>
                     <p id="no-feedback-message" class="text-gray-500 text-center hidden">No feedback yet. Be the first to share!</p>
-                    <!-- Feedback items will be injected here -->
-                </div>
+                    </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Success/Error Message Modal -->
     <div id="message-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden modal-overlay">
         <div class="bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full text-center transform scale-95 transition-transform duration-300 ease-out">
             <h3 id="modal-title" class="text-2xl font-bold mb-4 text-gray-800"></h3>
@@ -372,7 +426,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-gray-800 text-white py-6 mt-auto">
         <div class="container mx-auto text-center text-gray-400">
             <p class="mb-4">&copy; 2025 Mindos. All rights reserved.</p>
@@ -458,40 +511,75 @@
         const feedbackListDiv = document.getElementById('feedback-list');
         const noFeedbackMessage = document.getElementById('no-feedback-message');
         const homeRatingsListDiv = document.getElementById('home-ratings-list'); // New DOM element for home page ratings
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMenuButton = document.getElementById('close-menu-button');
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileCartCount = document.getElementById('mobile-cart-count');
 
 
         // --- Page Navigation ---
         function showPage(pageId, productIdToTryOn = null) {
+            // 🔁 Update the URL hash without duplicating
+            if (window.location.hash.replace("#", "") !== pageId) {
+                window.location.hash = pageId;
+            }
+
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.add('hidden');
             });
-            document.getElementById(`${pageId}-page`).classList.remove('hidden');
 
-            // Specific actions for each page
+            const targetSection = document.getElementById(`${pageId}-page`);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            }
+
+            // Specific page behavior
             if (pageId === 'home') {
-                // Reset category filter to "All Products" when navigating to home
+                // Ensure 'All Products' button is active on home page load
                 filterProducts('All', document.querySelector('.category-button[data-category="All"]'));
-                renderHomeRatings(); // Render featured ratings on the home page
+                renderHomeRatings();
             } else if (pageId === 'cart') {
                 renderCart();
-            } else if (pageId === 'try-on') {
-                initThreeJS(); // Initialize Three.js when navigating to try-on page
-                populateTryOnProductSelect(); // Populate the dropdown
+            } else if (pageId === 'try-on-page') {
+                initThreeJS();
+                populateTryOnProductSelect();
                 if (productIdToTryOn) {
                     tryOnProductSelect.value = productIdToTryOn;
                     loadTryOnItemFromSelect();
                 } else {
-                    // Clear any previously loaded item if no specific product is selected
                     if (currentTryOnItemModel) {
                         headModel.remove(currentTryOnItemModel);
                         currentTryOnItemModel = null;
                     }
-                    tryOnProductSelect.value = ""; // Reset dropdown
+                    tryOnProductSelect.value = "";
                 }
             } else if (pageId === 'feedback') {
                 renderFeedback();
+            } else if (pageId === 'about') {
+                // no special logic needed, just reveal section
             }
         }
+
+
+        // --- Mobile Menu Toggle ---
+        function toggleMobileMenu() {
+            mobileNav.classList.toggle('hidden');
+            mobileNav.classList.toggle('flex');
+            mobileNav.classList.toggle('open'); // For CSS transition
+            // Update cart count in mobile menu
+            mobileCartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+             // Prevent scrolling when mobile menu is open
+            if (mobileNav.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+        closeMenuButton.addEventListener('click', toggleMobileMenu);
+
 
         // --- Product Filtering and Rendering ---
         function filterProducts(category, clickedButton) {
@@ -601,7 +689,12 @@
             }
 
             cartTotalSpan.textContent = `$${total.toFixed(2)}`;
-            cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const currentCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountSpan.textContent = currentCartCount;
+            mobileCartCount.textContent = currentCartCount; // Update mobile cart count
+
+
+            localStorage.setItem("cartData", JSON.stringify(cart));
         }
 
         function renderCart() {
@@ -1030,15 +1123,19 @@
 
             if (featuredRatings.length === 0) {
                 homeRatingsListDiv.innerHTML = '<p class="text-gray-500 text-center text-lg">No featured feedback yet.</p>';
-            } else {
+            }
+            else {
                 featuredRatings.forEach(entry => {
                     const stars = '⭐'.repeat(entry.rating);
                     const initials = entry.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
                     const feedbackHtml = `
                         <div class="feedback-card bg-white p-6 rounded-xl shadow-lg w-full sm:w-80 flex-shrink-0">
                             <div class="flex items-center space-x-3 mb-2">
-                                <div class="profile-icon">${initials}</div>
-                                <span class="font-semibold text-gray-800">${entry.name}</span>
+                                <div class="flex items-center">
+                                    <div class="profile-icon">${initials}</div>
+                                    <span class="font-semibold text-gray-800 ml-3">${entry.name}</span>
+                                </div>
+                                <span class="text-sm text-gray-500">${entry.date}</span>
                             </div>
                             <div class="text-yellow-500 mb-2">${stars}</div>
                             <p class="text-gray-700 text-sm line-clamp-3">${entry.comments || 'No comments provided.'}</p>
@@ -1049,17 +1146,33 @@
             }
         }
 
+        const savedCart = localStorage.getItem("cartData");
+        if (savedCart) {
+            cart = JSON.parse(savedCart);
+        }
 
         // --- Initial Load ---
         window.onload = function () {
             const style = detectUserCognitiveStyle();
             adaptUIForUser(style);
-            products = sortProductsByStyle(products, style); // re-sort based on style
-            renderProducts(products); // force display of sorted products
-            showPage('home');
+            products = sortProductsByStyle(products, style);
+
+            // Add data-category attribute to buttons
+            document.querySelectorAll('.category-button').forEach(button => {
+                button.setAttribute('data-category', button.textContent.trim());
+            });
+
+            const initialPage = window.location.hash.replace('#', '') || 'home';
+
+            showPage(initialPage); // This will call filterProducts and render products/ratings
             updateCartUI();
         };
 
+
+        window.onhashchange = function () {
+            const hash = window.location.hash.replace('#', '') || 'home';
+            showPage(hash);
+        };
 
 
     </script>
