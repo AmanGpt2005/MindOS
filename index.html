@@ -7,8 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <style>
@@ -286,7 +285,9 @@
             
             <div id="product-list" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8"></div>
 
+
             <div class="bg-white p-8 rounded-xl shadow-lg max-w-5xl mx-auto mt-16 mb-16 text-gray-700 leading-relaxed text-center">
+
                 <h2 class="text-3xl font-bold text-indigo-600 mb-4">About Mindos</h2>
                 <p class="mb-4">
                     Welcome to **Mindos**, your premier destination for modern and innovative products. We are passionate about bringing you the latest in technology, comfort, and style, all curated with a focus on quality and user experience. Our mission is to provide a seamless and enjoyable online shopping experience.
@@ -371,10 +372,37 @@
                     <label for="tryOnProductSelect" class="block text-gray-700 font-medium mb-2">Select an item to try on:</label>
                     <select id="tryOnProductSelect" class="custom-select w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" onchange="loadTryOnItemFromSelect()">
                         <option value="">-- Select Product --</option>
-                        </select>
+                        <option value="headphone">Wireless Noise-Cancelling Headphones</option>
+                        <option value="sphere">Stylish Smartwatch</option>
+                        <option value="glasses">Classic Sunglasses</option>
+                        <option value="hat">Baseball Cap</option>
+                        <option value="torus">Stylish Torus Ring</option>
+                        <option value="cylinder">Fitness Tracker Band</option>
+                        <option value="sofa">Comfortable Sofa</option>
+                        <option value="sofa">Mid-Century Modern Sofa</option>
+                        <option value="sofa">Luxury Sectional Sofa</option>
+                        <option value="sofa">Compact Apartment Sofa</option>
+                        <option value="none">None (Reset)</option>
+                    </select>
                 </div>
-                <canvas id="tryOnCanvas" class="w-full h-96 md:h-[600px]"></canvas>
             </div>
+            <!-- Universal AR Viewer -->
+            <div id="sofa-ar-container" class="hidden mt-10 text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4" id="sofa-title">View Sofa in AR</h2>
+            <model-viewer
+                id="sofa-model-viewer"
+                src=""
+                alt="Selected Sofa in AR"
+                ar
+                ar-modes="scene-viewer webxr quick-look"
+                environment-image="neutral"
+                auto-rotate
+                camera-controls
+                shadow-intensity="1"
+                style="width: 100%; max-width: 600px; height: 500px; margin: auto;">
+            </model-viewer>
+            </div>
+
         </section>
 
         <section id="about-page" class="page hidden">
@@ -618,6 +646,7 @@
 
         function renderProducts(productsToRender) {
             productListDiv.innerHTML = ''; // Clear existing products
+
             productsToRender.forEach(product => {
                 const productCard = `
                     <div class="product-card bg-white rounded-lg shadow-md flex flex-col p-3 sm:p-6 h-full">
@@ -630,9 +659,19 @@
                                 <button class="btn-primary text-white py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="addToCart(${product.id})">
                                     Add to Cart
                                 </button>
-                                <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showPage('try-on', ${product.id})">
-                                    Try On
-                                </button>
+
+                                ${["Mid-Century Modern Sofa", "Luxury Sectional Sofa", "Compact Apartment Sofa"].includes(product.name)
+                                    ? `
+                                        <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showTryOnPage(${product.id})">
+                                            Try On
+                                        </button>
+                                    `
+                                    : `
+                                        <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showPage('try-on', ${product.id})">
+                                            Try On
+                                        </button>
+                                    `
+                                }
                             </div>
                         </div>
                     </div>
@@ -641,6 +680,8 @@
                 productListDiv.innerHTML += productCard;
             });
         }
+
+
 
         // --- Cart Functions ---
         function addToCart(productId) {
@@ -847,237 +888,6 @@
             return products;
         }
 
-        // --- Three.js Virtual Try-On ---
-        let scene, camera, renderer, headModel;
-        let currentTryOnItemModel = null; // To keep track of the currently loaded item's 3D model
-
-        function initThreeJS() {
-            const canvas = document.getElementById('tryOnCanvas');
-            if (!canvas) {
-                console.error("Try-on canvas not found.");
-                return;
-            }
-
-            // If Three.js is already initialized, just return
-            if (scene && camera && renderer) {
-                // Clear any existing try-on item if present
-                if (currentTryOnItemModel) {
-                    headModel.remove(currentTryOnItemModel);
-                    currentTryOnItemModel = null;
-                }
-                return;
-            }
-
-            // Scene
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xf9fafb); // Light background
-
-            // Camera
-            camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-            camera.position.set(0, 0, 3); // Position camera
-
-            // Renderer
-            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-
-            // Lights
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Soft white light
-            scene.add(ambientLight);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-            directionalLight.position.set(5, 5, 5).normalize();
-            scene.add(directionalLight);
-
-            // Basic Avatar/Head Model (a simple sphere for demonstration)
-            const headGeometry = new THREE.SphereGeometry(0.8, 32, 32);
-            const headMaterial = new THREE.MeshPhongMaterial({ color: 0xcccccc }); // Light gray
-            headModel = new THREE.Mesh(headGeometry, headMaterial);
-            headModel.position.y = 0; // Center the head
-            scene.add(headModel);
-
-            // Mouse controls for rotation
-            let isDragging = false;
-            let previousMousePosition = { x: 0, y: 0 };
-
-            canvas.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                previousMousePosition = { x: e.clientX, y: e.clientY };
-            });
-
-            canvas.addEventListener('mouseup', () => {
-                isDragging = false;
-            });
-
-            canvas.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-
-                const deltaMove = {
-                    x: e.clientX - previousMousePosition.x,
-                    y: e.clientY - previousMousePosition.y
-                };
-
-                // Rotate the head model and any attached item
-                const rotationSpeed = 0.005;
-                headModel.rotation.y += deltaMove.x * rotationSpeed;
-                headModel.rotation.x += deltaMove.y * rotationSpeed;
-
-                // Clamp X rotation to prevent flipping
-                headModel.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, headModel.rotation.x));
-
-                previousMousePosition = { x: e.clientX, y: e.clientY };
-            });
-
-            // Handle window resize
-            window.addEventListener('resize', onWindowResize, false);
-            function onWindowResize() {
-                if (canvas) { // Check if canvas exists before accessing properties
-                    camera.aspect = canvas.clientWidth / canvas.clientHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-                }
-            }
-
-            // Animation loop
-            function animate() {
-                requestAnimationFrame(animate);
-                renderer.render(scene, camera);
-            }
-            animate(); // Start the animation loop
-        }
-
-        // Populates the dropdown with products that have a tryOnModel
-        function populateTryOnProductSelect() {
-            tryOnProductSelect.innerHTML = '<option value="">-- Select Product --</option>'; // Clear and add default
-            products.forEach(product => {
-                if (product.tryOnModel) {
-                    const option = document.createElement('option');
-                    option.value = product.id;
-                    option.textContent = product.name;
-                    tryOnProductSelect.appendChild(option);
-                }
-            });
-        }
-
-        // Loads a try-on item based on the selected product from the dropdown
-        function loadTryOnItemFromSelect() {
-            const selectedProductId = tryOnProductSelect.value;
-            if (!selectedProductId) {
-                // If nothing is selected, clear the item
-                if (currentTryOnItemModel) {
-                    headModel.remove(currentTryOnItemModel);
-                    currentTryOnItemModel = null;
-                }
-                return;
-            }
-
-            const product = products.find(p => p.id === parseInt(selectedProductId));
-            if (product && product.tryOnModel) {
-                loadTryOnItem(product.tryOnModel);
-            } else {
-                // If product not found or no tryOnModel, clear item
-                if (currentTryOnItemModel) {
-                    headModel.remove(currentTryOnItemModel);
-                    currentTryOnItemModel = null;
-                }
-            }
-        }
-
-        // Dynamically creates and attaches a 3D model based on item properties
-        function loadTryOnItem(modelProps) {
-            // Remove previous item if any
-            if (currentTryOnItemModel) {
-                headModel.remove(currentTryOnItemModel);
-                currentTryOnItemModel = null;
-            }
-
-            let geometry;
-            let material = new THREE.MeshPhongMaterial({ color: modelProps.color || 0xaaaaaa });
-            let itemMesh;
-
-            switch (modelProps.type) {
-                case 'sphere':
-                    geometry = new THREE.SphereGeometry(0.5, 32, 32);
-                    itemMesh = new THREE.Mesh(geometry, material);
-                    break;
-                case 'cylinder':
-                    geometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
-                    itemMesh = new THREE.Mesh(geometry, material);
-                    break;
-                case 'box':
-                    geometry = new THREE.BoxGeometry(1, 1, 1);
-                    itemMesh = new THREE.Mesh(geometry, material);
-                    break;
-                case 'hat': // Custom hat model
-                    geometry = new THREE.CylinderGeometry(0.6, 0.8, 0.4, 32);
-                    itemMesh = new THREE.Mesh(geometry, material);
-                    itemMesh.position.y = 1.0; // Position above the head
-                    break;
-                case 'glasses': // Custom glasses model
-                    const frameMaterial = new THREE.MeshPhongMaterial({ color: modelProps.color || 0x333333 });
-                    const lensMaterial = new THREE.MeshPhongMaterial({ color: 0xADD8E6, transparent: true, opacity: 0.5 });
-
-                    const leftLens = new THREE.Mesh(new THREE.SphereGeometry(0.2, 16, 16), lensMaterial);
-                    leftLens.position.set(-0.3, 0.1, 0.8);
-
-                    const rightLens = new THREE.Mesh(new THREE.SphereGeometry(0.2, 16, 16), lensMaterial);
-                    rightLens.position.set(0.3, 0.1, 0.8);
-
-                    const bridge = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.05, 0.05), frameMaterial);
-                    bridge.position.set(0, 0.1, 0.8);
-
-                    itemMesh = new THREE.Group();
-                    itemMesh.add(leftLens);
-                    itemMesh.add(rightLens);
-                    itemMesh.add(bridge);
-                    break;
-                case 'headphone': // Simple headphone model
-                    const bandMaterial = new THREE.MeshPhongMaterial({ color: modelProps.color || 0x333333 });
-                    const earCupMaterial = new THREE.MeshPhongMaterial({ color: modelProps.color || 0x555555 });
-
-                    const band = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.05, 16, 100, Math.PI), bandMaterial);
-                    band.rotation.x = Math.PI / 2;
-                    band.position.y = 0.8;
-
-                    const leftEarCup = new THREE.Mesh(new THREE.SphereGeometry(0.2, 32, 32), earCupMaterial);
-                    leftEarCup.position.set(-0.8, 0.8, 0);
-
-                    const rightEarCup = new THREE.Mesh(new THREE.SphereGeometry(0.2, 32, 32), earCupMaterial);
-                    rightEarCup.position.set(0.8, 0.8, 0);
-
-                    itemMesh = new THREE.Group();
-                    itemMesh.add(band);
-                    itemMesh.add(leftEarCup);
-                    itemMesh.add(rightEarCup);
-                    itemMesh.rotation.x = Math.PI / 2; // Orient to fit head
-                    itemMesh.position.y = 0.5; // Adjust position
-                    break;
-                case 'torus': // For scarf-like item
-                    geometry = new THREE.TorusGeometry(0.6, 0.1, 16, 100);
-                    itemMesh = new THREE.Mesh(geometry, material);
-                    itemMesh.rotation.x = Math.PI / 2; // Orient horizontally
-                    itemMesh.position.y = -0.5; // Around the neck
-                    break;
-                default:
-                    console.warn("Unknown try-on model type:", modelProps.type);
-                    return;
-            }
-
-            // Apply scaling and positioning if provided
-            if (itemMesh) {
-                if (modelProps.scale) {
-                    itemMesh.scale.set(modelProps.scale, modelProps.scale, modelProps.scale);
-                }
-                if (modelProps.positionX !== undefined) itemMesh.position.x = modelProps.positionX;
-                if (modelProps.positionY !== undefined) itemMesh.position.y = modelProps.positionY;
-                if (modelProps.positionZ !== undefined) itemMesh.position.z = modelProps.positionZ;
-                if (modelProps.rotationX !== undefined) itemMesh.rotation.x = modelProps.rotationX;
-                if (modelProps.rotationY !== undefined) itemMesh.rotation.y = modelProps.rotationY;
-                if (modelProps.rotationZ !== undefined) itemMesh.rotation.z = modelProps.rotationZ;
-
-                headModel.add(itemMesh); // Attach item to the head model
-                currentTryOnItemModel = itemMesh;
-            }
-        }
 
         // --- Feedback Functions ---
         feedbackForm.addEventListener('submit', function(event) {
@@ -1194,6 +1004,39 @@
             const hash = window.location.hash.replace('#', '') || 'home';
             showPage(hash);
         };
+
+        function showTryOnPage(productId) {
+            const tryOnPage = document.getElementById('try-on-page');
+            const sofaAR = document.getElementById('sofa-ar-container');
+            const modelViewer = document.getElementById('sofa-model-viewer');
+            const sofaTitle = document.getElementById('sofa-title');
+
+            showPage('try-on'); // show the try-on section
+
+            const product = products.find(p => p.id === productId);
+
+            if (
+                product.name === "Mid-Century Modern Sofa" ||
+                product.name === "Luxury Sectional Sofa" ||
+                product.name === "Compact Apartment Sofa"
+            ) {
+                // Show the AR viewer and set model src
+                sofaAR.classList.remove('hidden');
+                sofaTitle.textContent = `Try ${product.name} in AR`;
+
+                // Map each sofa to the correct .glb file
+                const modelMap = {
+                    "Mid-Century Modern Sofa": "models/Light Brown Sofa.glb",
+                    "Luxury Sectional Sofa": "models/White Sofa.glb",
+                    "Compact Apartment Sofa": "models/Brown Sofa.glb"
+                };
+
+                modelViewer.setAttribute("src", modelMap[product.name]);
+            } else {
+                // Hide the AR viewer for non-sofa items
+                sofaAR.classList.add('hidden');
+            }
+            }
 
 
     </script>
