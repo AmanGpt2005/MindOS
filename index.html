@@ -400,67 +400,84 @@
             Shop by Category
           </h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Men's Fashion Card -->
-            <a
-              href="#products?category=Men%27s%20Collection"
-              class="category-card group"
-            >
-              <div class="category-card-content" style="background-image: url('images/men-collection.jpg');">
-                <h3 class="category-card-title">Men's Fashion</h3>
-              </div>
-            </a>
+                <a
+                    href="#products?category=Men%27s%20Collection"
+                    class="category-card group"
+                    onclick="filterProducts('Men\'s Collection', this)"
+                >
+                    <div
+                    class="category-card-content"
+                    style="background-image: url('images/men-collection.jpg');"
+                    >
+                    <h3 class="category-card-title">Men's Fashion</h3>
+                    </div>
+                </a>
 
-            <!-- Women's Fashion Card -->
-            <a
-              href="#products?category=Women%27s%20Collection"
-              class="category-card group"
-            >
-              <div class="category-card-content" style="background-image: url('images/women-collection.jpg');">
-                <h3 class="category-card-title">Women's Fashion</h3>
-              </div>
-            </a>
+                <a
+                    href="#products?category=Women%27s%20Collection"
+                    class="category-card group"
+                    onclick="filterProducts('Women\'s Collection', this)"
+                >
+                    <div
+                    class="category-card-content"
+                    style="background-image: url('images/women-collection.jpg');"
+                    >
+                    <h3 class="category-card-title">Women's Fashion</h3>
+                    </div>
+                </a>
 
-            <!-- Furniture Card -->
-            <a
-              href="#products?category=Furniture"
-              class="category-card group"
-            >
-              <div class="category-card-content" style="background-image: url('images/furniture.jpg');">
-                <h3 class="category-card-title">Furniture</h3>
-              </div>
-            </a>
+                <a
+                    href="#products?category=Furniture"
+                    class="category-card group"
+                    onclick="filterProducts('Furniture', this)"
+                >
+                    <div
+                    class="category-card-content"
+                    style="background-image: url('images/furniture.jpg');"
+                    >
+                    <h3 class="category-card-title">Furniture</h3>
+                    </div>
+                </a>
 
-            <!-- Home & Kitchen Card -->
-            <a
-              href="#products?category=Home%20%26%20Kitchen"
-              class="category-card group"
-            >
-              <div class="category-card-content" style="background-image: url('images/home-kitchen.jpg');">
-                <h3 class="category-card-title">Home & Kitchen</h3>
-              </div>
-            </a>
+                <a
+                    href="#products?category=Home%20%26%20Kitchen"
+                    class="category-card group"
+                    onclick="filterProducts('Home & Kitchen', this)"
+                >
+                    <div
+                    class="category-card-content"
+                    style="background-image: url('images/home-kitchen.jpg');"
+                    >
+                    <h3 class="category-card-title">Home & Kitchen</h3>
+                    </div>
+                </a>
 
-            <!-- Electronics Card -->
-            <a
-              href="#products?category=Electronics"
-              class="category-card group"
-            >
-              <div class="category-card-content" style="background-image: url('images/electronics.jpg');">
-                <h3 class="category-card-title">Electronics</h3>
-              </div>
-            </a>
+                <a
+                    href="#products?category=Electronics"
+                    class="category-card group"
+                    onclick="filterProducts('Electronics', this)"
+                >
+                    <div
+                    class="category-card-content"
+                    style="background-image: url('images/electronics.jpg');"
+                    >
+                    <h3 class="category-card-title">Electronics</h3>
+                    </div>
+                </a>
 
-            <!-- All Products Card-->
-            <a
-              href="#products?category=All"
-              class="category-card group"
-            >
-              <div class="category-card-content" style="background-image: url('images/all-collection.jpg');">
-                <h3 class="category-card-title">All Products</h3>
-              </div>
-            </a>
-          </div>
-        </div>
+                <a
+                    href="#products?category=All"
+                    class="category-card group"
+                    onclick="filterProducts('All', this)"
+                >
+                    <div
+                    class="category-card-content"
+                    style="background-image: url('images/all-collection.jpg');"
+                    >
+                    <h3 class="category-card-title">All Products</h3>
+                    </div>
+                </a>
+                </div>
 
         <div
           class="bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg mt-16 p-8 mx-auto max-w-4xl"
