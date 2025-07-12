@@ -370,575 +370,572 @@
 
 
     <script>
-    // --- Global State ---
-    let products = [
-        { id: 1, name: "Men's Casual T-Shirt", price: 25.00, image: "images/tshirtmen.jpg", description: "Comfortable and stylish cotton t-shirt for everyday wear.", category: "Men's Collection", modelPath: "models/tshirtmen.glb" },
-        { id: 2, name: "Wireless Noise-Cancelling Headphones", price: 149.99, image: "images/headphone.jpg", description: "Immerse yourself in pure sound with these comfortable headphones.", category: "Electronics", modelPath: "models/headphone.glb" },
-        { id: 3, name: "Ergonomic Office Chair", price: 299.99, image: "images/chair.jpg", description: "Work in comfort and style with our premium ergonomic chair.", category: "Furniture", modelPath: "models/chair.glb" },
-        { id: 4, name: "Portable Bluetooth Speaker", price: 79.99, image: "images/speaker.jpg", description: "Enjoy high-quality audio on the go with this compact speaker.", category: "Electronics", modelPath: "models/speaker.glb" },
-        { id: 5, name: "Stylish Smartwatch", price: 199.99, image: "images/smartwatch.jpg", description: "Stay connected and track your fitness with this elegant smartwatch.", category: "Electronics", modelPath: "models/smartwatch.glb" },
-        { id: 6, name: "Smart Home Hub", price: 129.99, image: "images/homehub.jpg", description: "Control all your smart devices from one central hub.", category: "Electronics", modelPath: "models/homehub.glb" },
-        { id: 7, name: "Espresso Machine", price: 219.99, image: "images/expresso.jpg", description: "Brew the perfect espresso at home with ease.", category: "Home & Kitchen", modelPath: "models/espresso.glb" },
-        { id: 8, name: "Mechanical Gaming Keyboard", price: 99.99, image: "images/keyboard.jpg", description: "Responsive mechanical keys for a superior gaming experience.", category: "Electronics", modelPath: "models/keyboard.glb" },
-        { id: 9, name: "Classic Sunglasses", price: 49.99, image: "images/sunglassesjpg.jpg", description: "Timeless style and UV protection for your eyes.", category: "Men's Collection", modelPath: "models/sunglasses.glb" },
-        { id: 10, name: "Baseball Cap", price: 29.99, image: "images/cap.jpg", description: "Sporty and comfortable, perfect for any outdoor activity.", category: "Men's Collection", modelPath: "models/cap.glb" },
-        { id: 11, name: "Women's Silk Scarf", price: 39.99, image: "images/scarf.jpg", description: "Add a touch of elegance to your outfit.", category: "Women's Collection", modelPath: "models/scarf.glb" },
-        { id: 12, name: "Fitness Tracker Band", price: 79.99, image: "images/band.jpg", description: "Monitor your health and activity with precision.", category: "Electronics", modelPath: "models/band.glb" },
-        { id: 13, name: "Modern Desk Lamp", price: 59.99, image: "images/lamp.jpg", description: "Illuminate your workspace with this sleek and adjustable lamp.", category: "Furniture", modelPath: "models/lamp.glb" },
-        { id: 14, name: "Comfortable Sofa", price: 799.99, image: "images/sofa.jpg", description: "Relax in ultimate comfort with our plush and modern sofa.", category: "Furniture", modelPath: "models/sofa.glb" },
-        { id: 15, name: "Elegant Evening Dress", price: 120.00, image: "images/dress.jpg", description: "A stunning dress for any special occasion.", category: "Women's Collection", modelPath: "models/dress.glb" },
-        { id: 16, name: "Men's Leather Wallet", price: 45.00, image: "images/wallet.jpg", description: "Durable and stylish leather wallet with multiple compartments.", category: "Men's Collection", modelPath: "models/wallet.glb" },
-        { id: 17, name: "Women's Summer Hat", price: 35.00, image: "images/hat.jpg", description: "Lightweight and fashionable hat for sunny days.", category: "Women's Collection", modelPath: "models/hat.glb" },
-        { id: 18, name: "Men's Formal Shirt", price: 55.00, image: "images/shirt.jpg", description: "Crisp and comfortable shirt perfect for office or events.", category: "Men's Collection", modelPath: "models/shirt.glb" },
-        { id: 19, name: "Women's Handbag", price: 85.00, image: "images/handbag.jpg", description: "Spacious and elegant handbag for everyday essentials.", category: "Women's Collection", modelPath: "models/handbag.glb" },
-        { id: 20, name: "Smart Vacuum Cleaner", price: 349.99, image: "images/vacuumcleaner.jpg", description: "Effortlessly clean your home with this intelligent robot vacuum.", category: "Home & Kitchen", modelPath: "models/vacuumcleaner.glb" },
-        { id: 21, name: "Men's Running Shoes", price: 75.00, image: "images/runningshoes.jpg", description: "Lightweight and supportive shoes for your daily runs.", category: "Men's Collection", modelPath: "models/runningshoes.glb" },
-        { id: 22, name: "Women's Yoga Pants", price: 40.00, image: "images/legging.jpg", description: "Comfortable and flexible yoga pants for your workout.", category: "Women's Collection", modelPath: "models/legging.glb" },
-        { id: 23, name: "Bookshelf", price: 150.00, image: "images/bookshelf.jpg", description: "Stylish and sturdy bookshelf for your living room.", category: "Furniture", modelPath: "models/bookshelf.glb" },
-        { id: 24, name: "Smart Coffee Mug", price: 45.00, image: "images/coffeemug.jpg", description: "Keep your coffee at the perfect temperature all day.", category: "Home & Kitchen", modelPath: "models/coffeemug.glb" },
-        { id: 25, name: "Luxury Sectional Sofa", price: 1299.99, image: "images/luxury-sectional-sofa.jpg", description: "Spacious and luxurious sectional sofa for ultimate living room comfort.", category: "Furniture", modelPath: "models/White Sofa.glb" },
-        { id: 26, name: "Mid-Century Modern Sofa", price: 899.99, image: "images/mid-century-sofa.jpg", description: "A stylish sofa with a timeless design, perfect for any contemporary space.", category: "Furniture", modelPath: "models/Light Brown Sofa.glb" },
-        { id: 27, name: "Compact Apartment Sofa", price: 549.99, image: "images/compact-sofa.jpg", description: "Ideal for smaller spaces, this sofa offers comfort without compromising on style.", category: "Furniture", modelPath: "models/Brown Sofa.glb" },
-        { id: 28, name: "King Size Platform Bed", price: 699.99, image: "images/king-bed.jpg", description: "A sturdy and elegant king size platform bed, perfect for a master bedroom.", category: "Furniture", modelPath: "models/King Bed.glb" }
-    ];
+        // --- Global State ---
+        let products = [
+            { id: 1, name: "Men's Casual T-Shirt", price: 25.00, image: "images/tshirtmen.jpg", description: "Comfortable and stylish cotton t-shirt for everyday wear.", category: "Men's Collection", modelPath: "models/tshirtmen.glb" },
+            { id: 2, name: "Wireless Noise-Cancelling Headphones", price: 149.99, image: "images/headphone.jpg", description: "Immerse yourself in pure sound with these comfortable headphones.", category: "Electronics", modelPath: "models/headphone.glb" },
+            { id: 3, name: "Ergonomic Office Chair", price: 299.99, image: "images/chair.jpg", description: "Work in comfort and style with our premium ergonomic chair.", category: "Furniture", modelPath: "models/chair.glb" },
+            { id: 4, name: "Portable Bluetooth Speaker", price: 79.99, image: "images/speaker.jpg", description: "Enjoy high-quality audio on the go with this compact speaker.", category: "Electronics", modelPath: "models/speaker.glb" },
+            { id: 5, name: "Stylish Smartwatch", price: 199.99, image: "images/smartwatch.jpg", description: "Stay connected and track your fitness with this elegant smartwatch.", category: "Electronics", modelPath: "models/smartwatch.glb" },
+            { id: 6, name: "Smart Home Hub", price: 129.99, image: "images/homehub.jpg", description: "Control all your smart devices from one central hub.", category: "Electronics", modelPath: "models/homehub.glb" },
+            { id: 7, name: "Espresso Machine", price: 219.99, image: "images/expresso.jpg", description: "Brew the perfect espresso at home with ease.", category: "Home & Kitchen", modelPath: "models/espresso.glb" },
+            { id: 8, name: "Mechanical Gaming Keyboard", price: 99.99, image: "images/keyboard.jpg", description: "Responsive mechanical keys for a superior gaming experience.", category: "Electronics", modelPath: "models/keyboard.glb" },
+            { id: 9, name: "Classic Sunglasses", price: 49.99, image: "images/sunglassesjpg.jpg", description: "Timeless style and UV protection for your eyes.", category: "Men's Collection", modelPath: "models/sunglasses.glb" },
+            { id: 10, name: "Baseball Cap", price: 29.99, image: "images/cap.jpg", description: "Sporty and comfortable, perfect for any outdoor activity.", category: "Men's Collection", modelPath: "models/cap.glb" },
+            { id: 11, name: "Women's Silk Scarf", price: 39.99, image: "images/scarf.jpg", description: "Add a touch of elegance to your outfit.", category: "Women's Collection", modelPath: "models/scarf.glb" },
+            { id: 12, name: "Fitness Tracker Band", price: 79.99, image: "images/band.jpg", description: "Monitor your health and activity with precision.", category: "Electronics", modelPath: "models/band.glb" },
+            { id: 13, name: "Modern Desk Lamp", price: 59.99, image: "images/lamp.jpg", description: "Illuminate your workspace with this sleek and adjustable lamp.", category: "Furniture", modelPath: "models/lamp.glb" },
+            { id: 14, name: "Comfortable Sofa", price: 799.99, image: "images/sofa.jpg", description: "Relax in ultimate comfort with our plush and modern sofa.", category: "Furniture", modelPath: "models/sofa.glb" },
+            { id: 15, name: "Elegant Evening Dress", price: 120.00, image: "images/dress.jpg", description: "A stunning dress for any special occasion.", category: "Women's Collection", modelPath: "models/dress.glb" },
+            { id: 16, name: "Men's Leather Wallet", price: 45.00, image: "images/wallet.jpg", description: "Durable and stylish leather wallet with multiple compartments.", category: "Men's Collection", modelPath: "models/wallet.glb" },
+            { id: 17, name: "Women's Summer Hat", price: 35.00, image: "images/hat.jpg", description: "Lightweight and fashionable hat for sunny days.", category: "Women's Collection", modelPath: "models/hat.glb" },
+            { id: 18, name: "Men's Formal Shirt", price: 55.00, image: "images/shirt.jpg", description: "Crisp and comfortable shirt perfect for office or events.", category: "Men's Collection", modelPath: "models/shirt.glb" },
+            { id: 19, name: "Women's Handbag", price: 85.00, image: "images/handbag.jpg", description: "Spacious and elegant handbag for everyday essentials.", category: "Women's Collection", modelPath: "models/handbag.glb" },
+            { id: 20, name: "Smart Vacuum Cleaner", price: 349.99, image: "images/vacuumcleaner.jpg", description: "Effortlessly clean your home with this intelligent robot vacuum.", category: "Home & Kitchen", modelPath: "models/vacuumcleaner.glb" },
+            { id: 21, name: "Men's Running Shoes", price: 75.00, image: "images/runningshoes.jpg", description: "Lightweight and supportive shoes for your daily runs.", category: "Men's Collection", modelPath: "models/runningshoes.glb" },
+            { id: 22, name: "Women's Yoga Pants", price: 40.00, image: "images/legging.jpg", description: "Comfortable and flexible yoga pants for your workout.", category: "Women's Collection", modelPath: "models/legging.glb" },
+            { id: 23, name: "Bookshelf", price: 150.00, image: "images/bookshelf.jpg", description: "Stylish and sturdy bookshelf for your living room.", category: "Furniture", modelPath: "models/bookshelf.glb" },
+            { id: 24, name: "Smart Coffee Mug", price: 45.00, image: "images/coffeemug.jpg", description: "Keep your coffee at the perfect temperature all day.", category: "Home & Kitchen", modelPath: "models/coffeemug.glb" },
+            { id: 25, name: "Luxury Sectional Sofa", price: 1299.99, image: "images/luxury-sectional-sofa.jpg", description: "Spacious and luxurious sectional sofa for ultimate living room comfort.", category: "Furniture", modelPath: "models/White Sofa.glb" },
+            { id: 26, name: "Mid-Century Modern Sofa", price: 899.99, image: "images/mid-century-sofa.jpg", description: "A stylish sofa with a timeless design, perfect for any contemporary space.", category: "Furniture", modelPath: "models/Light Brown Sofa.glb" },
+            { id: 27, name: "Compact Apartment Sofa", price: 549.99, image: "images/compact-sofa.jpg", description: "Ideal for smaller spaces, this sofa offers comfort without compromising on style.", category: "Furniture", modelPath: "models/Brown Sofa.glb" },
+            { id: 28, name: "King Size Platform Bed", price: 699.99, image: "images/king-bed.jpg", description: "A sturdy and elegant king size platform bed, perfect for a master bedroom.", category: "Furniture", modelPath: "models/King Bed.glb" }
+        ];
 
-    let cart = [];
-    // Pre-populated feedback entries
-    let feedbackEntries = [
-        { name: "Alice Smith", email: "alice@example.com", rating: 5, comments: "Absolutely love the range of products! The virtual try-on is a game changer.", date: "07/01/2025" },
-        { name: "Bob Johnson", email: "bob@example.com", rating: 4, comments: "Great website design and easy to navigate. Shipping was fast.", date: "06/28/2025" },
-        { name: "Charlie Brown", email: "charlie@example.com", rating: 5, comments: "Mindos has become my go-to for electronics. Highly recommend!", date: "06/25/2025" },
-        { name: "Diana Prince", email: "diana@example.com", rating: 3, comments: "Good selection, but I wish there were more detailed product descriptions.", date: "06/20/2025" }
-    ];
+        let cart = [];
+        // Pre-populated feedback entries
+        let feedbackEntries = [
+            { name: "Alice Smith", email: "alice@example.com", rating: 5, comments: "Absolutely love the range of products! The virtual try-on is a game changer.", date: "07/01/2025" },
+            { name: "Bob Johnson", email: "bob@example.com", rating: 4, comments: "Great website design and easy to navigate. Shipping was fast.", date: "06/28/2025" },
+            { name: "Charlie Brown", email: "charlie@example.com", rating: 5, comments: "Mindos has become my go-to for electronics. Highly recommend!", date: "06/25/2025" },
+            { name: "Diana Prince", email: "diana@example.com", rating: 3, comments: "Good selection, but I wish there were more detailed product descriptions.", date: "06/20/2025" }
+        ];
 
-    // --- DOM Elements ---
-    const productListDiv = document.getElementById('product-list');
-    const cartItemsDiv = document.getElementById('cart-items');
-    const cartTotalSpan = document.getElementById('cart-total');
-    const cartCountSpan = document.getElementById('cart-count');
-    const emptyCartMessage = document.getElementById('empty-cart-message');
-    const checkoutForm = document.getElementById('checkout-form');
-    const messageModal = document.getElementById('message-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalMessage = document.getElementById('modal-message');
-    const feedbackForm = document.getElementById('feedback-form');
-    const feedbackListDiv = document.getElementById('feedback-list');
-    const noFeedbackMessage = document.getElementById('no-feedback-message');
-    const homeRatingsListDiv = document.getElementById('home-ratings-list'); // New DOM element for home page ratings
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const closeMenuButton = document.getElementById('close-menu-button');
-    const mobileNav = document.getElementById('mobile-nav');
-    const mobileCartCount = document.getElementById('mobile-cart-count');
+        // --- DOM Elements ---
+        const productListDiv = document.getElementById('product-list');
+        const cartItemsDiv = document.getElementById('cart-items');
+        const cartTotalSpan = document.getElementById('cart-total');
+        const cartCountSpan = document.getElementById('cart-count');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const checkoutForm = document.getElementById('checkout-form');
+        const messageModal = document.getElementById('message-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const feedbackForm = document.getElementById('feedback-form');
+        const feedbackListDiv = document.getElementById('feedback-list');
+        const noFeedbackMessage = document.getElementById('no-feedback-message');
+        const homeRatingsListDiv = document.getElementById('home-ratings-list'); // New DOM element for home page ratings
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMenuButton = document.getElementById('close-menu-button');
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileCartCount = document.getElementById('mobile-cart-count');
 
-    // New DOM element for the main model-viewer
-    const mainModelViewer = document.getElementById('main-model-viewer');
-    const tryOnProductSelect = document.getElementById('tryOnProductSelect');
+        // New DOM element for the main model-viewer
+        const mainModelViewer = document.getElementById('main-model-viewer');
+        const tryOnProductSelect = document.getElementById('tryOnProductSelect');
 
-    // --- Page Navigation ---
-    function showPage(pageId, productIdToTryOn = null) {
-        // 🔁 Update the URL hash without duplicating
-        if (window.location.hash.replace("#", "") !== pageId) {
-            window.location.hash = pageId;
-        }
-
-        document.querySelectorAll('.page').forEach(page => {
-            page.classList.add('hidden');
-        });
-
-        const targetSection = document.getElementById(`${pageId}-page`);
-        if (targetSection) {
-            targetSection.classList.remove('hidden');
-        }
-
-        // Specific page behavior
-        if (pageId === 'home') {
-            filterProducts('All', document.querySelector('.category-button[data-category="All"]'));
-            renderHomeRatings();
-        } else if (pageId === 'cart') {
-            renderCart();
-        } else if (pageId === 'try-on') {
-            populateTryOnProductSelect();
-            if (productIdToTryOn) {
-                showTryOnPage(parseInt(productIdToTryOn));
+        // --- Page Navigation ---
+        function showPage(pageId, productIdToTryOn = null) {
+            // 🔁 Update the URL hash without duplicating
+            if (window.location.hash.replace("#", "") !== pageId) {
+                window.location.hash = pageId;
             }
-        } else if (pageId === 'feedback') {
-            renderFeedback();
-        } else if (pageId === 'about') {
-            // no special logic needed, just reveal section
-        }
-    }
 
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
 
-    // --- Mobile Menu Toggle ---
-    function toggleMobileMenu() {
-        mobileNav.classList.toggle('hidden');
-        mobileNav.classList.toggle('flex');
-        mobileNav.classList.toggle('open'); // For CSS transition
-        // Update cart count in mobile menu
-        mobileCartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const targetSection = document.getElementById(`${pageId}-page`);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            }
 
-        // Prevent scrolling when mobile menu is open
-        if (mobileNav.classList.contains('open')) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-    }
-
-    mobileMenuButton.addEventListener('click', toggleMobileMenu);
-    closeMenuButton.addEventListener('click', toggleMobileMenu);
-
-
-    // --- Product Filtering and Rendering ---
-    function filterProducts(category, clickedButton) {
-        // Remove active class from all category buttons
-        document.querySelectorAll('.category-button').forEach(button => {
-            button.classList.remove('active');
-        });
-        // Add active class to the clicked button
-        if (clickedButton) {
-            clickedButton.classList.add('active');
+            // Specific page behavior
+            if (pageId === 'home') {
+                filterProducts('All', document.querySelector('.category-button[data-category="All"]'));
+                renderHomeRatings();
+            } else if (pageId === 'cart') {
+                renderCart();
+            } else if (pageId === 'try-on') {
+                populateTryOnProductSelect();
+                if (productIdToTryOn) {
+                    showTryOnPage(parseInt(productIdToTryOn));
+                }
+            } else if (pageId === 'feedback') {
+                renderFeedback();
+            } else if (pageId === 'about') {
+                // no special logic needed, just reveal section
+            }
         }
 
-        const filteredProducts = category === 'All' ? products : products.filter(p => p.category === category);
-        renderProducts(filteredProducts);
-    }
 
-    function renderProducts(productsToRender) {
-        productListDiv.innerHTML = ''; // Clear existing products
+        // --- Mobile Menu Toggle ---
+        function toggleMobileMenu() {
+            mobileNav.classList.toggle('hidden');
+            mobileNav.classList.toggle('flex');
+            mobileNav.classList.toggle('open'); // For CSS transition
+            // Update cart count in mobile menu
+            mobileCartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-        productsToRender.forEach(product => {
-            const tryOnButton = product.modelPath ?
-                `
-                    <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showPage('try-on', ${product.id})">
-                        Try On
-                    </button>
-                `
-                : '';
-
-            const productCard = `
-                <div class="product-card bg-white rounded-lg shadow-md flex flex-col p-3 sm:p-6 h-full">
-                    <img src="${product.image}" alt="${product.name}" class="w-full h-[130px] sm:h-[260px] object-cover rounded-md mb-2">
-                    <h3 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 line-clamp-2">${product.name}</h3>
-                    <p class="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">${product.description}</p>
-                    <div class="flex justify-between items-center mt-auto">
-                        <span class="text-sm sm:text-lg font-bold text-indigo-600">$${product.price.toFixed(2)}</span>
-                        <div class="flex flex-col space-y-1">
-                            <button class="btn-primary text-white py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="addToCart(${product.id})">
-                                Add to Cart
-                            </button>
-                            ${tryOnButton}
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            productListDiv.innerHTML += productCard;
-        });
-    }
-
-
-
-    // --- Cart Functions ---
-    function addToCart(productId) {
-        const product = products.find(p => p.id === productId);
-        if (product) {
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
-                existingItem.quantity++;
+            // Prevent scrolling when mobile menu is open
+            if (mobileNav.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
             } else {
-                cart.push({ ...product, quantity: 1 });
-            }
-            updateCartUI();
-            showModal('Success!', `${product.name} added to cart.`, 'success');
-        }
-    }
-
-    function removeFromCart(productId) {
-        cart = cart.filter(item => item.id !== productId);
-        updateCartUI();
-    }
-
-    function updateQuantity(productId, change) {
-        const item = cart.find(item => item.id === productId);
-        if (item) {
-            item.quantity += change;
-            if (item.quantity <= 0) {
-                removeFromCart(productId);
-            } else {
-                updateCartUI();
+                document.body.style.overflow = '';
             }
         }
-    }
 
-    function updateCartUI() {
-        cartItemsDiv.innerHTML = '';
-        let total = 0;
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+        closeMenuButton.addEventListener('click', toggleMobileMenu);
 
-        if (cart.length === 0) {
-            emptyCartMessage.classList.remove('hidden');
-        } else {
-            emptyCartMessage.classList.add('hidden');
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                const cartItemHtml = `
-                    <div class="flex items-center justify-between border-b border-gray-200 py-4 last:border-b-0">
-                        <div class="flex items-center">
-                            <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg mr-4">
-                            <div>
-                                <h4 class="text-lg font-medium text-gray-800">${item.name}</h4>
-                                <p class="text-gray-600">$${item.price.toFixed(2)}</p>
+
+        // --- Product Filtering and Rendering ---
+        function filterProducts(category, clickedButton) {
+            // Remove active class from all category buttons
+            document.querySelectorAll('.category-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            // Add active class to the clicked button
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+
+            const filteredProducts = category === 'All' ? products : products.filter(p => p.category === category);
+            renderProducts(filteredProducts);
+        }
+
+        function renderProducts(productsToRender) {
+            productListDiv.innerHTML = ''; // Clear existing products
+
+            productsToRender.forEach(product => {
+                const tryOnButton = product.modelPath ?
+                    `
+                        <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showPage('try-on', ${product.id})">
+                            Try On
+                        </button>
+                    `
+                    : '';
+
+                const productCard = `
+                    <div class="product-card bg-white rounded-lg shadow-md flex flex-col p-3 sm:p-6 h-full">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-[130px] sm:h-[260px] object-cover rounded-md mb-2">
+                        <h3 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 line-clamp-2">${product.name}</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">${product.description}</p>
+                        <div class="flex justify-between items-center mt-auto">
+                            <span class="text-sm sm:text-lg font-bold text-indigo-600">$${product.price.toFixed(2)}</span>
+                            <div class="flex flex-col space-y-1">
+                                <button class="btn-primary text-white py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="addToCart(${product.id})">
+                                    Add to Cart
+                                </button>
+                                ${tryOnButton}
                             </div>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <button class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center text-lg" onclick="updateQuantity(${item.id}, -1)">-</button>
-                            <span class="text-lg font-semibold text-gray-800">${item.quantity}</span>
-                            <button class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center text-lg" onclick="updateQuantity(${item.id}, 1)">+</button>
-                        </div>
-                        <div class="text-xl font-bold text-indigo-600">$${itemTotal.toFixed(2)}</div>
-                        <button class="text-red-500 hover:text-red-700 transition duration-300" onclick="removeFromCart(${item.id})">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
                     </div>
                 `;
-                cartItemsDiv.innerHTML += cartItemHtml;
+
+                productListDiv.innerHTML += productCard;
             });
         }
 
-        cartTotalSpan.textContent = `$${total.toFixed(2)}`;
-        const currentCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCountSpan.textContent = currentCartCount;
-        mobileCartCount.textContent = currentCartCount; // Update mobile cart count
 
 
-        localStorage.setItem("cartData", JSON.stringify(cart));
-    }
+        // --- Cart Functions ---
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                const existingItem = cart.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                updateCartUI();
+                showModal('Success!', `${product.name} added to cart.`, 'success');
+            }
+        }
 
-    function renderCart() {
-        updateCartUI();
-    }
-
-    // --- Checkout Form Submission (Simulated Payment) ---
-    checkoutForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        // Simulate payment processing
-        const isPaymentSuccessful = Math.random() > 0.1; // 90% chance of success
-
-        if (isPaymentSuccessful) {
-            showModal('Order Placed!', 'Your order has been successfully placed. Thank you for shopping with us!', 'success');
-            cart = []; // Clear cart after successful order
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
             updateCartUI();
-            checkoutForm.reset(); // Clear form fields
-            setTimeout(() => showPage('home'), 2000); // Redirect to home after 2 seconds
-        } else {
-            showModal('Payment Failed!', 'There was an issue processing your payment. Please try again or use a different card.', 'error');
-        }
-    });
-
-    // --- Modal Functions ---
-    function showModal(title, message, type) {
-        modalTitle.textContent = title;
-        modalMessage.textContent = message;
-        if (type === 'success') {
-            modalTitle.classList.remove('text-red-600');
-            modalTitle.classList.add('text-green-600');
-        } else if (type === 'error') {
-            modalTitle.classList.remove('text-green-600');
-            modalTitle.classList.add('text-red-600');
-        }
-        messageModal.classList.remove('hidden');
-        // Animate modal in
-        setTimeout(() => {
-            messageModal.querySelector('div').classList.remove('scale-95');
-            messageModal.querySelector('div').classList.add('scale-100');
-        }, 50);
-    }
-
-    function closeModal() {
-        // Animate modal out
-        messageModal.querySelector('div').classList.remove('scale-100');
-        messageModal.querySelector('div').classList.add('scale-95');
-        setTimeout(() => {
-            messageModal.classList.add('hidden');
-        }, 300); // Match transition duration
-    }
-
-    // --- Cognitive AI: User Behavior Tracking ---
-    let userBehavior = {
-        scrollDepth: 0,
-        clicks: 0,
-        timeSpent: 0
-    };
-
-    let timeStart = Date.now();
-
-    window.addEventListener("scroll", () => {
-        const scrolled = window.scrollY + window.innerHeight;
-        const totalHeight = document.body.offsetHeight;
-        userBehavior.scrollDepth = Math.max(
-            userBehavior.scrollDepth,
-            Math.floor((scrolled / totalHeight) * 100)
-        );
-    });
-
-    document.addEventListener("click", () => {
-        userBehavior.clicks++;
-    });
-
-    window.addEventListener("beforeunload", () => {
-        userBehavior.timeSpent = Math.floor((Date.now() - timeStart) / 1000);
-        localStorage.setItem("userBehavior", JSON.stringify(userBehavior));
-    });
-
-    // --- Cognitive Style Detection ---
-    function detectUserCognitiveStyle() {
-        const data = JSON.parse(localStorage.getItem("userBehavior")) || {};
-        console.log("🧠 User Behavior Data:", data);
-
-        let style;
-        if (data.scrollDepth > 80 && data.clicks > 10 && data.timeSpent > 60) {
-            style = "Detailed Explorer";
-        } else if (data.clicks < 5 && data.scrollDepth < 40) {
-            style = "Quick Scanner";
-        } else {
-            style = "Average";
         }
 
-        localStorage.setItem("userStyle", style); // persist style
-        console.log("🧠 Cognitive Style Detected:", style);
-        return style;
-    }
-
-    // --- UI Adaptation ---
-    function adaptUIForUser(style) {
-        console.log(`🧠 UI Adapting for: ${style}`);
-
-        if (style === "Quick Scanner") {
-            document.body.style.backgroundColor = "#fff7ed";
-            document.body.style.fontSize = "0.95rem";
-            document.querySelectorAll(".product-card").forEach(card => {
-                card.style.border = "2px solid #f87171";
-            });
-        } else if (style === "Detailed Explorer") {
-            document.body.style.backgroundColor = "#ecfeff";
-            document.body.style.fontSize = "1.1rem";
-            document.querySelectorAll(".product-card").forEach(card => {
-                card.style.boxShadow = "0 0 10px rgba(59,130,246,0.5)";
-            });
-        }
-    }
-
-    // --- Product Sorting by Style ---
-    function sortProductsByStyle(products, style) {
-        if (style === "Quick Scanner") {
-            return products.sort((a, b) => a.price - b.price);
-        } else if (style === "Detailed Explorer") {
-            return products.sort((a, b) => {
-                if (a.category === "Electronics" && b.category !== "Electronics") return -1;
-                if (b.category === "Electronics" && a.category !== "Electronics") return 1;
-                return b.price - a.price;
-            });
-        }
-        return products;
-    }
-
-
-    // --- Feedback Functions ---
-    feedbackForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const name = document.getElementById('feedbackName').value;
-        const email = document.getElementById('feedbackEmail').value;
-        const rating = document.getElementById('feedbackRating').value;
-        const comments = document.getElementById('feedbackComments').value;
-
-        if (!name || !email || !rating) {
-            showModal('Error', 'Please fill in all required feedback fields.', 'error');
-            return;
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartUI();
+                }
+            }
         }
 
-        const newFeedback = {
-            name,
-            email,
-            rating: parseInt(rating),
-            comments,
-            date: new Date().toLocaleDateString()
+        function updateCartUI() {
+            cartItemsDiv.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+            } else {
+                emptyCartMessage.classList.add('hidden');
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    const cartItemHtml = `
+                        <div class="flex items-center justify-between border-b border-gray-200 py-4 last:border-b-0">
+                            <div class="flex items-center">
+                                <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg mr-4">
+                                <div>
+                                    <h4 class="text-lg font-medium text-gray-800">${item.name}</h4>
+                                    <p class="text-gray-600">$${item.price.toFixed(2)}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <button class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center text-lg" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span class="text-lg font-semibold text-gray-800">${item.quantity}</span>
+                                <button class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center text-lg" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                            <div class="text-xl font-bold text-indigo-600">$${itemTotal.toFixed(2)}</div>
+                            <button class="text-red-500 hover:text-red-700 transition duration-300" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    `;
+                    cartItemsDiv.innerHTML += cartItemHtml;
+                });
+            }
+
+            cartTotalSpan.textContent = `$${total.toFixed(2)}`;
+            const currentCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountSpan.textContent = currentCartCount;
+            mobileCartCount.textContent = currentCartCount; // Update mobile cart count
+
+
+            localStorage.setItem("cartData", JSON.stringify(cart));
+        }
+
+        function renderCart() {
+            updateCartUI();
+        }
+
+        // --- Checkout Form Submission (Simulated Payment) ---
+        checkoutForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Simulate payment processing
+            const isPaymentSuccessful = Math.random() > 0.1; // 90% chance of success
+
+            if (isPaymentSuccessful) {
+                showModal('Order Placed!', 'Your order has been successfully placed. Thank you for shopping with us!', 'success');
+                cart = []; // Clear cart after successful order
+                updateCartUI();
+                checkoutForm.reset(); // Clear form fields
+                setTimeout(() => showPage('home'), 2000); // Redirect to home after 2 seconds
+            } else {
+                showModal('Payment Failed!', 'There was an issue processing your payment. Please try again or use a different card.', 'error');
+            }
+        });
+
+        // --- Modal Functions ---
+        function showModal(title, message, type) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            if (type === 'success') {
+                modalTitle.classList.remove('text-red-600');
+                modalTitle.classList.add('text-green-600');
+            } else if (type === 'error') {
+                modalTitle.classList.remove('text-green-600');
+                modalTitle.classList.add('text-red-600');
+            }
+            messageModal.classList.remove('hidden');
+            // Animate modal in
+            setTimeout(() => {
+                messageModal.querySelector('div').classList.remove('scale-95');
+                messageModal.querySelector('div').classList.add('scale-100');
+            }, 50);
+        }
+
+        function closeModal() {
+            // Animate modal out
+            messageModal.querySelector('div').classList.remove('scale-100');
+            messageModal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                messageModal.classList.add('hidden');
+            }, 300); // Match transition duration
+        }
+
+        // --- Cognitive AI: User Behavior Tracking ---
+        let userBehavior = {
+            scrollDepth: 0,
+            clicks: 0,
+            timeSpent: 0
         };
 
-        feedbackEntries.unshift(newFeedback); // Add to the beginning
-        renderFeedback();
-        feedbackForm.reset();
-        showModal('Thank You!', 'Your feedback has been submitted successfully.', 'success');
-    });
+        let timeStart = Date.now();
 
-    function renderFeedback() {
-        feedbackListDiv.innerHTML = '<h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Recent Feedback</h2>'; // Clear and re-add title
-        if (feedbackEntries.length === 0) {
-            noFeedbackMessage.classList.remove('hidden');
-        } else {
-            noFeedbackMessage.classList.add('hidden');
-            feedbackEntries.forEach(entry => {
-                const stars = '⭐'.repeat(entry.rating);
-                // Get initials for the profile icon
-                const initials = entry.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-                const feedbackHtml = `
-                    <div class="feedback-card bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <div class="flex items-center space-x-3">
-                                <div class="profile-icon">${initials}</div>
-                                <span class="font-semibold text-gray-800 ml-3">${entry.name}</span>
-                            </div>
-                            <span class="text-sm text-gray-500">${entry.date}</span>
-                        </div>
-                        <div class="text-yellow-500 mb-2">${stars}</div>
-                        <p class="text-gray-700">${entry.comments || 'No comments provided.'}</p>
-                    </div>
-                `;
-                feedbackListDiv.innerHTML += feedbackHtml;
-            });
-        }
-    }
-
-    // --- Render Home Page Ratings ---
-    function renderHomeRatings() {
-        homeRatingsListDiv.innerHTML = ''; // Clear existing ratings
-
-        // Display only the first 3 feedback entries for the home page
-        const featuredRatings = feedbackEntries.slice(0, 3);
-
-        if (featuredRatings.length === 0) {
-            homeRatingsListDiv.innerHTML = '<p class="text-gray-500 text-center text-lg">No featured feedback yet.</p>';
-        }
-        else {
-            featuredRatings.forEach(entry => {
-                const stars = '⭐'.repeat(entry.rating);
-                const initials = entry.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-                const feedbackHtml = `
-                    <div class="feedback-card bg-white p-6 rounded-xl shadow-lg w-full sm:w-80 flex-shrink-0">
-                        <div class="flex items-center space-x-3 mb-2">
-                            <div class="flex items-center">
-                                <div class="profile-icon">${initials}</div>
-                                <span class="font-semibold text-gray-800 ml-3">${entry.name}</span>
-                            </div>
-                            <span class="text-sm text-gray-500">${entry.date}</span>
-                        </div>
-                        <div class="text-yellow-500 mb-2">${stars}</div>
-                        <p class="text-gray-700 text-sm line-clamp-3">${entry.comments || 'No comments provided.'}</p>
-                    </div>
-                `;
-                homeRatingsListDiv.innerHTML += feedbackHtml;
-            });
-        }
-    }
-    
-    // --- Model Viewer Functions for Try-On ---
-    function showTryOnPage(productId) {
-        const tryOnPage = document.getElementById('try-on-page');
-        const product = products.find(p => p.id === productId);
-        
-        if (!product || !product.modelPath) {
-            console.error("Product or model path not found for ID:", productId);
-            return;
-        }
-
-        // Set the src and ios-src for the main model-viewer
-        mainModelViewer.setAttribute("src", product.modelPath);
-        mainModelViewer.setAttribute("ios-src", product.modelPath.replace('.glb', '.usdz'));
-        mainModelViewer.setAttribute("alt", `A 3D model of ${product.name}`);
-
-        // Update the dropdown to match the selected product
-        tryOnProductSelect.value = productId;
-    }
-
-    function populateTryOnProductSelect() {
-        // Clear existing options
-        tryOnProductSelect.innerHTML = '';
-        
-        // Add a default option
-        const defaultOption = document.createElement('option');
-        defaultOption.textContent = 'Select a product';
-        defaultOption.value = '';
-        tryOnProductSelect.appendChild(defaultOption);
-
-        // Filter for products that have a modelPath
-        const productsWithModels = products.filter(p => p.modelPath);
-        
-        productsWithModels.forEach(product => {
-            const option = document.createElement('option');
-            option.value = product.id;
-            option.textContent = product.name;
-            tryOnProductSelect.appendChild(option);
+        window.addEventListener("scroll", () => {
+            const scrolled = window.scrollY + window.innerHeight;
+            const totalHeight = document.body.offsetHeight;
+            userBehavior.scrollDepth = Math.max(
+                userBehavior.scrollDepth,
+                Math.floor((scrolled / totalHeight) * 100)
+            );
         });
 
-        // Add event listener to handle changes
-        tryOnProductSelect.addEventListener('change', (event) => {
-            const selectedProductId = event.target.value;
-            if (selectedProductId) {
-                showPage('try-on', parseInt(selectedProductId));
+        document.addEventListener("click", () => {
+            userBehavior.clicks++;
+        });
+
+        window.addEventListener("beforeunload", () => {
+            userBehavior.timeSpent = Math.floor((Date.now() - timeStart) / 1000);
+            localStorage.setItem("userBehavior", JSON.stringify(userBehavior));
+        });
+
+        // --- Cognitive Style Detection ---
+        function detectUserCognitiveStyle() {
+            const data = JSON.parse(localStorage.getItem("userBehavior")) || {};
+            console.log("🧠 User Behavior Data:", data);
+
+            let style;
+            if (data.scrollDepth > 80 && data.clicks > 10 && data.timeSpent > 60) {
+                style = "Detailed Explorer";
+            } else if (data.clicks < 5 && data.scrollDepth < 40) {
+                style = "Quick Scanner";
+            } else {
+                style = "Average";
             }
-        });
-    }
 
-    const savedCart = localStorage.getItem("cartData");
-    if (savedCart) {
-        cart = JSON.parse(savedCart);
-    }
-
-    function shuffleProducts(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+            localStorage.setItem("userStyle", style); // persist style
+            console.log("🧠 Cognitive Style Detected:", style);
+            return style;
         }
-    }
 
-    // --- Initial Load ---
-    window.onload = function () {
-        const style = detectUserCognitiveStyle();
-        adaptUIForUser(style);
+        // --- UI Adaptation ---
+        function adaptUIForUser(style) {
+            console.log(`🧠 UI Adapting for: ${style}`);
 
-        // 🔀 Randomize products
-        shuffleProducts(products);
+            if (style === "Quick Scanner") {
+                document.body.style.backgroundColor = "#fff7ed";
+                document.body.style.fontSize = "0.95rem";
+                document.querySelectorAll(".product-card").forEach(card => {
+                    card.style.border = "2px solid #f87171";
+                });
+            } else if (style === "Detailed Explorer") {
+                document.body.style.backgroundColor = "#ecfeff";
+                document.body.style.fontSize = "1.1rem";
+                document.querySelectorAll(".product-card").forEach(card => {
+                    card.style.boxShadow = "0 0 10px rgba(59,130,246,0.5)";
+                });
+            }
+        }
 
-        // Optional: sort by style AFTER shuffle
-        products = sortProductsByStyle(products, style);
+        // --- Product Sorting by Style ---
+        function sortProductsByStyle(products, style) {
+            if (style === "Quick Scanner") {
+                return products.sort((a, b) => a.price - b.price);
+            } else if (style === "Detailed Explorer") {
+                return products.sort((a, b) => {
+                    if (a.category === "Electronics" && b.category !== "Electronics") return -1;
+                    if (b.category === "Electronics" && a.category !== "Electronics") return 1;
+                    return b.price - a.price;
+                });
+            }
+            return products;
+        }
 
-        // Set data-category attribute for buttons
-        document.querySelectorAll('.category-button').forEach(button => {
-            button.setAttribute('data-category', button.textContent.trim());
+
+        // --- Feedback Functions ---
+        feedbackForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('feedbackName').value;
+            const email = document.getElementById('feedbackEmail').value;
+            const rating = document.getElementById('feedbackRating').value;
+            const comments = document.getElementById('feedbackComments').value;
+
+            if (!name || !email || !rating) {
+                showModal('Error', 'Please fill in all required feedback fields.', 'error');
+                return;
+            }
+
+            const newFeedback = {
+                name,
+                email,
+                rating: parseInt(rating),
+                comments,
+                date: new Date().toLocaleDateString()
+            };
+
+            feedbackEntries.unshift(newFeedback); // Add to the beginning
+            renderFeedback();
+            feedbackForm.reset();
+            showModal('Thank You!', 'Your feedback has been submitted successfully.', 'success');
         });
 
-        const initialPage = window.location.hash.replace('#', '') || 'home';
+        function renderFeedback() {
+            feedbackListDiv.innerHTML = '<h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Recent Feedback</h2>'; // Clear and re-add title
+            if (feedbackEntries.length === 0) {
+                noFeedbackMessage.classList.remove('hidden');
+            } else {
+                noFeedbackMessage.classList.add('hidden');
+                feedbackEntries.forEach(entry => {
+                    const stars = '⭐'.repeat(entry.rating);
+                    // Get initials for the profile icon
+                    const initials = entry.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                    const feedbackHtml = `
+                        <div class="feedback-card bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-3">
+                                    <div class="profile-icon">${initials}</div>
+                                    <span class="font-semibold text-gray-800 ml-3">${entry.name}</span>
+                                </div>
+                                <span class="text-sm text-gray-500">${entry.date}</span>
+                            </div>
+                            <div class="text-yellow-500 mb-2">${stars}</div>
+                            <p class="text-gray-700">${entry.comments || 'No comments provided.'}</p>
+                        </div>
+                    `;
+                    feedbackListDiv.innerHTML += feedbackHtml;
+                });
+            }
+        }
+
+        // --- Render Home Page Ratings ---
+        function renderHomeRatings() {
+            homeRatingsListDiv.innerHTML = ''; // Clear existing ratings
+
+            // Display only the first 3 feedback entries for the home page
+            const featuredRatings = feedbackEntries.slice(0, 3);
+
+            if (featuredRatings.length === 0) {
+                homeRatingsListDiv.innerHTML = '<p class="text-gray-500 text-center text-lg">No featured feedback yet.</p>';
+            }
+            else {
+                featuredRatings.forEach(entry => {
+                    const stars = '⭐'.repeat(entry.rating);
+                    const initials = entry.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                    const feedbackHtml = `
+                        <div class="feedback-card bg-white p-6 rounded-xl shadow-lg w-full sm:w-80 flex-shrink-0">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <div class="flex items-center">
+                                    <div class="profile-icon">${initials}</div>
+                                    <span class="font-semibold text-gray-800 ml-3">${entry.name}</span>
+                                </div>
+                                <span class="text-sm text-gray-500">${entry.date}</span>
+                            </div>
+                            <div class="text-yellow-500 mb-2">${stars}</div>
+                            <p class="text-gray-700 text-sm line-clamp-3">${entry.comments || 'No comments provided.'}</p>
+                        </div>
+                    `;
+                    homeRatingsListDiv.innerHTML += feedbackHtml;
+                });
+            }
+        }
         
-        showPage(initialPage); // will call filterProducts and render
-        updateCartUI();
-    };
+        // --- Model Viewer Functions for Try-On ---
+        function showTryOnPage(productId) {
+            const tryOnPage = document.getElementById('try-on-page');
+            const product = products.find(p => p.id === productId);
+            
+            if (!product || !product.modelPath) {
+                console.error("Product or model path not found for ID:", productId);
+                return;
+            }
+
+            // Set the src and ios-src for the main model-viewer
+            mainModelViewer.setAttribute("src", product.modelPath);
+            mainModelViewer.setAttribute("ios-src", product.modelPath.replace('.glb', '.usdz'));
+            mainModelViewer.setAttribute("alt", `A 3D model of ${product.name}`);
+
+            // Update the dropdown to match the selected product
+            tryOnProductSelect.value = productId;
+        }
+
+        function populateTryOnProductSelect() {
+            // Clear existing options
+            tryOnProductSelect.innerHTML = '';
+            
+            // Add a default option
+            const defaultOption = document.createElement('option');
+            defaultOption.textContent = 'Select a product';
+            defaultOption.value = '';
+            tryOnProductSelect.appendChild(defaultOption);
+
+            // Filter for products that have a modelPath
+            const productsWithModels = products.filter(p => p.modelPath);
+            
+            productsWithModels.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product.id;
+                option.textContent = product.name;
+                tryOnProductSelect.appendChild(option);
+            });
+
+            // Add event listener to handle changes
+            tryOnProductSelect.addEventListener('change', (event) => {
+                const selectedProductId = event.target.value;
+                if (selectedProductId) {
+                    showPage('try-on', parseInt(selectedProductId));
+                }
+            });
+        }
+
+        const savedCart = localStorage.getItem("cartData");
+        if (savedCart) {
+            cart = JSON.parse(savedCart);
+        }
+
+        function shuffleProducts(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // --- Initial Load ---
+        window.onload = function () {
+            const style = detectUserCognitiveStyle();
+            adaptUIForUser(style);
+
+            // 🔀 Randomize products
+            shuffleProducts(products);
+
+            // Optional: sort by style AFTER shuffle
+            products = sortProductsByStyle(products, style);
+
+            // Set data-category attribute for buttons
+            document.querySelectorAll('.category-button').forEach(button => {
+                button.setAttribute('data-category', button.textContent.trim());
+            });
+
+            const initialPage = window.location.hash.replace('#', '') || 'home';
+            
+            showPage(initialPage); // will call filterProducts and render
+            updateCartUI();
+        };
 
 
-    window.onhashchange = function () {
-        const hash = window.location.hash.replace('#', '') || 'home';
-        showPage(hash);
-    };
+        window.onhashchange = function () {
+            const hash = window.location.hash.replace('#', '') || 'home';
+            showPage(hash);
+        };
 
-    window.addEventListener("load", () => {
-        const loader = document.getElementById("loading-screen");
-        const skeleton = document.getElementById("skeleton-preview");
+        window.addEventListener("load", () => {
+            const loader = document.getElementById("loading-screen");
+            const skeleton = document.getElementById("skeleton-preview");
 
-        // Step 1: Delay to let loader show briefly
-        setTimeout(() => {
-            // Fade out loader + skeleton
+            // Fade out the loader and skeleton immediately
             loader.classList.add("opacity-0", "pointer-events-none");
             skeleton.classList.add("opacity-0");
 
-            // Step 2: Fully remove loader after fade
+            // After the fade, fully remove the loader
             setTimeout(() => {
                 loader.style.display = "none";
                 document.querySelectorAll('.page').forEach(page => page.classList.remove('hidden'));
                 showPage("home");
             }, 500);
-        }, 600);
-    });
+        });
 
     </script>
 </body>
