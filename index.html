@@ -433,7 +433,6 @@
         // New DOM element for the main model-viewer
         const mainModelViewer = document.getElementById('main-model-viewer');
         const tryOnProductSelect = document.getElementById('tryOnProductSelect');
-         
 
         // --- Page Navigation ---
         function showPage(pageId, productIdToTryOn = null) {
@@ -501,41 +500,18 @@
                 clickedButton.classList.add('active');
             }
 
-            const filteredProducts = category === 'All' ? products : products.filter(p => p.category === category);
-            renderProducts(filteredProducts);
-        }
-
-        function renderProducts(productsToRender) {
-            productListDiv.innerHTML = ''; // Clear existing products
-
-            productsToRender.forEach(product => {
-                const tryOnButton = product.modelPath ?
-                    `
-                        <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showPage('try-on', ${product.id})">
-                            Try On
-                        </button>
-                    `
-                    : '';
-
-                const productCard = `
-                    <div class="product-card bg-white rounded-lg shadow-md flex flex-col p-3 sm:p-6 h-full">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-[130px] sm:h-[260px] object-cover rounded-md mb-2">
-                        <h3 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 line-clamp-2">${product.name}</h3>
-                        <p class="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">${product.description}</p>
-                        <div class="flex justify-between items-center mt-auto">
-                            <span class="text-sm sm:text-lg font-bold text-indigo-600">$${product.price.toFixed(2)}</span>
-                            <div class="flex flex-col space-y-1">
-                                <button class="btn-primary text-white py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="addToCart(${product.id})">
-                                    Add to Cart
-                                </button>
-                                ${tryOnButton}
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                productListDiv.innerHTML += productCard;
-            });
+            let filteredProducts = [];
+            if (category === 'All') {
+                filteredProducts = products;
+                renderProducts(filteredProducts); // Use general renderer for 'All'
+            } else if (category === 'Furniture') {
+                // Specifically render sofas for the 'Furniture' category
+                filteredProducts = products.filter(p => p.category === 'Furniture');
+                renderSofas(filteredProducts); 
+            } else {
+                filteredProducts = products.filter(p => p.category === category);
+                renderProducts(filteredProducts); // Use general renderer for other categories
+            }
         }
 
         // --- Sofa Specific Rendering ---
@@ -591,6 +567,41 @@
                 });
             });
         }
+
+        function renderProducts(productsToRender) {
+            productListDiv.innerHTML = ''; // Clear existing products
+
+            productsToRender.forEach(product => {
+                const tryOnButton = product.modelPath ?
+                    `
+                        <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showPage('try-on', ${product.id})">
+                            Try On
+                        </button>
+                    `
+                    : '';
+
+                const productCard = `
+                    <div class="product-card bg-white rounded-lg shadow-md flex flex-col p-3 sm:p-6 h-full">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-[130px] sm:h-[260px] object-cover rounded-md mb-2">
+                        <h3 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 line-clamp-2">${product.name}</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">${product.description}</p>
+                        <div class="flex justify-between items-center mt-auto">
+                            <span class="text-sm sm:text-lg font-bold text-indigo-600">$${product.price.toFixed(2)}</span>
+                            <div class="flex flex-col space-y-1">
+                                <button class="btn-primary text-white py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="addToCart(${product.id})">
+                                    Add to Cart
+                                </button>
+                                ${tryOnButton}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                productListDiv.innerHTML += productCard;
+            });
+        }
+
+
 
         // --- Cart Functions ---
         function addToCart(productId) {
@@ -716,31 +727,6 @@
             setTimeout(() => {
                 messageModal.classList.add('hidden');
             }, 300); // Match transition duration
-        }
-
-        // --- Product Filtering and Rendering ---
-        function filterProducts(category, clickedButton) {
-            // Remove active class from all category buttons
-            document.querySelectorAll('.category-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            // Add active class to the clicked button
-            if (clickedButton) {
-                clickedButton.classList.add('active');
-            }
-
-            let filteredProducts = [];
-            if (category === 'All') {
-                filteredProducts = products;
-                renderProducts(filteredProducts); // Use general renderer for 'All'
-            } else if (category === 'Furniture') {
-                // Specifically render sofas for the 'Furniture' category
-                filteredProducts = products.filter(p => p.category === 'Furniture');
-                renderSofas(filteredProducts); 
-            } else {
-                filteredProducts = products.filter(p => p.category === category);
-                renderProducts(filteredProducts); // Use general renderer for other categories
-            }
         }
 
         // --- Cognitive AI: User Behavior Tracking ---
