@@ -253,12 +253,12 @@
                 <i class="fas fa-times text-xl"></i>
             </button>
             <nav class="flex flex-col space-y-6 mt-8 text-lg">
-                <a href="#home" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">Home</a>
-                <a href="#products" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">Products</a>
-                <a href="#try-on" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">Try-On</a>
-                <a href="#about" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">About</a>
-                <a href="#feedback" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">Feedback</a>
-                <a href="#cart" class="flex items-center text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">
+                <a href="#home" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="showPage('home')">Home</a>
+                <a href="#products" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="showPage('products')">Products</a>
+                <a href="#try-on" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="showPage('try-on')">Try-On</a>
+                <a href="#about" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="showPage('about')">About</a>
+                <a href="#feedback" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="showPage('feedback')">Feedback</a>
+                <a href="#cart" class="flex items-center text-gray-800 hover:text-indigo-600 font-semibold" onclick="showPage('cart')">
                     <i class="fas fa-shopping-cart text-xl mr-2"></i>
                     Cart (<span id="mobile-cart-count">0</span>)
                 </a>
@@ -978,20 +978,18 @@
 
         // --- Mobile Menu Toggle ---
         function toggleMobileMenu() {
-            mobileNav.classList.toggle("hidden");
-            mobileNav.classList.toggle("flex");
-            mobileNav.classList.toggle("open"); // For CSS transition
-            // Update cart count in mobile menu
-            mobileCartCount.textContent = cart.reduce(
-            (sum, item) => sum + item.quantity,
-            0
-            );
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeMenuButton = document.getElementById('close-menu-button');
+            const body = document.body;
+            
+            mobileNav.classList.toggle("open");
 
             // Prevent scrolling when mobile menu is open
             if (mobileNav.classList.contains("open")) {
-            document.body.style.overflow = "hidden";
+                body.style.overflow = "hidden";
             } else {
-            document.body.style.overflow = "";
+                body.style.overflow = "";
             }
         }
 
