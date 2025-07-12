@@ -23,6 +23,16 @@
             margin: 0;
             padding: 0;
         }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(242, 239, 245, 0.21); /* Lighter tint */
+            z-index: -1;
+        }
 
         .container {
             max-width: 1200px;
@@ -398,7 +408,7 @@
             { id: 24, name: "Smart Coffee Mug", price: 45.00, image: "images/coffeemug.jpg", description: "Keep your coffee at the perfect temperature all day.", category: "Home & Kitchen", modelPath: "models/coffeemug.glb" },
             { id: 25, name: "Luxury Sectional Sofa", price: 1299.99, image: "images/luxury-sectional-sofa.jpg", description: "Spacious and luxurious sectional sofa for ultimate living room comfort.", category: "Furniture", modelPath: "models/White Sofa.glb" },
             { id: 26, name: "Mid-Century Modern Sofa", price: 899.99, image: "images/mid-century-sofa.jpg", description: "A stylish sofa with a timeless design, perfect for any contemporary space.", category: "Furniture", modelPath: "models/Light Brown Sofa.glb" },
-            { id: 27, name: "Compact Apartment Sofa", price: 549.99, image: "images/compact-sofa.jpg", description: "Ideal for smaller spaces, this sofa offers comfort without compromising on style.", category: "Furniture", modelPath: "models/BrownSofa.glb" },
+            { id: 27, name: "Compact Apartment Sofa", price: 549.99, image: "images/compact-sofa.jpg", description: "Ideal for smaller spaces, this sofa offers comfort without compromising on style.", category: "Furniture", modelPath: "models/Brown Sofa.glb" },
             { id: 28, name: "King Size Platform Bed", price: 699.99, image: "images/king-bed.jpg", description: "A sturdy and elegant king size platform bed, perfect for a master bedroom.", category: "Furniture", modelPath: "models/kingbed.glb" }
         ];
 
