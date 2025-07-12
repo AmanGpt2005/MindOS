@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <style>
@@ -24,1057 +24,921 @@
             padding: 0;
         }
 
-        /* Overlay for better text readability on top of the background image */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(242, 239, 245, 0.26); /* Lighter tint */
-            z-index: -1;
-        }
-
-        .skeleton-card {
-            width: 100%;
-            height: 260px;
-            border-radius: 0.5rem;
-            background-color: #e5e7eb;
-        }
-
         .container {
             max-width: 1200px;
+            margin: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        .page {
+            min-height: calc(100vh - 80px); /* Adjust for header height */
+        }
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #4f46e5;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-secondary:hover {
+            background-color: #d1d5db;
         }
         .product-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        .btn-primary {
-            background-image: linear-gradient(to right, #6366f1, #8b5cf6);
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            background-image: linear-gradient(to right, #8b5cf6, #6366f1);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .btn-secondary {
-            background-color: #e2e8f0;
-            color: #4a5568;
-            transition: all 0.3s ease;
-        }
-        .btn-secondary:hover {
-            background-color: #cbd5e0;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.6);
-        }
-        /* Style for the Three.js canvas */
-        #tryOnCanvas {
-            display: block;
-            margin: 0 auto;
-            border-radius: 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            background-color: #f9fafb;
-        }
-        /* Custom styles for select dropdown */
-        .custom-select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1.5em 1.5em;
-            padding-right: 2.5rem;
-        }
-
-
-        .category-button {
-            @apply px-4 py-2 rounded-full font-medium text-sm transition duration-300;
-            @apply bg-gray-200 text-gray-700 hover:bg-indigo-100 hover:text-indigo-700;
-            position: relative; /* Needed for absolute positioning of the pseudo-element */
-            overflow: hidden; /* Hide the pseudo-element overflow initially */
-        }
-        .category-button::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px; /* Thickness of the bar */
-            background-color: #6366f1; /* Indigo-600 */
-            transform: translateX(-100%); /* Start off-screen to the left */
-            transition: transform 0.3s ease-out; /* Smooth transition */
-        }
-        .category-button:hover::after,
-        .category-button.active::after {
-            transform: translateX(0); /* Slide in from the left */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
         .category-button.active {
-            @apply bg-indigo-600 text-white shadow-md;
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-
-        /* Ensure main content has good spacing */
-        main {
-            display: flex;
-            flex-direction: column;
-            z-index: 0;
+        
+        .try-on-viewer {
             position: relative;
-            padding: 2rem 1rem; /* Adjusted horizontal padding for smaller screens */
+            width: 100%;
+            height: 500px;
+            background-color: #f3f4f6;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        @media (min-width: 640px) { /* sm breakpoint */
-            main {
-                padding: 2.5rem;
-            }
-        }
-        @media (min-width: 1024px) { /* lg breakpoint */
-            main {
-                padding: 3rem;
-            }
+        #model-viewer-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
         }
 
-        /* Styles for Feedback Cards and Profile Icon */
-        .feedback-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            transform: rotateZ(0deg); /* Initial state */
+        #mobile-nav {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
         }
-        .feedback-card:hover {
-            transform: rotateZ(1deg); /* Subtle rotation on hover */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        #mobile-nav.open {
+            transform: translateX(0);
         }
         .profile-icon {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #a78bfa; /* Default purple background */
+            background-color: #4f46e5;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            flex-shrink: 0; /* Prevent shrinking */
+            font-weight: bold;
+            font-size: 0.875rem;
         }
-
-        /* New CSS for h1 hover effect */
-        .page h1 {
-            transition: font-size 0.3s ease-in-out; /* Smooth transition for font-size */
-        }
-
-        .page h1:hover {
-            font-size: 2.75rem; /* Equivalent to text-5xl, or slightly larger than text-4xl */
-        }
-
-        /* Keep the original font size for h1 elements */
-        #home-page h1,
-        #cart-page h1,
-        #checkout-page h1,
-        #try-on-page h1,
-        #about-page h1,
-        #feedback-page h1 {
-            font-size: 2.25rem; /* text-4xl */
-        }
-
-        /* Mobile navigation styles */
-        .mobile-nav-menu {
-            transition: transform 0.3s ease-out;
-            transform: translateX(100%); /* Start off-screen to the right */
+        /* Loading Screen CSS */
+        #loading-screen {
             position: fixed;
             top: 0;
-            right: 0;
-            width: 70%; /* Adjust as needed */
+            left: 0;
+            width: 100%;
             height: 100%;
-            background-color: white;
-            z-index: 60; /* Higher than header */
-            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-            padding: 2rem;
+            background-color: #fefefe;
+            display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
         }
-        .mobile-nav-menu.open {
-            transform: translateX(0); /* Slide in */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border-left-color: #4f46e5;
+            animation: spin 1.2s linear infinite;
         }
-
-        @media (max-width: 640px) {
-            body {
-                background-position: top;
-                background-size: auto 100%;
-            }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        /* Hide scrollbar for slider */
-        .scrollbar-hide::-webkit-scrollbar {
-        display: none;
+        #skeleton-preview {
+            width: 80%;
+            max-width: 800px;
+            height: 300px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            animation: pulse 1.5s infinite;
+            margin-top: 2rem;
+            transition: opacity 0.5s ease;
         }
-        .scrollbar-hide {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;     /* Firefox */
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.6; }
         }
-
-
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
-
-    <!-- 🌐 Modern Page Loader -->
-    <div id="loading-screen" class="fixed inset-0 bg-white z-[9999] flex flex-col items-center justify-center transition-opacity duration-700">
-        <div class="animate-spin mb-4 border-4 border-indigo-500 border-t-transparent rounded-full w-12 h-12"></div>
-        <h1 class="text-3xl font-bold text-indigo-600">MindOS</h1>
-        <p class="text-sm text-gray-500 mt-2">Loading your personalized experience...</p>
+<body>
+    
+    <div id="loading-screen" class="flex flex-col items-center justify-center space-y-4">
+        <div class="spinner"></div>
+        <p class="text-gray-600 font-semibold text-lg">Loading Experience...</p>
+        <div id="skeleton-preview"></div>
     </div>
 
-    <!-- 🧊 Skeleton UI Preview (inside loader to avoid layout shift) -->
-    <div id="skeleton-preview" class="absolute inset-0 px-6 py-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 bg-white">
-        <div class="skeleton-card animate-pulse bg-gray-200 rounded-lg h-64"></div>
-        <div class="skeleton-card animate-pulse bg-gray-200 rounded-lg h-64"></div>
-        <div class="skeleton-card animate-pulse bg-gray-200 rounded-lg h-64"></div>
-        <div class="skeleton-card animate-pulse bg-gray-200 rounded-lg h-64"></div>
-    </div>
 
-    <header class="bg-white shadow-md py-4 px-6 sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="#" class="text-3xl font-bold text-indigo-600" ">Mindos</a>
-
-            <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-indigo-600 text-2xl">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <nav id="desktop-nav" class="hidden md:flex items-center space-x-6">
-                <a href="#home" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" ">Home</a>
-                <a href="#try-on" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('try-on')">Virtual Try-On</a>
-                <a href="#about" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" ">About Us</a>
-                <a href="#feedback" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" ">Feedback & Ratings</a>
-                <button class="relative text-gray-700 hover:text-indigo-600 transition duration-300" onclick="showPage('cart')">
+    <header class="bg-white/90 backdrop-blur-sm shadow-md py-4 sticky top-0 z-50">
+        <nav class="container mx-auto flex justify-between items-center px-4">
+            <a href="#home" class="text-2xl font-bold text-indigo-600">Mindos</a>
+            <div class="hidden sm:flex space-x-6">
+                <a href="#home" class="text-gray-600 hover:text-indigo-600 font-medium">Home</a>
+                <a href="#products" class="text-gray-600 hover:text-indigo-600 font-medium">Products</a>
+                <a href="#try-on" class="text-gray-600 hover:text-indigo-600 font-medium">Try-On</a>
+                <a href="#about" class="text-gray-600 hover:text-indigo-600 font-medium">About</a>
+                <a href="#feedback" class="text-gray-600 hover:text-indigo-600 font-medium">Feedback</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button onclick="showPage('cart')" class="relative text-gray-600 hover:text-indigo-600">
                     <i class="fas fa-shopping-cart text-xl"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">0</span>
                 </button>
-            </nav>
-        </div>
-
-        <nav id="mobile-nav" class="mobile-nav-menu hidden">
-            <button id="close-menu-button" class="absolute top-4 right-4 text-gray-700 hover:text-indigo-600 text-2xl">
-                <i class="fas fa-times"></i>
-            </button>
-            <a href="#home" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('home'); toggleMobileMenu();">Home</a>
-            <a href="#try-on" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('try-on'); toggleMobileMenu();">Virtual Try-On</a>
-            <a href="#about" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('about'); toggleMobileMenu();">About Us</a>
-            <a href="#feedback" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 transition duration-300 font-medium" onclick="showPage('feedback'); toggleMobileMenu();">Feedback & Ratings</a>
-            <button class="relative block py-3 text-lg text-gray-700 hover:text-indigo-600 transition duration-300 w-full text-left" onclick="showPage('cart'); toggleMobileMenu();">
-                <i class="fas fa-shopping-cart text-xl mr-2"></i>
-                Cart (<span id="mobile-cart-count">0</span>)
-            </button>
+                <button id="mobile-menu-button" class="sm:hidden text-gray-600 hover:text-indigo-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
         </nav>
     </header>
 
-    <main class="flex-grow container mx-auto px-4 sm:px-6 py-6">
-
-        <section id="home-page" class="page">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Featured Products</h1>
-            <!-- Mobile-first grid (3x2), switches to flex on small screens and up -->
-            <div class="grid grid-cols-3 gap-3 px-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-4 mb-8">
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('All', this)" data-category="All">
-                    All Products
-                </button>
-
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Men\'s Collection', this)" data-category="Men's Collection">
-                    Men's Collection
-                </button>
-
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Women\'s Collection', this)" data-category="Women's Collection">
-                    Women's Collection
-                </button>
-
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Furniture', this)" data-category="Furniture">
-                    Furniture
-                </button>
-
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Electronics', this)" data-category="Electronics">
-                    Electronics
-                </button>
-
-                <button class="relative category-button group" style="font-weight: bold; font-size: large;" onclick="filterProducts('Home & Kitchen', this)" data-category="Home & Kitchen">
-                    Home & Kitchen
-                </button>
-            </div>
-            
-            <div id="product-list" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8"></div>
+    <div id="mobile-nav" class="fixed inset-y-0 right-0 w-64 bg-white shadow-xl z-50 transform translate-x-full transition-transform ease-in-out duration-300 sm:hidden">
+        <div class="p-6">
+            <button id="close-menu-button" class="absolute top-4 right-4 text-gray-600 hover:text-indigo-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <nav class="flex flex-col space-y-6 mt-8 text-lg">
+                <a href="#home" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">Home</a>
+                <a href="#products" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">Products</a>
+                <a href="#try-on" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">Try-On</a>
+                <a href="#about" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">About</a>
+                <a href="#feedback" class="text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">Feedback</a>
+                <a href="#cart" class="flex items-center text-gray-800 hover:text-indigo-600 font-semibold" onclick="toggleMobileMenu()">
+                    <i class="fas fa-shopping-cart text-xl mr-2"></i>
+                    Cart (<span id="mobile-cart-count">0</span>)
+                </a>
+            </nav>
+        </div>
+    </div>
 
 
-            <div class="bg-white p-8 rounded-xl shadow-lg max-w-5xl mx-auto mt-16 mb-16 text-gray-700 leading-relaxed text-center">
+    <main class="relative z-10">
 
-                <h2 class="text-3xl font-bold text-indigo-600 mb-4">About Mindos</h2>
-                <p class="mb-4">
-                    Welcome to **Mindos**, your premier destination for modern and innovative products. We are passionate about bringing you the latest in technology, comfort, and style, all curated with a focus on quality and user experience. Our mission is to provide a seamless and enjoyable online shopping experience.
-                </p>
-                <a href="#" class="text-indigo-600 hover:underline font-medium" onclick="showPage('about')">Read More About Us &rarr;</a>
+        <section id="home-page" class="page hidden pt-12 pb-24 text-center">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl sm:text-6xl font-extrabold text-gray-900 leading-tight">Welcome to <span class="text-indigo-600">Mindos</span></h1>
+                <p class="mt-4 text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto">Discover the latest trends in technology, fashion, and home goods. Experience a new way to shop with our AI-powered virtual try-on.</p>
+                <div class="mt-8 flex justify-center space-x-4">
+                    <a href="#products" class="btn-primary text-lg px-8 py-3 rounded-full">Shop Now</a>
+                    <a href="#try-on" class="btn-secondary text-lg px-8 py-3 rounded-full">Try It Out</a>
+                </div>
             </div>
 
-            <h2 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">What Our Customers Say</h2>
-            <div id="home-ratings-list" class="flex flex-wrap justify-center gap-6">
-        </section>
-
-        <section id="cart-page" class="page hidden">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Your Shopping Cart</h1>
-            <div id="cart-items" class="bg-white p-6 rounded-xl shadow-lg mb-8">
-                <p id="empty-cart-message" class="text-gray-500 text-center text-lg hidden">Your cart is empty.</p>
-            </div>
-            <div class="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-xl shadow-lg">
-                <div class="text-2xl font-bold text-gray-800 mb-4 md:mb-0">Total: <span id="cart-total">$0.00</span></div>
-                <button class="btn-primary text-white py-3 px-8 rounded-full font-semibold shadow-lg" onclick="showPage('checkout')">Proceed to Checkout</button>
-            </div>
-        </section>
-
-        <section id="checkout-page" class="page hidden">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Checkout</h1>
-            <div class="bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Shipping Information</h2>
-                <form id="checkout-form" class="space-y-6">
-                    <div>
-                        <label for="fullName" class="block text-gray-700 font-medium mb-2">Full Name</label>
-                        <input type="text" id="fullName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+            <div class="bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg mt-16 p-8 mx-auto max-w-4xl">
+                <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">What Our Customers Say</h2>
+                <div id="home-ratings-list" class="flex overflow-x-auto space-x-6 pb-4 scrollbar-hidden">
                     </div>
-                    <div>
-                        <label for="address" class="block text-gray-700 font-medium mb-2">Address</label>
-                        <input type="text" id="address" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
-                    </div>
-                    <div>
-                        <label for="city" class="block text-gray-700 font-medium mb-2">City</label>
-                        <input type="text" id="city" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="zipCode" class="block text-gray-700 font-medium mb-2">Zip Code</label>
-                            <input type="text" id="zipCode" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
-                        </div>
-                        <div>
-                            <label for="country" class="block text-gray-700 font-medium mb-2">Country</label>
-                            <input type="text" id="country" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
-                        </div>
-                    </div>
-
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6 mt-8">Payment Information</h2>
-                    <div>
-                        <label for="cardNumber" class="block text-gray-700 font-medium mb-2">Card Number</label>
-                        <input type="text" id="cardNumber" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="XXXX XXXX XXXX XXXX" required>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <label for="expMonth" class="block text-gray-700 font-medium mb-2">Exp. Month</label>
-                            <input type="text" id="expMonth" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="MM" required>
-                        </div>
-                        <div>
-                            <label for="expYear" class="block text-gray-700 font-medium mb-2">Exp. Year</label>
-                            <input type="text" id="expYear" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="YY" required>
-                        </div>
-                        <div>
-                            <label for="cvv" class="block text-gray-700 font-medium mb-2">CVV</label>
-                            <input type="text" id="cvv" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="XXX" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary text-white py-3 px-8 rounded-full font-semibold shadow-lg w-full mt-8">Place Order</button>
-                </form>
-            </div>
-        </section>
-
-        <section id="try-on-page" class="page hidden">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Virtual Try-On Experience</h1>
-            <div class="bg-white p-4 rounded shadow mb-4 text-center mx-auto max-w-xl">
-                Drag your mouse to rotate the virtual model and see how the item looks!
-            </div>
-
-
-            <!-- Universal AR Viewer -->
-            <div id="sofa-ar-container" class="hidden mt-10 text-center">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4" id="sofa-title">View Sofa in AR</h2>
-            <model-viewer
-                id="sofa-model-viewer"
-                src=""
-                alt="Selected Sofa in AR"
-                ar
-                ar-modes="scene-viewer webxr quick-look"
-                environment-image="neutral"
-                auto-rotate
-                camera-controls
-                shadow-intensity="1"
-                style="width: 100%; max-width: 600px; height: 500px; margin: auto;">
-            </model-viewer>
             </div>
 
         </section>
 
-        <section id="about-page" class="page hidden">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">About Mindos</h1>
-            <div class="bg-white p-8 rounded-xl shadow-lg max-w-3xl mx-auto text-gray-700 leading-relaxed">
-                <p class="mb-4">
-                    Welcome to **Mindos**, your premier destination for modern and innovative products. We are passionate about bringing you the latest in technology, comfort, and style, all curated with a focus on quality and user experience.
-                </p>
-                <p class="mb-4">
-                    Our journey began with a simple vision: to create an online shopping experience that is as seamless and enjoyable as the products we offer. We believe in transparency, customer satisfaction, and continuous improvement. Every item in our collection is hand-picked to ensure it meets our high standards of design, functionality, and durability.
-                </p>
-                <p class="mb-4">
-                    At Mindos, we're not just selling products; we're building a community of discerning shoppers who appreciate thoughtful design and cutting-edge features. We are constantly updating our inventory to reflect the latest trends and innovations, ensuring you always have access to the best the market has to offer.
-                </p>
-                <p>
-                    Thank you for choosing Mindos. We hope you enjoy your shopping experience and find exactly what you're looking for!
-                </p>
-                <div class="mt-8 text-center text-indigo-600 font-semibold">
-                    <p>Contact us at: support@mindos.com</p>
-                    <p>Follow us on: <i class="fab fa-facebook-f mx-2"></i> <i class="fab fa-twitter mx-2"></i> <i class="fab fa-instagram mx-2"></i></p>
+        <section id="products-page" class="page hidden pt-12 pb-24">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Featured Products</h2>
+                <div class="flex flex-wrap justify-center space-x-2 sm:space-x-4 mb-8">
+                    <button class="category-button btn-secondary px-4 py-2 rounded-full font-semibold" onclick="filterProducts('All', this)">All</button>
+                    <button class="category-button btn-secondary px-4 py-2 rounded-full font-semibold" onclick="filterProducts('Electronics', this)">Electronics</button>
+                    <button class="category-button btn-secondary px-4 py-2 rounded-full font-semibold" onclick="filterProducts('Furniture', this)">Furniture</button>
+                    <button class="category-button btn-secondary px-4 py-2 rounded-full font-semibold" onclick="filterProducts('Home & Kitchen', this)">Home & Kitchen</button>
+                    <button class="category-button btn-secondary px-4 py-2 rounded-full font-semibold" onclick="filterProducts('Men\'s Collection', this)">Men's Collection</button>
+                    <button class="category-button btn-secondary px-4 py-2 rounded-full font-semibold" onclick="filterProducts('Women\'s Collection', this)">Women's Collection</button>
+                </div>
+                <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    </div>
+            </div>
+        </section>
+
+        <section id="try-on-page" class="page hidden pt-12 pb-24">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Virtual Try-On</h2>
+                
+                <div class="mb-8 flex justify-center items-center">
+                    <label for="tryOnProductSelect" class="mr-4 text-lg font-medium text-gray-700">Choose a model:</label>
+                    <select id="tryOnProductSelect" class="p-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64"></select>
+                </div>
+
+                <div class="try-on-viewer">
+                    <model-viewer id="main-model-viewer"
+                        class="w-full h-full"
+                        ar
+                        ar-modes="webxr scene-viewer quick-look"
+                        camera-controls
+                        shadow-intensity="1"
+                        auto-rotate
+                        alt="A 3D model of a product"
+                        xr-environment
+                        loading="eager"
+                        >
+                    </model-viewer>
+                </div>
+                
+            </div>
+        </section>
+
+
+        <section id="about-page" class="page hidden pt-12 pb-24">
+            <div class="container mx-auto px-4">
+                <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-8 sm:p-12">
+                    <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">About Mindos</h2>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                        Mindos is at the forefront of a new era in e-commerce, blending technology and shopping to create a truly immersive experience. Our mission is to empower you with the tools to make confident purchasing decisions, all from the comfort of your home.
+                    </p>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                        Our platform is built on innovative AI and cognitive principles. We track user behavior, analyze preferences, and adapt our interface to match your unique shopping style, whether you're a "Quick Scanner" or a "Detailed Explorer."
+                    </p>
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                        The core of our platform is the Virtual Try-On feature. Using advanced 3D modeling and augmented reality, you can see how products, from furniture to accessories, look in your own space before you buy. This technology reduces uncertainty and enhances your shopping journey.
+                    </p>
                 </div>
             </div>
         </section>
 
-        <section id="feedback-page" class="page hidden">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-8 text-center">Share Your Feedback</h1>
-            <div class="bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto">
-                <p class="text-gray-700 mb-6 text-center">We'd love to hear your thoughts and suggestions!</p>
-                <form id="feedback-form" class="space-y-6">
-                    <div>
-                        <label for="feedbackName" class="block text-gray-700 font-medium mb-2">Your Name</label>
-                        <input type="text" id="feedbackName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+        <section id="feedback-page" class="page hidden pt-12 pb-24">
+            <div class="container mx-auto px-4">
+                <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-8 sm:p-12 max-w-3xl mx-auto">
+                    <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">Share Your Feedback</h2>
+                    <p class="text-center text-gray-600 mb-8">Your opinion helps us improve. Please share your experience with us.</p>
+                    <form id="feedback-form" class="space-y-6">
+                        <div>
+                            <label for="feedbackName" class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" id="feedbackName" name="feedbackName" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label for="feedbackEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="feedbackEmail" name="feedbackEmail" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label for="feedbackRating" class="block text-sm font-medium text-gray-700">Rating (1-5)</label>
+                            <select id="feedbackRating" name="feedbackRating" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Select a rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Good</option>
+                                <option value="2">2 - Fair</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="feedbackComments" class="block text-sm font-medium text-gray-700">Comments</label>
+                            <textarea id="feedbackComments" name="feedbackComments" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn-primary w-full py-2">Submit Feedback</button>
+                        </div>
+                    </form>
+                    <div id="feedback-list" class="mt-10">
+                        <p id="no-feedback-message" class="text-center text-gray-500 hidden">No feedback has been submitted yet.</p>
                     </div>
-                    <div>
-                        <label for="feedbackEmail" class="block text-gray-700 font-medium mb-2">Your Email</label>
-                        <input type="email" id="feedbackEmail" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
-                    </div>
-                    <div>
-                        <label for="feedbackRating" class="block text-gray-700 font-medium mb-2">Overall Rating</label>
-                        <select id="feedbackRating" class="custom-select w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
-                            <option value="">-- Select Rating --</option>
-                            <option value="5">5 Stars - Excellent</option>
-                            <option value="4">4 Stars - Very Good</option>
-                            <option value="3">3 Stars - Good</option>
-                            <option value="2">2 Stars - Fair</option>
-                            <option value="1">1 Star - Poor</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="feedbackComments" class="block text-gray-700 font-medium mb-2">Comments</label>
-                        <textarea id="feedbackComments" rows="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="Tell us what you think..."></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary text-white py-3 px-8 rounded-full font-semibold shadow-lg w-full mt-8">Submit Feedback</button>
-                </form>
-                <div id="feedback-list" class="mt-10 pt-6 border-t border-gray-200">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Recent Feedback</h2>
-                    <p id="no-feedback-message" class="text-gray-500 text-center hidden">No feedback yet. Be the first to share!</p>
-                    </div>
+                </div>
             </div>
         </section>
 
+
+        <section id="cart-page" class="page hidden pt-12 pb-24">
+            <div class="container mx-auto px-4">
+                <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-8 sm:p-12">
+                    <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">Your Shopping Cart</h2>
+                    <div id="cart-items" class="divide-y divide-gray-200">
+                        </div>
+                    <p id="empty-cart-message" class="text-center text-gray-500 mt-4 text-lg hidden">Your cart is empty.</p>
+                    <div class="mt-8 flex justify-end items-center">
+                        <span class="text-xl font-bold text-gray-800 mr-4">Total: <span id="cart-total">$0.00</span></span>
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Checkout Information</h3>
+                        <form id="checkout-form" class="space-y-4">
+                            <div>
+                                <label for="checkoutName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" id="checkoutName" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            </div>
+                            <div>
+                                <label for="checkoutEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" id="checkoutEmail" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            </div>
+                            <div>
+                                <label for="checkoutAddress" class="block text-sm font-medium text-gray-700">Shipping Address</label>
+                                <textarea id="checkoutAddress" name="address" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary w-full py-3">Proceed to Checkout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <div id="message-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden modal-overlay">
-        <div class="bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full text-center transform scale-95 transition-transform duration-300 ease-out">
-            <h3 id="modal-title" class="text-2xl font-bold mb-4 text-gray-800"></h3>
+    <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden transition-opacity duration-300 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm mx-auto text-center transform scale-95 transition-transform duration-300">
+            <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
             <p id="modal-message" class="text-gray-700 mb-6"></p>
-            <button class="btn-primary text-white py-2 px-6 rounded-full font-semibold" onclick="closeModal()">OK</button>
+            <button onclick="closeModal()" class="btn-primary py-2 px-6">OK</button>
         </div>
     </div>
 
-    <footer class="bg-gray-800 text-white py-6 mt-auto">
-        <div class="container mx-auto text-center text-gray-400">
-            <p class="mb-4">&copy; 2025 Mindos. All rights reserved.</p>
-            <div class="flex justify-center space-x-6 text-2xl">
-                <a href="https://facebook.com" target="_blank" class="text-gray-400 hover:text-indigo-400 transition duration-300">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="https://twitter.com" target="_blank" class="text-gray-400 hover:text-indigo-400 transition duration-300">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="https://instagram.com" target="_blank" class="text-gray-400 hover:text-indigo-400 transition duration-300">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://linkedin.com" target="_blank" class="text-gray-400 hover:text-indigo-400 transition duration-300">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
 
     <script>
-        // --- Global State ---
-        let products = [
-            { id: 1, name: "Men's Casual T-Shirt", price: 25.00, image: "images/tshirtmen.jpg", description: "Comfortable and stylish cotton t-shirt for everyday wear.", category: "Men's Collection", tryOnModel: null },
-            { id: 2, name: "Wireless Noise-Cancelling Headphones", price: 149.99, image: "images/headphone.jpg", description: "Immerse yourself in pure sound with these comfortable headphones.", category: "Electronics", tryOnModel: { type: 'headphone', color: 0x6366f1, scale: 0.8, positionY: 0.1 } },
-            { id: 3, name: "Ergonomic Office Chair", price: 299.99, image: "images/chair.jpg", description: "Work in comfort and style with our premium ergonomic chair.", category: "Furniture", tryOnModel: null },
-            { id: 4, name: "Portable Bluetooth Speaker", price: 79.99, image: "images/speaker.jpg", description: "Enjoy high-quality audio on the go with this compact speaker.", category: "Electronics", tryOnModel: null },
-            { id: 5, name: "Stylish Smartwatch", price: 199.99, image: "images/smartwatch.jpg", description: "Stay connected and track your fitness with this elegant smartwatch.", category: "Electronics", tryOnModel: { type: 'sphere', color: 0x8b5cf6, scale: 0.3, positionY: 0.8 } },
-            { id: 6, name: "Smart Home Hub", price: 129.99, image: "images/homehub.jpg", description: "Control all your smart devices from one central hub.", category: "Electronics", tryOnModel: null },
-            { id: 7, name: "Espresso Machine", price: 219.99, image: "images/expresso.jpg", description: "Brew the perfect espresso at home with ease.", category: "Home & Kitchen", tryOnModel: null },
-            { id: 8, name: "Mechanical Gaming Keyboard", price: 99.99, image: "images/keyboard.jpg", description: "Responsive mechanical keys for a superior gaming experience.", category: "Electronics", tryOnModel: null },
-            { id: 9, name: "Classic Sunglasses", price: 49.99, image: "images/sunglassesjpg.jpg", description: "Timeless style and UV protection for your eyes.", category: "Men's Collection", tryOnModel: { type: 'glasses', color: 0x34d399, scale: 1, positionY: 0.1, positionZ: 0.8 } },
-            { id: 10, name: "Baseball Cap", price: 29.99, image: "images/cap.jpg", description: "Sporty and comfortable, perfect for any outdoor activity.", category: "Men's Collection", tryOnModel: { type: 'hat', color: 0xef4444, scale: 1, positionY: 1.0 } },
-            { id: 11, name: "Women's Silk Scarf", price: 39.99, image: "images/scarf.jpg", description: "Add a touch of elegance to your outfit.", category: "Women's Collection", tryOnModel: { type: 'torus', color: 0xf97316, scale: 0.6, positionY: -0.5 } },
-            { id: 12, name: "Fitness Tracker Band", price: 79.99, image: "images/band.jpg", description: "Monitor your health and activity with precision.", category: "Electronics", tryOnModel: { type: 'cylinder', color: 0x22c55e, scale: 0.2, positionY: 0.5, rotationX: Math.PI / 2 } },
-            { id: 13, name: "Modern Desk Lamp", price: 59.99, image: "images/lamp.jpg", description: "Illuminate your workspace with this sleek and adjustable lamp.", category: "Furniture", tryOnModel: null },
-            { id: 14, name: "Comfortable Sofa", price: 799.99, image: "images/sofa.jpg", description: "Relax in ultimate comfort with our plush and modern sofa.", category: "Furniture", tryOnModel: null },
-            { id: 15, name: "Elegant Evening Dress", price: 120.00, image: "images/dress.jpg", description: "A stunning dress for any special occasion.", category: "Women's Collection", tryOnModel: null },
-            { id: 16, name: "Men's Leather Wallet", price: 45.00, image: "images/wallet.jpg", description: "Durable and stylish leather wallet with multiple compartments.", category: "Men's Collection", tryOnModel: null },
-            { id: 17, name: "Women's Summer Hat", price: 35.00, image: "images/hat.jpg", description: "Lightweight and fashionable hat for sunny days.", category: "Women's Collection", tryOnModel: { type: 'hat', color: 0xfca5a5, scale: 1, positionY: 1.0 } },
-            { id: 18, name: "Men's Formal Shirt", price: 55.00, image: "images/shirt.jpg", description: "Crisp and comfortable shirt perfect for office or events.", category: "Men's Collection", tryOnModel: null },
-            { id: 19, name: "Women's Handbag", price: 85.00, image: "images/handbag.jpg", description: "Spacious and elegant handbag for everyday essentials.", category: "Women's Collection", tryOnModel: null },
-            { id: 20, name: "Smart Vacuum Cleaner", price: 349.99, image: "images/vacuumcleaner.jpg", description: "Effortlessly clean your home with this intelligent robot vacuum.", category: "Home & Kitchen", tryOnModel: null },
-            { id: 21, name: "Men's Running Shoes", price: 75.00, image: "images/runningshoes.jpg", description: "Lightweight and supportive shoes for your daily runs.", category: "Men's Collection", tryOnModel: null },
-            { id: 22, name: "Women's Yoga Pants", price: 40.00, image: "images/legging.jpg", description: "Comfortable and flexible yoga pants for your workout.", category: "Women's Collection", tryOnModel: null },
-            { id: 23, name: "Bookshelf", price: 150.00, image: "images/bookshelf.jpg", description: "Stylish and sturdy bookshelf for your living room.", category: "Furniture", tryOnModel: null },
-            { id: 24, name: "Smart Coffee Mug", price: 45.00, image: "images/coffeemug.jpg", description: "Keep your coffee at the perfect temperature all day.", category: "Home & Kitchen", tryOnModel: null },
-            { id: 25, name: "Luxury Sectional Sofa", price: 1299.99, image: "images/luxury-sectional-sofa.jpg", description: "Spacious and luxurious sectional sofa for ultimate living room comfort.", category: "Furniture", tryOnModel: null },
-            { id: 26, name: "Mid-Century Modern Sofa", price: 899.99, image: "images/mid-century-sofa.jpg", description: "A stylish sofa with a timeless design, perfect for any contemporary space.", category: "Furniture", tryOnModel: null },
-            { id: 27, name: "Compact Apartment Sofa", price: 549.99, image: "images/compact-sofa.jpg", description: "Ideal for smaller spaces, this sofa offers comfort without compromising on style.", category: "Furniture", tryOnModel: null },
-            { id: 28, name: "King Size Platform Bed", price: 699.99, image: "images/king-bed.jpg", description: "A sturdy and elegant king size platform bed, perfect for a master bedroom.", category: "Furniture", tryOnModel: null }
-        ];
+    // --- Global State ---
+    let products = [
+        { id: 1, name: "Men's Casual T-Shirt", price: 25.00, image: "images/tshirtmen.jpg", description: "Comfortable and stylish cotton t-shirt for everyday wear.", category: "Men's Collection", modelPath: "models/tshirtmen.glb" },
+        { id: 2, name: "Wireless Noise-Cancelling Headphones", price: 149.99, image: "images/headphone.jpg", description: "Immerse yourself in pure sound with these comfortable headphones.", category: "Electronics", modelPath: "models/headphone.glb" },
+        { id: 3, name: "Ergonomic Office Chair", price: 299.99, image: "images/chair.jpg", description: "Work in comfort and style with our premium ergonomic chair.", category: "Furniture", modelPath: "models/chair.glb" },
+        { id: 4, name: "Portable Bluetooth Speaker", price: 79.99, image: "images/speaker.jpg", description: "Enjoy high-quality audio on the go with this compact speaker.", category: "Electronics", modelPath: "models/speaker.glb" },
+        { id: 5, name: "Stylish Smartwatch", price: 199.99, image: "images/smartwatch.jpg", description: "Stay connected and track your fitness with this elegant smartwatch.", category: "Electronics", modelPath: "models/smartwatch.glb" },
+        { id: 6, name: "Smart Home Hub", price: 129.99, image: "images/homehub.jpg", description: "Control all your smart devices from one central hub.", category: "Electronics", modelPath: "models/homehub.glb" },
+        { id: 7, name: "Espresso Machine", price: 219.99, image: "images/expresso.jpg", description: "Brew the perfect espresso at home with ease.", category: "Home & Kitchen", modelPath: "models/espresso.glb" },
+        { id: 8, name: "Mechanical Gaming Keyboard", price: 99.99, image: "images/keyboard.jpg", description: "Responsive mechanical keys for a superior gaming experience.", category: "Electronics", modelPath: "models/keyboard.glb" },
+        { id: 9, name: "Classic Sunglasses", price: 49.99, image: "images/sunglassesjpg.jpg", description: "Timeless style and UV protection for your eyes.", category: "Men's Collection", modelPath: "models/sunglasses.glb" },
+        { id: 10, name: "Baseball Cap", price: 29.99, image: "images/cap.jpg", description: "Sporty and comfortable, perfect for any outdoor activity.", category: "Men's Collection", modelPath: "models/cap.glb" },
+        { id: 11, name: "Women's Silk Scarf", price: 39.99, image: "images/scarf.jpg", description: "Add a touch of elegance to your outfit.", category: "Women's Collection", modelPath: "models/scarf.glb" },
+        { id: 12, name: "Fitness Tracker Band", price: 79.99, image: "images/band.jpg", description: "Monitor your health and activity with precision.", category: "Electronics", modelPath: "models/band.glb" },
+        { id: 13, name: "Modern Desk Lamp", price: 59.99, image: "images/lamp.jpg", description: "Illuminate your workspace with this sleek and adjustable lamp.", category: "Furniture", modelPath: "models/lamp.glb" },
+        { id: 14, name: "Comfortable Sofa", price: 799.99, image: "images/sofa.jpg", description: "Relax in ultimate comfort with our plush and modern sofa.", category: "Furniture", modelPath: "models/sofa.glb" },
+        { id: 15, name: "Elegant Evening Dress", price: 120.00, image: "images/dress.jpg", description: "A stunning dress for any special occasion.", category: "Women's Collection", modelPath: "models/dress.glb" },
+        { id: 16, name: "Men's Leather Wallet", price: 45.00, image: "images/wallet.jpg", description: "Durable and stylish leather wallet with multiple compartments.", category: "Men's Collection", modelPath: "models/wallet.glb" },
+        { id: 17, name: "Women's Summer Hat", price: 35.00, image: "images/hat.jpg", description: "Lightweight and fashionable hat for sunny days.", category: "Women's Collection", modelPath: "models/hat.glb" },
+        { id: 18, name: "Men's Formal Shirt", price: 55.00, image: "images/shirt.jpg", description: "Crisp and comfortable shirt perfect for office or events.", category: "Men's Collection", modelPath: "models/shirt.glb" },
+        { id: 19, name: "Women's Handbag", price: 85.00, image: "images/handbag.jpg", description: "Spacious and elegant handbag for everyday essentials.", category: "Women's Collection", modelPath: "models/handbag.glb" },
+        { id: 20, name: "Smart Vacuum Cleaner", price: 349.99, image: "images/vacuumcleaner.jpg", description: "Effortlessly clean your home with this intelligent robot vacuum.", category: "Home & Kitchen", modelPath: "models/vacuumcleaner.glb" },
+        { id: 21, name: "Men's Running Shoes", price: 75.00, image: "images/runningshoes.jpg", description: "Lightweight and supportive shoes for your daily runs.", category: "Men's Collection", modelPath: "models/runningshoes.glb" },
+        { id: 22, name: "Women's Yoga Pants", price: 40.00, image: "images/legging.jpg", description: "Comfortable and flexible yoga pants for your workout.", category: "Women's Collection", modelPath: "models/legging.glb" },
+        { id: 23, name: "Bookshelf", price: 150.00, image: "images/bookshelf.jpg", description: "Stylish and sturdy bookshelf for your living room.", category: "Furniture", modelPath: "models/bookshelf.glb" },
+        { id: 24, name: "Smart Coffee Mug", price: 45.00, image: "images/coffeemug.jpg", description: "Keep your coffee at the perfect temperature all day.", category: "Home & Kitchen", modelPath: "models/coffeemug.glb" },
+        { id: 25, name: "Luxury Sectional Sofa", price: 1299.99, image: "images/luxury-sectional-sofa.jpg", description: "Spacious and luxurious sectional sofa for ultimate living room comfort.", category: "Furniture", modelPath: "models/White Sofa.glb" },
+        { id: 26, name: "Mid-Century Modern Sofa", price: 899.99, image: "images/mid-century-sofa.jpg", description: "A stylish sofa with a timeless design, perfect for any contemporary space.", category: "Furniture", modelPath: "models/Light Brown Sofa.glb" },
+        { id: 27, name: "Compact Apartment Sofa", price: 549.99, image: "images/compact-sofa.jpg", description: "Ideal for smaller spaces, this sofa offers comfort without compromising on style.", category: "Furniture", modelPath: "models/Brown Sofa.glb" },
+        { id: 28, name: "King Size Platform Bed", price: 699.99, image: "images/king-bed.jpg", description: "A sturdy and elegant king size platform bed, perfect for a master bedroom.", category: "Furniture", modelPath: "models/King Bed.glb" }
+    ];
 
-        // Assign a default tryOnModel to products that don't have one
-        products.forEach(product => {
-            if (!product.tryOnModel) {
-                // Assign a generic sphere model for products without a specific 3D model
-                product.tryOnModel = { type: 'sphere', color: 0x888888, scale: 0.3, positionY: 0.8 };
-            }
+    let cart = [];
+    // Pre-populated feedback entries
+    let feedbackEntries = [
+        { name: "Alice Smith", email: "alice@example.com", rating: 5, comments: "Absolutely love the range of products! The virtual try-on is a game changer.", date: "07/01/2025" },
+        { name: "Bob Johnson", email: "bob@example.com", rating: 4, comments: "Great website design and easy to navigate. Shipping was fast.", date: "06/28/2025" },
+        { name: "Charlie Brown", email: "charlie@example.com", rating: 5, comments: "Mindos has become my go-to for electronics. Highly recommend!", date: "06/25/2025" },
+        { name: "Diana Prince", email: "diana@example.com", rating: 3, comments: "Good selection, but I wish there were more detailed product descriptions.", date: "06/20/2025" }
+    ];
+
+    // --- DOM Elements ---
+    const productListDiv = document.getElementById('product-list');
+    const cartItemsDiv = document.getElementById('cart-items');
+    const cartTotalSpan = document.getElementById('cart-total');
+    const cartCountSpan = document.getElementById('cart-count');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
+    const checkoutForm = document.getElementById('checkout-form');
+    const messageModal = document.getElementById('message-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalMessage = document.getElementById('modal-message');
+    const feedbackForm = document.getElementById('feedback-form');
+    const feedbackListDiv = document.getElementById('feedback-list');
+    const noFeedbackMessage = document.getElementById('no-feedback-message');
+    const homeRatingsListDiv = document.getElementById('home-ratings-list'); // New DOM element for home page ratings
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const closeMenuButton = document.getElementById('close-menu-button');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileCartCount = document.getElementById('mobile-cart-count');
+
+    // New DOM element for the main model-viewer
+    const mainModelViewer = document.getElementById('main-model-viewer');
+    const tryOnProductSelect = document.getElementById('tryOnProductSelect');
+
+    // --- Page Navigation ---
+    function showPage(pageId, productIdToTryOn = null) {
+        // 🔁 Update the URL hash without duplicating
+        if (window.location.hash.replace("#", "") !== pageId) {
+            window.location.hash = pageId;
+        }
+
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.add('hidden');
         });
 
-        let cart = [];
-        // Pre-populated feedback entries
-        let feedbackEntries = [
-            { name: "Alice Smith", email: "alice@example.com", rating: 5, comments: "Absolutely love the range of products! The virtual try-on is a game changer.", date: "07/01/2025" },
-            { name: "Bob Johnson", email: "bob@example.com", rating: 4, comments: "Great website design and easy to navigate. Shipping was fast.", date: "06/28/2025" },
-            { name: "Charlie Brown", email: "charlie@example.com", rating: 5, comments: "Mindos has become my go-to for electronics. Highly recommend!", date: "06/25/2025" },
-            { name: "Diana Prince", email: "diana@example.com", rating: 3, comments: "Good selection, but I wish there were more detailed product descriptions.", date: "06/20/2025" }
-        ];
-
-        // --- DOM Elements ---
-        const productListDiv = document.getElementById('product-list');
-        const cartItemsDiv = document.getElementById('cart-items');
-        const cartTotalSpan = document.getElementById('cart-total');
-        const cartCountSpan = document.getElementById('cart-count');
-        const emptyCartMessage = document.getElementById('empty-cart-message');
-        const checkoutForm = document.getElementById('checkout-form');
-        const messageModal = document.getElementById('message-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalMessage = document.getElementById('modal-message');
-        const tryOnProductSelect = document.getElementById('tryOnProductSelect');
-        const feedbackForm = document.getElementById('feedback-form');
-        const feedbackListDiv = document.getElementById('feedback-list');
-        const noFeedbackMessage = document.getElementById('no-feedback-message');
-        const homeRatingsListDiv = document.getElementById('home-ratings-list'); // New DOM element for home page ratings
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const closeMenuButton = document.getElementById('close-menu-button');
-        const mobileNav = document.getElementById('mobile-nav');
-        const mobileCartCount = document.getElementById('mobile-cart-count');
-
-
-        // --- Page Navigation ---
-        function showPage(pageId, productIdToTryOn = null) {
-            // 🔁 Update the URL hash without duplicating
-            if (window.location.hash.replace("#", "") !== pageId) {
-                window.location.hash = pageId;
-            }
-
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.add('hidden');
-            });
-
-            const targetSection = document.getElementById(`${pageId}-page`);
-            if (targetSection) {
-                targetSection.classList.remove('hidden');
-            }
-
-            // Specific page behavior
-            if (pageId === 'home') {
-                // Ensure 'All Products' button is active on home page load
-                filterProducts('All', document.querySelector('.category-button[data-category="All"]'));
-                renderHomeRatings();
-            } else if (pageId === 'cart') {
-                renderCart();
-            } else if (pageId === 'try-on-page') {
-                initThreeJS();
-                populateTryOnProductSelect();
-                if (productIdToTryOn) {
-                    tryOnProductSelect.value = productIdToTryOn;
-                    loadTryOnItemFromSelect();
-                } else {
-                    if (currentTryOnItemModel) {
-                        headModel.remove(currentTryOnItemModel);
-                        currentTryOnItemModel = null;
-                    }
-                    tryOnProductSelect.value = "";
-                }
-            } else if (pageId === 'feedback') {
-                renderFeedback();
-            } else if (pageId === 'about') {
-                // no special logic needed, just reveal section
-            }
+        const targetSection = document.getElementById(`${pageId}-page`);
+        if (targetSection) {
+            targetSection.classList.remove('hidden');
         }
 
-
-        // --- Mobile Menu Toggle ---
-        function toggleMobileMenu() {
-            mobileNav.classList.toggle('hidden');
-            mobileNav.classList.toggle('flex');
-            mobileNav.classList.toggle('open'); // For CSS transition
-            // Update cart count in mobile menu
-            mobileCartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-             // Prevent scrolling when mobile menu is open
-            if (mobileNav.classList.contains('open')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
+        // Specific page behavior
+        if (pageId === 'home') {
+            filterProducts('All', document.querySelector('.category-button[data-category="All"]'));
+            renderHomeRatings();
+        } else if (pageId === 'cart') {
+            renderCart();
+        } else if (pageId === 'try-on') {
+            populateTryOnProductSelect();
+            if (productIdToTryOn) {
+                showTryOnPage(parseInt(productIdToTryOn));
             }
+        } else if (pageId === 'feedback') {
+            renderFeedback();
+        } else if (pageId === 'about') {
+            // no special logic needed, just reveal section
+        }
+    }
+
+
+    // --- Mobile Menu Toggle ---
+    function toggleMobileMenu() {
+        mobileNav.classList.toggle('hidden');
+        mobileNav.classList.toggle('flex');
+        mobileNav.classList.toggle('open'); // For CSS transition
+        // Update cart count in mobile menu
+        mobileCartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        // Prevent scrolling when mobile menu is open
+        if (mobileNav.classList.contains('open')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+
+    mobileMenuButton.addEventListener('click', toggleMobileMenu);
+    closeMenuButton.addEventListener('click', toggleMobileMenu);
+
+
+    // --- Product Filtering and Rendering ---
+    function filterProducts(category, clickedButton) {
+        // Remove active class from all category buttons
+        document.querySelectorAll('.category-button').forEach(button => {
+            button.classList.remove('active');
+        });
+        // Add active class to the clicked button
+        if (clickedButton) {
+            clickedButton.classList.add('active');
         }
 
-        mobileMenuButton.addEventListener('click', toggleMobileMenu);
-        closeMenuButton.addEventListener('click', toggleMobileMenu);
+        const filteredProducts = category === 'All' ? products : products.filter(p => p.category === category);
+        renderProducts(filteredProducts);
+    }
 
+    function renderProducts(productsToRender) {
+        productListDiv.innerHTML = ''; // Clear existing products
 
-        // --- Product Filtering and Rendering ---
-        function filterProducts(category, clickedButton) {
-            // Remove active class from all category buttons
-            document.querySelectorAll('.category-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            // Add active class to the clicked button
-            if (clickedButton) {
-                clickedButton.classList.add('active');
-            }
+        productsToRender.forEach(product => {
+            const tryOnButton = product.modelPath ?
+                `
+                    <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showPage('try-on', ${product.id})">
+                        Try On
+                    </button>
+                `
+                : '';
 
-            const filteredProducts = category === 'All' ? products : products.filter(p => p.category === category);
-            renderProducts(filteredProducts);
-        }
-
-        function renderProducts(productsToRender) {
-            productListDiv.innerHTML = ''; // Clear existing products
-
-            productsToRender.forEach(product => {
-                const productCard = `
-                    <div class="product-card bg-white rounded-lg shadow-md flex flex-col p-3 sm:p-6 h-full">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-[130px] sm:h-[260px] object-cover rounded-md mb-2">
-                        <h3 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 line-clamp-2">${product.name}</h3>
-                        <p class="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">${product.description}</p>
-                        <div class="flex justify-between items-center mt-auto">
-                            <span class="text-sm sm:text-lg font-bold text-indigo-600">$${product.price.toFixed(2)}</span>
-                            <div class="flex flex-col space-y-1">
-                                <button class="btn-primary text-white py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="addToCart(${product.id})">
-                                    Add to Cart
-                                </button>
-
-                                ${["Mid-Century Modern Sofa", "Luxury Sectional Sofa", "Compact Apartment Sofa"].includes(product.name)
-                                    ? `
-                                        <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showTryOnPage(${product.id})">
-                                            Try On
-                                        </button>
-                                    `
-                                    : `
-                                        <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showPage('try-on', ${product.id})">
-                                            Try On
-                                        </button>
-                                    `
-                                }
-                            </div>
+            const productCard = `
+                <div class="product-card bg-white rounded-lg shadow-md flex flex-col p-3 sm:p-6 h-full">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-[130px] sm:h-[260px] object-cover rounded-md mb-2">
+                    <h3 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 line-clamp-2">${product.name}</h3>
+                    <p class="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">${product.description}</p>
+                    <div class="flex justify-between items-center mt-auto">
+                        <span class="text-sm sm:text-lg font-bold text-indigo-600">$${product.price.toFixed(2)}</span>
+                        <div class="flex flex-col space-y-1">
+                            <button class="btn-primary text-white py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="addToCart(${product.id})">
+                                Add to Cart
+                            </button>
+                            ${tryOnButton}
                         </div>
                     </div>
+                </div>
+            `;
+
+            productListDiv.innerHTML += productCard;
+        });
+    }
+
+
+
+    // --- Cart Functions ---
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        if (product) {
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+            showModal('Success!', `${product.name} added to cart.`, 'success');
+        }
+    }
+
+    function removeFromCart(productId) {
+        cart = cart.filter(item => item.id !== productId);
+        updateCartUI();
+    }
+
+    function updateQuantity(productId, change) {
+        const item = cart.find(item => item.id === productId);
+        if (item) {
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                removeFromCart(productId);
+            } else {
+                updateCartUI();
+            }
+        }
+    }
+
+    function updateCartUI() {
+        cartItemsDiv.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+            emptyCartMessage.classList.remove('hidden');
+        } else {
+            emptyCartMessage.classList.add('hidden');
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                const cartItemHtml = `
+                    <div class="flex items-center justify-between border-b border-gray-200 py-4 last:border-b-0">
+                        <div class="flex items-center">
+                            <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg mr-4">
+                            <div>
+                                <h4 class="text-lg font-medium text-gray-800">${item.name}</h4>
+                                <p class="text-gray-600">$${item.price.toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center text-lg" onclick="updateQuantity(${item.id}, -1)">-</button>
+                            <span class="text-lg font-semibold text-gray-800">${item.quantity}</span>
+                            <button class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center text-lg" onclick="updateQuantity(${item.id}, 1)">+</button>
+                        </div>
+                        <div class="text-xl font-bold text-indigo-600">$${itemTotal.toFixed(2)}</div>
+                        <button class="text-red-500 hover:text-red-700 transition duration-300" onclick="removeFromCart(${item.id})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
                 `;
-
-                productListDiv.innerHTML += productCard;
+                cartItemsDiv.innerHTML += cartItemHtml;
             });
         }
 
+        cartTotalSpan.textContent = `$${total.toFixed(2)}`;
+        const currentCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCountSpan.textContent = currentCartCount;
+        mobileCartCount.textContent = currentCartCount; // Update mobile cart count
 
 
-        // --- Cart Functions ---
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (product) {
-                const existingItem = cart.find(item => item.id === productId);
-                if (existingItem) {
-                    existingItem.quantity++;
-                } else {
-                    cart.push({ ...product, quantity: 1 });
-                }
-                updateCartUI();
-                showModal('Success!', `${product.name} added to cart.`, 'success');
-            }
-        }
+        localStorage.setItem("cartData", JSON.stringify(cart));
+    }
 
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
+    function renderCart() {
+        updateCartUI();
+    }
+
+    // --- Checkout Form Submission (Simulated Payment) ---
+    checkoutForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Simulate payment processing
+        const isPaymentSuccessful = Math.random() > 0.1; // 90% chance of success
+
+        if (isPaymentSuccessful) {
+            showModal('Order Placed!', 'Your order has been successfully placed. Thank you for shopping with us!', 'success');
+            cart = []; // Clear cart after successful order
             updateCartUI();
+            checkoutForm.reset(); // Clear form fields
+            setTimeout(() => showPage('home'), 2000); // Redirect to home after 2 seconds
+        } else {
+            showModal('Payment Failed!', 'There was an issue processing your payment. Please try again or use a different card.', 'error');
+        }
+    });
+
+    // --- Modal Functions ---
+    function showModal(title, message, type) {
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+        if (type === 'success') {
+            modalTitle.classList.remove('text-red-600');
+            modalTitle.classList.add('text-green-600');
+        } else if (type === 'error') {
+            modalTitle.classList.remove('text-green-600');
+            modalTitle.classList.add('text-red-600');
+        }
+        messageModal.classList.remove('hidden');
+        // Animate modal in
+        setTimeout(() => {
+            messageModal.querySelector('div').classList.remove('scale-95');
+            messageModal.querySelector('div').classList.add('scale-100');
+        }, 50);
+    }
+
+    function closeModal() {
+        // Animate modal out
+        messageModal.querySelector('div').classList.remove('scale-100');
+        messageModal.querySelector('div').classList.add('scale-95');
+        setTimeout(() => {
+            messageModal.classList.add('hidden');
+        }, 300); // Match transition duration
+    }
+
+    // --- Cognitive AI: User Behavior Tracking ---
+    let userBehavior = {
+        scrollDepth: 0,
+        clicks: 0,
+        timeSpent: 0
+    };
+
+    let timeStart = Date.now();
+
+    window.addEventListener("scroll", () => {
+        const scrolled = window.scrollY + window.innerHeight;
+        const totalHeight = document.body.offsetHeight;
+        userBehavior.scrollDepth = Math.max(
+            userBehavior.scrollDepth,
+            Math.floor((scrolled / totalHeight) * 100)
+        );
+    });
+
+    document.addEventListener("click", () => {
+        userBehavior.clicks++;
+    });
+
+    window.addEventListener("beforeunload", () => {
+        userBehavior.timeSpent = Math.floor((Date.now() - timeStart) / 1000);
+        localStorage.setItem("userBehavior", JSON.stringify(userBehavior));
+    });
+
+    // --- Cognitive Style Detection ---
+    function detectUserCognitiveStyle() {
+        const data = JSON.parse(localStorage.getItem("userBehavior")) || {};
+        console.log("🧠 User Behavior Data:", data);
+
+        let style;
+        if (data.scrollDepth > 80 && data.clicks > 10 && data.timeSpent > 60) {
+            style = "Detailed Explorer";
+        } else if (data.clicks < 5 && data.scrollDepth < 40) {
+            style = "Quick Scanner";
+        } else {
+            style = "Average";
         }
 
-        function updateQuantity(productId, change) {
-            const item = cart.find(item => item.id === productId);
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) {
-                    removeFromCart(productId);
-                } else {
-                    updateCartUI();
-                }
-            }
+        localStorage.setItem("userStyle", style); // persist style
+        console.log("🧠 Cognitive Style Detected:", style);
+        return style;
+    }
+
+    // --- UI Adaptation ---
+    function adaptUIForUser(style) {
+        console.log(`🧠 UI Adapting for: ${style}`);
+
+        if (style === "Quick Scanner") {
+            document.body.style.backgroundColor = "#fff7ed";
+            document.body.style.fontSize = "0.95rem";
+            document.querySelectorAll(".product-card").forEach(card => {
+                card.style.border = "2px solid #f87171";
+            });
+        } else if (style === "Detailed Explorer") {
+            document.body.style.backgroundColor = "#ecfeff";
+            document.body.style.fontSize = "1.1rem";
+            document.querySelectorAll(".product-card").forEach(card => {
+                card.style.boxShadow = "0 0 10px rgba(59,130,246,0.5)";
+            });
+        }
+    }
+
+    // --- Product Sorting by Style ---
+    function sortProductsByStyle(products, style) {
+        if (style === "Quick Scanner") {
+            return products.sort((a, b) => a.price - b.price);
+        } else if (style === "Detailed Explorer") {
+            return products.sort((a, b) => {
+                if (a.category === "Electronics" && b.category !== "Electronics") return -1;
+                if (b.category === "Electronics" && a.category !== "Electronics") return 1;
+                return b.price - a.price;
+            });
+        }
+        return products;
+    }
+
+
+    // --- Feedback Functions ---
+    feedbackForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('feedbackName').value;
+        const email = document.getElementById('feedbackEmail').value;
+        const rating = document.getElementById('feedbackRating').value;
+        const comments = document.getElementById('feedbackComments').value;
+
+        if (!name || !email || !rating) {
+            showModal('Error', 'Please fill in all required feedback fields.', 'error');
+            return;
         }
 
-        function updateCartUI() {
-            cartItemsDiv.innerHTML = '';
-            let total = 0;
+        const newFeedback = {
+            name,
+            email,
+            rating: parseInt(rating),
+            comments,
+            date: new Date().toLocaleDateString()
+        };
 
-            if (cart.length === 0) {
-                emptyCartMessage.classList.remove('hidden');
-            } else {
-                emptyCartMessage.classList.add('hidden');
-                cart.forEach(item => {
-                    const itemTotal = item.price * item.quantity;
-                    total += itemTotal;
-                    const cartItemHtml = `
-                        <div class="flex items-center justify-between border-b border-gray-200 py-4 last:border-b-0">
-                            <div class="flex items-center">
-                                <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg mr-4">
-                                <div>
-                                    <h4 class="text-lg font-medium text-gray-800">${item.name}</h4>
-                                    <p class="text-gray-600">$${item.price.toFixed(2)}</p>
-                                </div>
-                            </div>
+        feedbackEntries.unshift(newFeedback); // Add to the beginning
+        renderFeedback();
+        feedbackForm.reset();
+        showModal('Thank You!', 'Your feedback has been submitted successfully.', 'success');
+    });
+
+    function renderFeedback() {
+        feedbackListDiv.innerHTML = '<h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Recent Feedback</h2>'; // Clear and re-add title
+        if (feedbackEntries.length === 0) {
+            noFeedbackMessage.classList.remove('hidden');
+        } else {
+            noFeedbackMessage.classList.add('hidden');
+            feedbackEntries.forEach(entry => {
+                const stars = '⭐'.repeat(entry.rating);
+                // Get initials for the profile icon
+                const initials = entry.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                const feedbackHtml = `
+                    <div class="feedback-card bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
+                        <div class="flex items-center justify-between mb-2">
                             <div class="flex items-center space-x-3">
-                                <button class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center text-lg" onclick="updateQuantity(${item.id}, -1)">-</button>
-                                <span class="text-lg font-semibold text-gray-800">${item.quantity}</span>
-                                <button class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center text-lg" onclick="updateQuantity(${item.id}, 1)">+</button>
+                                <div class="profile-icon">${initials}</div>
+                                <span class="font-semibold text-gray-800 ml-3">${entry.name}</span>
                             </div>
-                            <div class="text-xl font-bold text-indigo-600">$${itemTotal.toFixed(2)}</div>
-                            <button class="text-red-500 hover:text-red-700 transition duration-300" onclick="removeFromCart(${item.id})">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <span class="text-sm text-gray-500">${entry.date}</span>
                         </div>
-                    `;
-                    cartItemsDiv.innerHTML += cartItemHtml;
-                });
-            }
-
-            cartTotalSpan.textContent = `$${total.toFixed(2)}`;
-            const currentCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCountSpan.textContent = currentCartCount;
-            mobileCartCount.textContent = currentCartCount; // Update mobile cart count
-
-
-            localStorage.setItem("cartData", JSON.stringify(cart));
-        }
-
-        function renderCart() {
-            updateCartUI();
-        }
-
-        // --- Checkout Form Submission (Simulated Payment) ---
-        checkoutForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-
-            // Simulate payment processing
-            const isPaymentSuccessful = Math.random() > 0.1; // 90% chance of success
-
-            if (isPaymentSuccessful) {
-                showModal('Order Placed!', 'Your order has been successfully placed. Thank you for shopping with us!', 'success');
-                cart = []; // Clear cart after successful order
-                updateCartUI();
-                checkoutForm.reset(); // Clear form fields
-                setTimeout(() => showPage('home'), 2000); // Redirect to home after 2 seconds
-            } else {
-                showModal('Payment Failed!', 'There was an issue processing your payment. Please try again or use a different card.', 'error');
-            }
-        });
-
-        // --- Modal Functions ---
-        function showModal(title, message, type) {
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            if (type === 'success') {
-                modalTitle.classList.remove('text-red-600');
-                modalTitle.classList.add('text-green-600');
-            } else if (type === 'error') {
-                modalTitle.classList.remove('text-green-600');
-                modalTitle.classList.add('text-red-600');
-            }
-            messageModal.classList.remove('hidden');
-            // Animate modal in
-            setTimeout(() => {
-                messageModal.querySelector('div').classList.remove('scale-95');
-                messageModal.querySelector('div').classList.add('scale-100');
-            }, 50);
-        }
-
-        function closeModal() {
-            // Animate modal out
-            messageModal.querySelector('div').classList.remove('scale-100');
-            messageModal.querySelector('div').classList.add('scale-95');
-            setTimeout(() => {
-                messageModal.classList.add('hidden');
-            }, 300); // Match transition duration
-        }
-
-        // --- Cognitive AI: User Behavior Tracking ---
-        let userBehavior = {
-            scrollDepth: 0,
-            clicks: 0,
-            timeSpent: 0
-        };
-
-        let timeStart = Date.now();
-
-        window.addEventListener("scroll", () => {
-            const scrolled = window.scrollY + window.innerHeight;
-            const totalHeight = document.body.offsetHeight;
-            userBehavior.scrollDepth = Math.max(
-                userBehavior.scrollDepth,
-                Math.floor((scrolled / totalHeight) * 100)
-            );
-        });
-
-        document.addEventListener("click", () => {
-            userBehavior.clicks++;
-        });
-
-        window.addEventListener("beforeunload", () => {
-            userBehavior.timeSpent = Math.floor((Date.now() - timeStart) / 1000);
-            localStorage.setItem("userBehavior", JSON.stringify(userBehavior));
-        });
-
-        // --- Cognitive Style Detection ---
-        function detectUserCognitiveStyle() {
-            const data = JSON.parse(localStorage.getItem("userBehavior")) || {};
-            console.log("🧠 User Behavior Data:", data);
-
-            let style;
-            if (data.scrollDepth > 80 && data.clicks > 10 && data.timeSpent > 60) {
-                style = "Detailed Explorer";
-            } else if (data.clicks < 5 && data.scrollDepth < 40) {
-                style = "Quick Scanner";
-            } else {
-                style = "Average";
-            }
-
-            localStorage.setItem("userStyle", style); // persist style
-            console.log("🧠 Cognitive Style Detected:", style);
-            return style;
-        }
-
-        // --- UI Adaptation ---
-        function adaptUIForUser(style) {
-            console.log(`🧠 UI Adapting for: ${style}`);
-
-            if (style === "Quick Scanner") {
-                document.body.style.backgroundColor = "#fff7ed";
-                document.body.style.fontSize = "0.95rem";
-                document.querySelectorAll(".product-card").forEach(card => {
-                    card.style.border = "2px solid #f87171";
-                });
-            } else if (style === "Detailed Explorer") {
-                document.body.style.backgroundColor = "#ecfeff";
-                document.body.style.fontSize = "1.1rem";
-                document.querySelectorAll(".product-card").forEach(card => {
-                    card.style.boxShadow = "0 0 10px rgba(59,130,246,0.5)";
-                });
-            }
-        }
-
-        // --- Product Sorting by Style ---
-        function sortProductsByStyle(products, style) {
-            if (style === "Quick Scanner") {
-                return products.sort((a, b) => a.price - b.price);
-            } else if (style === "Detailed Explorer") {
-                return products.sort((a, b) => {
-                    if (a.category === "Electronics" && b.category !== "Electronics") return -1;
-                    if (b.category === "Electronics" && a.category !== "Electronics") return 1;
-                    return b.price - a.price;
-                });
-            }
-            return products;
-        }
-
-
-        // --- Feedback Functions ---
-        feedbackForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const name = document.getElementById('feedbackName').value;
-            const email = document.getElementById('feedbackEmail').value;
-            const rating = document.getElementById('feedbackRating').value;
-            const comments = document.getElementById('feedbackComments').value;
-
-            if (!name || !email || !rating) {
-                showModal('Error', 'Please fill in all required feedback fields.', 'error');
-                return;
-            }
-
-            const newFeedback = {
-                name,
-                email,
-                rating: parseInt(rating),
-                comments,
-                date: new Date().toLocaleDateString()
-            };
-
-            feedbackEntries.unshift(newFeedback); // Add to the beginning
-            renderFeedback();
-            feedbackForm.reset();
-            showModal('Thank You!', 'Your feedback has been submitted successfully.', 'success');
-        });
-
-        function renderFeedback() {
-            feedbackListDiv.innerHTML = '<h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Recent Feedback</h2>'; // Clear and re-add title
-            if (feedbackEntries.length === 0) {
-                noFeedbackMessage.classList.remove('hidden');
-            } else {
-                noFeedbackMessage.classList.add('hidden');
-                feedbackEntries.forEach(entry => {
-                    const stars = '⭐'.repeat(entry.rating);
-                    // Get initials for the profile icon
-                    const initials = entry.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-                    const feedbackHtml = `
-                        <div class="feedback-card bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="flex items-center space-x-3">
-                                    <div class="profile-icon">${initials}</div>
-                                    <span class="font-semibold text-gray-800 ml-3">${entry.name}</span>
-                                </div>
-                                <span class="text-sm text-gray-500">${entry.date}</span>
-                            </div>
-                            <div class="text-yellow-500 mb-2">${stars}</div>
-                            <p class="text-gray-700">${entry.comments || 'No comments provided.'}</p>
-                        </div>
-                    `;
-                    feedbackListDiv.innerHTML += feedbackHtml;
-                });
-            }
-        }
-
-        // --- Render Home Page Ratings ---
-        function renderHomeRatings() {
-            homeRatingsListDiv.innerHTML = ''; // Clear existing ratings
-
-            // Display only the first 3 feedback entries for the home page
-            const featuredRatings = feedbackEntries.slice(0, 3);
-
-            if (featuredRatings.length === 0) {
-                homeRatingsListDiv.innerHTML = '<p class="text-gray-500 text-center text-lg">No featured feedback yet.</p>';
-            }
-            else {
-                featuredRatings.forEach(entry => {
-                    const stars = '⭐'.repeat(entry.rating);
-                    const initials = entry.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-                    const feedbackHtml = `
-                        <div class="feedback-card bg-white p-6 rounded-xl shadow-lg w-full sm:w-80 flex-shrink-0">
-                            <div class="flex items-center space-x-3 mb-2">
-                                <div class="flex items-center">
-                                    <div class="profile-icon">${initials}</div>
-                                    <span class="font-semibold text-gray-800 ml-3">${entry.name}</span>
-                                </div>
-                                <span class="text-sm text-gray-500">${entry.date}</span>
-                            </div>
-                            <div class="text-yellow-500 mb-2">${stars}</div>
-                            <p class="text-gray-700 text-sm line-clamp-3">${entry.comments || 'No comments provided.'}</p>
-                        </div>
-                    `;
-                    homeRatingsListDiv.innerHTML += feedbackHtml;
-                });
-            }
-        }
-
-        const savedCart = localStorage.getItem("cartData");
-        if (savedCart) {
-            cart = JSON.parse(savedCart);
-        }
-
-        function shuffleProducts(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        // --- Initial Load ---
-        window.onload = function () {
-            const style = detectUserCognitiveStyle();
-            adaptUIForUser(style);
-
-            // 🔀 Randomize products
-            shuffleProducts(products);
-
-            // Optional: sort by style AFTER shuffle
-            products = sortProductsByStyle(products, style);
-
-            // Set data-category attribute for buttons
-            document.querySelectorAll('.category-button').forEach(button => {
-                button.setAttribute('data-category', button.textContent.trim());
+                        <div class="text-yellow-500 mb-2">${stars}</div>
+                        <p class="text-gray-700">${entry.comments || 'No comments provided.'}</p>
+                    </div>
+                `;
+                feedbackListDiv.innerHTML += feedbackHtml;
             });
+        }
+    }
 
-            const initialPage = window.location.hash.replace('#', '') || 'home';
+    // --- Render Home Page Ratings ---
+    function renderHomeRatings() {
+        homeRatingsListDiv.innerHTML = ''; // Clear existing ratings
 
-            showPage(initialPage); // will call filterProducts and render
-            updateCartUI();
-        };
+        // Display only the first 3 feedback entries for the home page
+        const featuredRatings = feedbackEntries.slice(0, 3);
 
-
-
-        window.onhashchange = function () {
-            const hash = window.location.hash.replace('#', '') || 'home';
-            showPage(hash);
-        };
-
-        function showTryOnPage(productId) {
-            const tryOnPage = document.getElementById('try-on-page');
-            const sofaAR = document.getElementById('sofa-ar-container');
-            const modelViewer = document.getElementById('sofa-model-viewer');
-            const sofaTitle = document.getElementById('sofa-title');
-
-            showPage('try-on'); // show the try-on section
-
-            const product = products.find(p => p.id === productId);
-
-            if (
-                product.name === "Mid-Century Modern Sofa" ||
-                product.name === "Luxury Sectional Sofa" ||
-                product.name === "Compact Apartment Sofa"
-            ) {
-                // Show the AR viewer and set model src
-                sofaAR.classList.remove('hidden');
-                sofaTitle.textContent = `Try ${product.name} in AR`;
-
-                // Map each sofa to the correct .glb file
-                const modelMap = {
-                    "Mid-Century Modern Sofa": "models/Light Brown Sofa.glb",
-                    "Luxury Sectional Sofa": "models/White Sofa.glb",
-                    "Compact Apartment Sofa": "models/Brown Sofa.glb"
-                };
-
-                modelViewer.setAttribute("src", modelMap[product.name]);
-            } else {
-                // Hide the AR viewer for non-sofa items
-                sofaAR.classList.add('hidden');
-            }
+        if (featuredRatings.length === 0) {
+            homeRatingsListDiv.innerHTML = '<p class="text-gray-500 text-center text-lg">No featured feedback yet.</p>';
+        }
+        else {
+            featuredRatings.forEach(entry => {
+                const stars = '⭐'.repeat(entry.rating);
+                const initials = entry.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                const feedbackHtml = `
+                    <div class="feedback-card bg-white p-6 rounded-xl shadow-lg w-full sm:w-80 flex-shrink-0">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <div class="flex items-center">
+                                <div class="profile-icon">${initials}</div>
+                                <span class="font-semibold text-gray-800 ml-3">${entry.name}</span>
+                            </div>
+                            <span class="text-sm text-gray-500">${entry.date}</span>
+                        </div>
+                        <div class="text-yellow-500 mb-2">${stars}</div>
+                        <p class="text-gray-700 text-sm line-clamp-3">${entry.comments || 'No comments provided.'}</p>
+                    </div>
+                `;
+                homeRatingsListDiv.innerHTML += feedbackHtml;
+            });
+        }
+    }
+    
+    // --- Model Viewer Functions for Try-On ---
+    function showTryOnPage(productId) {
+        const tryOnPage = document.getElementById('try-on-page');
+        const product = products.find(p => p.id === productId);
+        
+        if (!product || !product.modelPath) {
+            console.error("Product or model path not found for ID:", productId);
+            return;
         }
 
-        window.addEventListener("load", () => {
-            const loader = document.getElementById("loading-screen");
-            const skeleton = document.getElementById("skeleton-preview");
+        // Set the src and ios-src for the main model-viewer
+        mainModelViewer.setAttribute("src", product.modelPath);
+        mainModelViewer.setAttribute("ios-src", product.modelPath.replace('.glb', '.usdz'));
+        mainModelViewer.setAttribute("alt", `A 3D model of ${product.name}`);
 
-            // Step 1: Delay to let loader show briefly
-            setTimeout(() => {
-                // Fade out loader + skeleton
-                loader.classList.add("opacity-0", "pointer-events-none");
-                skeleton.classList.add("opacity-0");
+        // Update the dropdown to match the selected product
+        tryOnProductSelect.value = productId;
+    }
 
-                // Step 2: Fully remove loader after fade
-                setTimeout(() => {
-                    loader.style.display = "none";
-                    document.querySelectorAll('.page').forEach(page => page.classList.remove('hidden'));
-                    showPage("home");
-                }, 500);
-            }, 600);
+    function populateTryOnProductSelect() {
+        // Clear existing options
+        tryOnProductSelect.innerHTML = '';
+        
+        // Add a default option
+        const defaultOption = document.createElement('option');
+        defaultOption.textContent = 'Select a product';
+        defaultOption.value = '';
+        tryOnProductSelect.appendChild(defaultOption);
+
+        // Filter for products that have a modelPath
+        const productsWithModels = products.filter(p => p.modelPath);
+        
+        productsWithModels.forEach(product => {
+            const option = document.createElement('option');
+            option.value = product.id;
+            option.textContent = product.name;
+            tryOnProductSelect.appendChild(option);
         });
 
+        // Add event listener to handle changes
+        tryOnProductSelect.addEventListener('change', (event) => {
+            const selectedProductId = event.target.value;
+            if (selectedProductId) {
+                showPage('try-on', parseInt(selectedProductId));
+            }
+        });
+    }
+
+    const savedCart = localStorage.getItem("cartData");
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+    }
+
+    function shuffleProducts(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // --- Initial Load ---
+    window.onload = function () {
+        const style = detectUserCognitiveStyle();
+        adaptUIForUser(style);
+
+        // 🔀 Randomize products
+        shuffleProducts(products);
+
+        // Optional: sort by style AFTER shuffle
+        products = sortProductsByStyle(products, style);
+
+        // Set data-category attribute for buttons
+        document.querySelectorAll('.category-button').forEach(button => {
+            button.setAttribute('data-category', button.textContent.trim());
+        });
+
+        const initialPage = window.location.hash.replace('#', '') || 'home';
+        
+        showPage(initialPage); // will call filterProducts and render
+        updateCartUI();
+    };
+
+
+    window.onhashchange = function () {
+        const hash = window.location.hash.replace('#', '') || 'home';
+        showPage(hash);
+    };
+
+    window.addEventListener("load", () => {
+        const loader = document.getElementById("loading-screen");
+        const skeleton = document.getElementById("skeleton-preview");
+
+        // Step 1: Delay to let loader show briefly
+        setTimeout(() => {
+            // Fade out loader + skeleton
+            loader.classList.add("opacity-0", "pointer-events-none");
+            skeleton.classList.add("opacity-0");
+
+            // Step 2: Fully remove loader after fade
+            setTimeout(() => {
+                loader.style.display = "none";
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('hidden'));
+                showPage("home");
+            }, 500);
+        }, 600);
+    });
 
     </script>
 </body>
