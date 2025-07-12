@@ -267,43 +267,69 @@
     </div>
 
     <main class="relative z-10">
-      <section id="home-page" class="page hidden pt-12 pb-24 text-center">
+      <section id="home-page" class="page hidden pt-24 min-h-screen">
         <div class="container mx-auto px-4">
-          <h1
-            class="text-4xl sm:text-6xl font-extrabold text-gray-900 leading-tight"
-          >
-            Welcome to <span class="text-indigo-600">Mindos</span>
-          </h1>
-          <p class="mt-4 text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto">
-            Discover the latest trends in technology, fashion, and home goods.
-            Experience a new way to shop with our AI-powered virtual try-on.
-          </p>
-          <div class="mt-8 flex justify-center space-x-4">
-            <a
-              href="#products"
-              class="btn-primary text-lg px-8 py-3 rounded-full"
-              >Shop Now</a
-            >
-            <a
-              href="#try-on"
-              class="btn-secondary text-lg px-8 py-3 rounded-full"
-              >Try It Out</a
-            >
-          </div>
-        </div>
+            <section class="relative text-center py-20 rounded-2xl shadow-xl overflow-hidden">
+                <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover object-top -z-10">
+                    <source src="videos/mansearching.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
 
-        <div
-          class="bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg mt-16 p-8 mx-auto max-w-4xl"
-        >
-          <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
-            What Our Customers Say
-          </h2>
-          <div
-            id="home-ratings-list"
-            class="flex overflow-x-auto space-x-6 pb-4 scrollbar-hidden"
-          ></div>
+                <div class="absolute inset-0 bg-black opacity-40 -z-10"></div>
+
+                <div class="relative z-10 text-white">
+                    <h1 class="text-5xl sm:text-7xl font-extrabold leading-tight tracking-tight">
+                        Crafted for Comfort.
+                    </h1>
+                    <p class="mt-4 text-xl sm:text-2xl max-w-3xl mx-auto">
+                        Explore our collection of innovative products designed for your everyday life.
+                    </p>
+                    <div class="mt-8">
+                        <a href="#products" class="inline-block bg-indigo-600 text-white text-lg font-semibold px-10 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <div class="mt-16 space-y-24">
+                <section id="mens-collection-section">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-gray-900">Men's Collection</h2>
+                        <a href="#products" onclick="showPage('products'); filterProducts('Men\'s Collection')" class="text-indigo-600 hover:text-indigo-800 font-semibold">View All →</a>
+                    </div>
+                    <div id="mens-products-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        </div>
+                </section>
+
+                <section id="womens-collection-section">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-gray-900">Women's Collection</h2>
+                        <a href="#products" onclick="showPage('products'); filterProducts('Women\'s Collection')" class="text-indigo-600 hover:text-indigo-800 font-semibold">View All →</a>
+                    </div>
+                    <div id="womens-products-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        </div>
+                </section>
+                
+                <section id="electronics-section">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-gray-900">Electronics</h2>
+                        <a href="#products" onclick="showPage('products'); filterProducts('Electronics')" class="text-indigo-600 hover:text-indigo-800 font-semibold">View All →</a>
+                    </div>
+                    <div id="electronics-products-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        </div>
+                </section>
+                <section id="furniture-section">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-gray-900">Furniture</h2>
+                        <a href="#products" onclick="showPage('products'); filterProducts('Furniture')" class="text-indigo-600 hover:text-indigo-800 font-semibold">View All →</a>
+                    </div>
+                    <div id="furniture-products-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        </div>
+                </section>
+            </div>
         </div>
-      </section>
+    </section>
 
       <section id="products-page" class="page hidden pt-12 pb-24">
         <div class="container mx-auto px-4">
@@ -970,10 +996,55 @@
                 showTryOnPage(parseInt(productIdToTryOn));
             }
             } else if (pageId === "feedback") {
-            renderFeedback();
+                renderFeedback();
             } else if (pageId === "about") {
             // no special logic needed, just reveal section
             }
+        }
+
+        // --- Home Page Rendering ---
+        function renderHomePageProducts() {
+            const categoriesToShow = ['Men\'s Collection', 'Women\'s Collection', 'Electronics'];
+            const productCountPerCategory = 2;
+
+            categoriesToShow.forEach(category => {
+                const productsInSection = products.filter(p => p.category === category);
+                const sectionDiv = document.getElementById(`${category.toLowerCase().replace(/\s/g, '-')}-products-list`);
+                
+                if (sectionDiv) {
+                    sectionDiv.innerHTML = ''; // Clear previous products
+
+                    const productsToDisplay = productsInSection.slice(0, productCountPerCategory);
+                    
+                    productsToDisplay.forEach(product => {
+                        const tryOnButton = product.modelPath ?
+                            `
+                                <button class="btn-secondary py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="showProductDetail(${product.id})">
+                                    Try On
+                                </button>
+                            `
+                            : '';
+
+                        const productCard = `
+                            <div class="product-card bg-white rounded-lg shadow-md flex flex-col p-3 sm:p-6 h-full flex-shrink-0 w-64">
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-[130px] sm:h-[260px] object-cover rounded-md mb-2">
+                                <h3 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 line-clamp-2">${product.name}</h3>
+                                <p class="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">${product.description}</p>
+                                <div class="flex justify-between items-center mt-auto">
+                                    <span class="text-sm sm:text-lg font-bold text-indigo-600">$${product.price.toFixed(2)}</span>
+                                    <div class="flex flex-col space-y-1">
+                                        <button class="btn-primary text-white py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="addToCart(${product.id})">
+                                            Add to Cart
+                                        </button>
+                                        ${tryOnButton}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        sectionDiv.innerHTML += productCard;
+                    });
+                }
+            });
         }
 
         // --- Mobile Menu Toggle ---
