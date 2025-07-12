@@ -20,22 +20,18 @@
     ></script>
 
     <style>
-        body {
-            font-family: "Inter", sans-serif;
-            color: #333;
-            background-image: url("images/background.jpg");
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-            /* Add these three lines */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
+      body {
+        font-family: "Inter", sans-serif;
+        color: #333;
+        background-image: url("images/background.jpg");
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
       body::before {
         content: "";
         position: fixed;
@@ -797,7 +793,7 @@
       </div>
     </div>
     
-    <footer class="bg-white bg-opacity-90 shadow-md mt-24">
+    <footer id="main-footer" class="hidden bg-white bg-opacity-90 shadow-md mt-24">
         <div class="border-t border-gray-200 pt-16">
             <div
             class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 pb-16"
@@ -1228,6 +1224,8 @@
             targetSection.classList.remove("hidden");
         }
 
+        document.getElementById("main-footer").classList.remove("hidden");
+        
         // Specific page behavior based on parsed hash
         if (pageId === "home") {
             // On home page, always show all products initially or based on cognitive style
@@ -1777,9 +1775,6 @@
         // After the fade, fully remove the loader and show pages
         setTimeout(() => {
           loader.style.display = "none";
-          document
-            .querySelectorAll(".page")
-            .forEach((page) => page.classList.remove("hidden"));
 
           // Set initial hash if none exists, then call showPage
           if (!window.location.hash) {
