@@ -267,29 +267,32 @@
     </div>
 
     <main class="relative z-10">
-      <section id="home-page" class="page hidden pt-24 min-h-screen">
+      <section id="home-page" class="page hidden pt-20 min-h-screen">
         <div class="container mx-auto px-4">
-            <section class="relative text-center py-20 rounded-2xl shadow-xl overflow-hidden">
+            <section class="relative text-center rounded-2xl shadow-xl overflow-hidden pt-20">
                 <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover object-top -z-10">
-                    <source src="videos/mansearching.mp4" type="video/mp4">
+                    <source src="videos/searching.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
 
                 <div class="absolute inset-0 bg-black opacity-40 -z-10"></div>
 
                 <div class="relative z-10 text-white">
-                    <h1 class="text-5xl sm:text-7xl font-extrabold leading-tight tracking-tight">
-                        Crafted for Comfort.
-                    </h1>
-                    <p class="mt-4 text-xl sm:text-2xl max-w-3xl mx-auto">
-                        Explore our collection of innovative products designed for your everyday life.
-                    </p>
-                    <div class="mt-8">
-                        <a href="#products" class="inline-block bg-indigo-600 text-white text-lg font-semibold px-10 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300">
-                            Shop Now
-                        </a>
+                    <div class="pt-20 pb-16">
+                        <h1 class="text-5xl sm:text-7xl font-extrabold leading-tight tracking-tight">
+                            Crafted for Comfort.
+                        </h1>
+                        <p class="mt-4 text-xl sm:text-2xl max-w-3xl mx-auto">
+                            Explore our collection of innovative products designed for your everyday life.
+                        </p>
+                        <div class="mt-8">
+                            <a href="#products" class="inline-block bg-indigo-600 text-white text-lg font-semibold px-10 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300">
+                                Shop Now
+                            </a>
+                        </div>
                     </div>
                 </div>
+
             </section>
 
             <div class="mt-16 space-y-24">
@@ -325,6 +328,15 @@
                         <a href="#products" onclick="showPage('products'); filterProducts('Furniture')" class="text-indigo-600 hover:text-indigo-800 font-semibold">View All →</a>
                     </div>
                     <div id="furniture-products-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        </div>
+                </section>
+
+                <section id="home-kitchen-section">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-gray-900">Home & Kitchen</h2>
+                        <a href="#products" onclick="showPage('products'); filterProducts('Home & Kitchen')" class="text-indigo-600 hover:text-indigo-800 font-semibold">View All →</a>
+                    </div>
+                    <div id="home-kitchen-products-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         </div>
                 </section>
             </div>
