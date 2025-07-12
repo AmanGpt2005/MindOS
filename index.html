@@ -833,6 +833,26 @@
             }
         }
         
+        function showProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) {
+                console.error("Product not found");
+                return;
+            }
+            showPage('product-detail');
+            
+            // Check if the product has a modelPath and show the AR viewer
+            const sofaAR = document.getElementById('sofa-ar-viewer');
+            const modelViewer = document.getElementById('main-model-viewer');
+            
+            if (product.modelPath) {
+                sofaAR.classList.remove('hidden');
+                modelViewer.setAttribute('src', product.modelPath);
+            } else {
+                sofaAR.classList.add('hidden');
+            }
+        }
+
         // --- Model Viewer Functions for Try-On ---
         function showTryOnPage(productId) {
             const tryOnPage = document.getElementById('try-on-page');
