@@ -20,18 +20,22 @@
     ></script>
 
     <style>
-      body {
-        font-family: "Inter", sans-serif;
-        color: #333;
-        background-image: url("images/background.jpg");
-        background-size: cover;
-        background-attachment: fixed;
-        background-position: center;
-        background-repeat: no-repeat;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-      }
+        body {
+            font-family: "Inter", sans-serif;
+            color: #333;
+            background-image: url("images/background.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            /* Add these three lines */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
       body::before {
         content: "";
         position: fixed;
@@ -292,16 +296,16 @@
         </div>
         <div class="flex items-center space-x-4">
           <button
-            onclick="showPage('cart')"
+            onclick="window.location.hash = '#cart'"
             class="relative text-gray-600 hover:text-indigo-600"
-          >
+            >
             <i class="fas fa-shopping-cart text-xl"></i>
             <span
-              id="cart-count"
-              class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center"
-              >0</span
+                id="cart-count"
+                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center"
+                >0</span
             >
-          </button>
+            </button>
           <button
             id="mobile-menu-button"
             class="sm:hidden text-gray-600 hover:text-indigo-600"
@@ -792,6 +796,66 @@
         <button onclick="closeModal()" class="btn-primary py-2 px-6">OK</button>
       </div>
     </div>
+    
+    <footer class="bg-white bg-opacity-90 shadow-md mt-24">
+        <div class="border-t border-gray-200 pt-16">
+            <div
+            class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 pb-16"
+            >
+            <div class="flex flex-col items-start space-y-4">
+                <a href="#home" class="text-2xl font-bold text-gray-800">
+                MindOS
+                </a>
+                <p class="text-gray-500 text-sm">&copy; 2025 MindOS. All rights reserved.</p>
+            </div>
+
+            <div class="flex flex-col space-y-4">
+                <h4 class="font-semibold text-gray-800">Company</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                <li>
+                    <a href="#about" class="hover:text-indigo-600">About</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-indigo-600">Careers</a>
+                </li>
+                <li>
+                    <a href="#feedback" class="hover:text-indigo-600">Feedback</a>
+                </li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col space-y-4">
+                <h4 class="font-semibold text-gray-800">Support</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                <li>
+                    <a href="#" class="hover:text-indigo-600">Contact Us</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-indigo-600">Help Center</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-indigo-600">Shipping & Returns</a>
+                </li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col space-y-4">
+                <h4 class="font-semibold text-gray-800">Legal</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                <li>
+                    <a href="#" class="hover:text-indigo-600">Privacy Policy</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-indigo-600">Terms of Service</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-indigo-600">Cookie Policy</a>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        </footer>
 
     <script>
       // --- Global State ---
