@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mindos - Your Modern E-commerce Store</title>
+    <link rel="icon" href="images/mindos.jpg.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
@@ -13,6 +14,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+    <link rel="stylesheet" href="style.css" />
 
     <script
       type="module"
@@ -291,6 +293,13 @@
           >
         </div>
         <div class="flex items-center space-x-4">
+          <!-- New Analytics Button -->
+          <button
+            onclick="window.location.href = 'analytics.html'"
+            class="btn-primary px-4 py-2 rounded-full font-semibold text-sm"
+          >
+            Analytics
+          </button>
           <button
             onclick="window.location.hash = '#cart'"
             class="relative text-gray-600 hover:text-indigo-600"
@@ -354,6 +363,13 @@
             onclick="showPage('feedback')"
             >Feedback</a
           >
+          <!-- Analytics button for mobile menu -->
+          <button
+            onclick="window.location.href = 'analytics.html'; closeMobileMenu();"
+            class="btn-primary w-full text-left py-2 px-4 rounded-md font-semibold text-lg"
+          >
+            Analytics
+          </button>
           <a
             href="#cart"
             class="flex items-center text-gray-800 hover:text-indigo-600 font-semibold"
@@ -490,6 +506,21 @@
             class="flex overflow-x-auto space-x-6 pb-4 scrollbar-hidden"
           ></div>
         </div>
+        <!-- About -->
+        <section id="about">
+            <div
+            class="bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg mt-16 p-8 mx-auto max-w-8xl"
+            >
+                <div class="container">
+                    <h2>About MindOS</h2>
+                    <p>MindOS is at the forefront of AI-powered augmented and virtual reality experiences. We build
+                        intelligent systems that learn and adapt to individual user behavior, offering unprecedented
+                        personalization in digital interactions.</p>
+                    <p>Our mission is to bridge the gap between the physical and digital worlds, making virtual try-ons,
+                        adaptive interfaces, and smart environments intuitive and truly user-centric.</p>
+                </div>
+            </div>
+        </section>
       </section>
 
       <section id="products-page" class="page hidden pt-12 pb-24">
@@ -1775,6 +1806,7 @@
         // After the fade, fully remove the loader and show pages
         setTimeout(() => {
           loader.style.display = "none";
+          skeleton.style.display = "none"; // Ensure skeleton is also hidden
 
           // Set initial hash if none exists, then call showPage
           if (!window.location.hash) {
@@ -1782,7 +1814,7 @@
           }
           showPage(); // Call showPage to render the correct initial page based on hash
           updateCartUI();
-        }, 250); // Match CSS transition duration
+        }, 250); // Decreased delay for faster loading
       };
 
       // Handle hash changes consistently
