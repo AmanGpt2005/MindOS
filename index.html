@@ -352,9 +352,9 @@
             <a href="#feedback" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 font-medium" onclick="showPage('feedback'); toggleMobileMenu();">Feedback</a>
 
             <!-- Cart (Mobile) -->
-            <button class="relative block py-3 text-lg text-gray-700 hover:text-indigo-600 w-full text-left" onclick="showPage('cart'); toggleMobileMenu();">
-            <i class="fas fa-shopping-cart text-xl mr-2"></i>
-            Cart (<span id="mobile-cart-count">0</span>)
+            <button class="relative block py-3 text-lg text-gray-700 hover:text-indigo-600 w-full text-left" onclick="window.location.hash='#cart'; toggleMobileMenu();">
+                <i class="fas fa-shopping-cart text-xl mr-2"></i>
+                Cart (<span id="mobile-cart-count">0</span>)
             </button>
 
             <!-- Adaptive (Mobile) -->
@@ -367,34 +367,8 @@
             Analytics
             </button>
         </nav>
-        </header>
+    </header>
 
-
-    <!-- Mobile Navigation Menu (Hidden by default) from test.html - Enhanced Styling -->
-    <nav id="mobile-nav" class="mobile-nav-menu fixed inset-y-0 right-0 w-72 bg-indigo-50 shadow-xl z-50 transform translate-x-full transition-transform ease-in-out duration-300">
-        <div class="p-6">
-            <button id="close-menu-button" class="absolute top-4 right-4 text-gray-600 hover:text-indigo-600 p-2 rounded-full bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-            <nav class="flex flex-col space-y-6 mt-8 text-lg">
-                <a href="#home" class="text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-200" onclick="showPage('home'); toggleMobileMenu();">Home</a>
-                <a href="#products?category=All" class="text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-200" onclick="showPage('products'); toggleMobileMenu();">Products</a>
-                <a href="#try-on" class="block py-3 text-lg text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-200" onclick="showPage('try-on'); toggleMobileMenu();">Virtual Try-On</a>
-                <a href="#about" class="block py-3 text-lg text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-200" onclick="showPage('about'); toggleMobileMenu();">About Us</a>
-                <a href="#feedback" class="block py-3 text-lg text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-200" onclick="showPage('feedback'); toggleMobileMenu();">Feedback & Ratings</a>
-                <button class="relative block py-3 text-lg text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-300 w-full text-left" onclick="showPage('cart'); toggleMobileMenu();">
-                    <i class="fas fa-shopping-cart text-xl mr-2"></i>
-                    Cart (<span id="mobile-cart-count">0</span>)
-                </button>
-            </nav>
-            <button
-                onclick="window.location.href = 'analytics.html'; toggleMobileMenu();"
-                class="btn-primary w-full text-left py-3 px-4 rounded-md font-semibold text-lg mt-6"
-            >
-                Analytics
-            </button>
-        </div>
-    </nav>
 
     <main class="relative z-10">
       <section id="home-page" class="page hidden pt-12 pb-24 text-center">
@@ -1284,6 +1258,7 @@
       // --- Page Navigation and Routing ---
       function showPage() {
         // Get the current hash from the URL
+        window.scrollTo(0, 0);
         let hash = window.location.hash.replace("#", "");
         let pageId = 'home'; // Default page
         let categoryToFilter = null;
@@ -1990,6 +1965,12 @@
         showPage(); // Just call showPage, it will parse the new hash
       };
 
+      window.addEventListener('load', () => {
+            // If there's no hash (like #about or #cart), scroll to top
+            if (!window.location.hash) {
+            window.scrollTo({ top: 0, behavior: 'auto' });
+            }
+        });
 
     </script>
   </body>
