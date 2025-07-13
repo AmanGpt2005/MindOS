@@ -21,8 +21,10 @@
       src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
     ></script>
 
+    <script src="js/cognitive-adapt.js" defer></script>
+
     <style>
-      body {
+    body {
         font-family: "Inter", sans-serif;
         color: #333;
         background-image: url("images/background.jpg");
@@ -33,71 +35,73 @@
         min-height: 100vh;
         margin: 0;
         padding: 0;
-      }
-      body::before {
+    }
+    body::before {
         content: "";
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(242, 239, 245, 0.21); /* Lighter tint */
+        background-color: rgba(242, 239, 245, 0.21);
+        /* Lighter tint */
         z-index: -1;
-      }
+    }
 
-      .container {
+    .container {
         max-width: 1200px;
         margin: auto;
-      }
+    }
 
-      .hidden {
+    .hidden {
         display: none;
-      }
+    }
 
-      .page {
-        min-height: calc(100vh - 80px); /* Adjust for header height */
-      }
-      .btn-primary {
+    .page {
+        min-height: calc(100vh - 80px);
+        /* Adjust for header height */
+    }
+    .btn-primary {
         background-color: #4f46e5;
         color: white;
         padding: 0.5rem 1rem;
         border-radius: 9999px;
         font-weight: 600;
         transition: all 0.2s ease-in-out;
-      }
+    }
 
-      .btn-primary:hover {
+    .btn-primary:hover {
         background-color: #4338ca;
         transform: scale(1.05);
-      }
-      .btn-secondary {
+    }
+    .btn-secondary {
         background-color: #e5e7eb;
         color: #4f46e5;
         padding: 0.5rem 1rem;
         border-radius: 9999px;
         font-weight: 600;
         transition: all 0.2s ease-in-out;
-      }
-      .btn-secondary:hover {
+    }
+    .btn-secondary:hover {
         background-color: #d1d5db;
-      }
-      .product-card {
+    }
+    .product-card {
         display: flex;
         flex-direction: column;
         height: 100%;
         transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      }
-      .product-card:hover {
+    }
+    .product-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-      }
-      .category-button.active {
+    }
+    .category-button.active {
         background-color: #4f46e5;
         color: white;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
+    }
 
-      .try-on-viewer {
+    .try-on-viewer {
         position: relative;
         width: 100%;
         height: 500px;
@@ -105,21 +109,22 @@
         border-radius: 12px;
         overflow: hidden;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-      #model-viewer-container {
+    }
+    #model-viewer-container {
         width: 100%;
         height: 100%;
         border-radius: 12px;
-      }
+    }
 
-      #mobile-nav {
+    /* This rule is now redundant as it's defined in mobile-nav-menu below */
+    #mobile-nav {
         transform: translateX(100%);
         transition: transform 0.3s ease-in-out;
-      }
-      #mobile-nav.open {
+    }
+    #mobile-nav.open {
         transform: translateX(0);
-      }
-      .profile-icon {
+    }
+    .profile-icon {
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -130,9 +135,9 @@
         justify-content: center;
         font-weight: bold;
         font-size: 0.875rem;
-      }
-      /* Loading Screen CSS */
-      #loading-screen {
+    }
+    /* Loading Screen CSS */
+    #loading-screen {
         position: fixed;
         top: 0;
         left: 0;
@@ -145,24 +150,24 @@
         align-items: center;
         z-index: 1000;
         transition: opacity 0.5s ease;
-      }
-      .spinner {
+    }
+    .spinner {
         border: 4px solid rgba(0, 0, 0, 0.1);
         width: 50px;
         height: 50px;
         border-radius: 50%;
         border-left-color: #4f46e5;
         animation: spin 1.2s linear infinite;
-      }
-      @keyframes spin {
+    }
+    @keyframes spin {
         0% {
-          transform: rotate(0deg);
+        transform: rotate(0deg);
         }
         100% {
-          transform: rotate(360deg);
+        transform: rotate(360deg);
         }
-      }
-      #skeleton-preview {
+    }
+    #skeleton-preview {
         width: 80%;
         max-width: 800px;
         height: 300px;
@@ -171,41 +176,46 @@
         animation: pulse 1.5s infinite;
         margin-top: 2rem;
         transition: opacity 0.5s ease;
-      }
-      @keyframes pulse {
+    }
+    @keyframes pulse {
         0% {
-          opacity: 0.6;
+        opacity: 0.6;
         }
         50% {
-          opacity: 0.8;
+        opacity: 0.8;
         }
         100% {
-          opacity: 0.6;
+        opacity: 0.6;
         }
-      }
-      .category-card {
+    }
+    .category-card {
         display: block;
-        border-radius: 1rem; /* rounded-xl */
+        border-radius: 1rem;
+        /* rounded-xl */
         overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* shadow-lg */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        /* shadow-lg */
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         position: relative;
-        padding-top: 66.66%; /* 3:2 Aspect Ratio (height / width * 100) */
-      }
+        padding-top: 66.66%;
+        /* 3:2 Aspect Ratio (height / width * 100) */
+    }
 
-      .category-card:hover {
+    .category-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      }
+    }
 
-      .category-card-content {
+    .category-card-content {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-size: cover; /* Re-added for images */
-        background-position: center; /* Re-added for images */
+        background-size: cover;
+        /* Re-added for images */
+        background-position: center;
+        /* Re-added for images */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -213,41 +223,72 @@
         transition: transform 0.3s ease-in-out;
         border-radius: 1rem;
         /* Removed overflow: hidden; as it's not strictly needed for images unless there's other content */
-      }
+    }
 
-      /* Removed .category-video-background and .category-video-overlay entirely */
+    /* Removed .category-video-background and .category-video-overlay entirely */
 
-      .category-card-title {
-        position: relative; /* Keep this */
-        z-index: 1; /* Changed from 2 to 1 as overlay is now part of background-color */
-        background-color: rgba(0, 0, 0, 0.6); /* Re-added dark overlay for text readability */
+    .category-card-title {
+        position: relative;
+        /* Keep this */
+        z-index: 1;
+        /* Changed from 2 to 1 as overlay is now part of background-color */
+        background-color: rgba(0, 0, 0, 0.6);
+        /* Re-added dark overlay for text readability */
         padding: 0.75rem 1.5rem;
         border-radius: 0.5rem;
-        font-size: 1.5rem; /* text-2xl */
-        font-weight: 700; /* font-bold */
-        color: white; /* Ensure text color is white */
-        backdrop-filter: blur(5px); /* Re-added subtle blur effect */
+        font-size: 1.5rem;
+        /* text-2xl */
+        font-weight: 700;
+        /* font-bold */
+        color: white;
+        /* Ensure text color is white */
+        backdrop-filter: blur(5px);
+        /* Re-added subtle blur effect */
         transition: background-color 0.3s ease-in-out;
-      }
+    }
 
-      .category-card:hover .category-card-title {
-        background-color: rgba(0, 0, 0, 0.75); /* Darker on hover */
-      }
+    .category-card:hover .category-card-title {
+        background-color: rgba(0, 0, 0, 0.75);
+        /* Darker on hover */
+    }
+    /* Mobile navigation styles */
+    .mobile-nav-menu {
+        transition: transform 0.3s ease-out;
+        transform: translateX(100%);
+        /* Start off-screen to the right */
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 70%;
+        /* Adjust as needed */
+        height: 100%;
+        background-color: white;
+        z-index: 60;
+        /* Higher than header */
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .mobile-nav-menu.open {
+        transform: translateX(0);
+        /* Slide in */
+    }
 
-      /* Responsive adjustments for grid columns */
-      @media (min-width: 640px) {
+    /* Responsive adjustments for grid columns */
+    @media (min-width: 640px) {
         /* sm breakpoint */
         .grid-cols-1 {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         }
-      }
+    }
 
-      @media (min-width: 1024px) {
+    @media (min-width: 1024px) {
         /* lg breakpoint */
         .grid-cols-1 {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         }
-      }
+    }
     </style>
   </head>
   <body>
@@ -261,7 +302,7 @@
     </div>
 
     <header
-      class="bg-white/90 backdrop-blur-sm shadow-md py-4 sticky top-0 z-50"
+      class="bg-white/90 backdrop-blur-sm shadow-md py-4"
     >
       <nav class="container mx-auto flex justify-between items-center px-4">
         <a href="#home" class="text-2xl font-bold text-indigo-600">Mindos</a>
@@ -311,76 +352,39 @@
                 >0</span
             >
             </button>
-          <button
-            id="mobile-menu-button"
-            class="sm:hidden text-gray-600 hover:text-indigo-600"
-          >
-            <i class="fas fa-bars text-xl"></i>
+          <!-- Mobile menu button - Enhanced Styling -->
+          <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <i class="fas fa-bars text-xl"></i>
           </button>
         </div>
       </nav>
     </header>
 
-    <div
-      id="mobile-nav"
-      class="fixed inset-y-0 right-0 w-64 bg-white shadow-xl z-50 transform translate-x-full transition-transform ease-in-out duration-300"
-    >
-      <div class="p-6">
-        <button
-          id="close-menu-button"
-          class="absolute top-4 right-4 text-gray-600 hover:text-indigo-600"
-        >
-          <i class="fas fa-times text-xl"></i>
-        </button>
-        <nav class="flex flex-col space-y-6 mt-8 text-lg">
-          <a
-            href="#home"
-            class="text-gray-800 hover:text-indigo-600 font-semibold"
-            onclick="showPage('home')"
-            >Home</a
-          >
-          <a
-            href="#products?category=All"
-            class="text-gray-800 hover:text-indigo-600 font-semibold"
-            onclick="showPage('products')"
-            >Products</a
-          >
-          <a
-            href="#try-on"
-            class="text-gray-800 hover:text-indigo-600 font-semibold"
-            onclick="showPage('try-on')"
-            >Try-On</a
-          >
-          <a
-            href="#about"
-            class="text-gray-800 hover:text-indigo-600 font-semibold"
-            onclick="showPage('about')"
-            >About</a
-          >
-          <a
-            href="#feedback"
-            class="text-gray-800 hover:text-indigo-600 font-semibold"
-            onclick="showPage('feedback')"
-            >Feedback</a
-          >
-          <!-- Analytics button for mobile menu -->
-          <button
-            onclick="window.location.href = 'analytics.html'; closeMobileMenu();"
-            class="btn-primary w-full text-left py-2 px-4 rounded-md font-semibold text-lg"
-          >
-            Analytics
-          </button>
-          <a
-            href="#cart"
-            class="flex items-center text-gray-800 hover:text-indigo-600 font-semibold"
-            onclick="showPage('cart')"
-          >
-            <i class="fas fa-shopping-cart text-xl mr-2"></i>
-            Cart (<span id="mobile-cart-count">0</span>)
-          </a>
-        </nav>
-      </div>
-    </div>
+    <!-- Mobile Navigation Menu - Enhanced Styling -->
+    <nav id="mobile-nav" class="mobile-nav-menu fixed inset-y-0 right-0 w-72 bg-indigo-50 shadow-xl z-50 transform translate-x-full transition-transform ease-in-out duration-300">
+        <div class="p-6">
+            <button id="close-menu-button" class="absolute top-4 right-4 text-gray-600 hover:text-indigo-600 p-2 rounded-full bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <nav class="flex flex-col space-y-6 mt-8 text-lg">
+                <a href="#home" class="text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-200" onclick="showPage('home'); toggleMobileMenu();">Home</a>
+                <a href="#products?category=All" class="text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-200" onclick="showPage('products'); toggleMobileMenu();">Products</a>
+                <a href="#try-on" class="block py-3 text-lg text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-200" onclick="showPage('try-on'); toggleMobileMenu();">Virtual Try-On</a>
+                <a href="#about" class="block py-3 text-lg text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-200" onclick="showPage('about'); toggleMobileMenu();">About Us</a>
+                <a href="#feedback" class="block py-3 text-lg text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-200" onclick="showPage('feedback'); toggleMobileMenu();">Feedback & Ratings</a>
+                <button class="relative block py-3 text-lg text-gray-800 hover:text-indigo-600 font-semibold py-2 px-4 rounded-md hover:bg-indigo-100 transition duration-300 w-full text-left" onclick="showPage('cart'); toggleMobileMenu();">
+                    <i class="fas fa-shopping-cart text-xl mr-2"></i>
+                    Cart (<span id="mobile-cart-count">0</span>)
+                </button>
+            </nav>
+            <button
+                onclick="window.location.href = 'analytics.html'; toggleMobileMenu();"
+                class="btn-primary w-full text-left py-3 px-4 rounded-md font-semibold text-lg mt-6"
+            >
+                Analytics
+            </button>
+        </div>
+    </nav>
 
     <main class="relative z-10">
       <section id="home-page" class="page hidden pt-12 pb-24 text-center">
@@ -506,6 +510,16 @@
             class="flex overflow-x-auto space-x-6 pb-4 scrollbar-hidden"
           ></div>
         </div>
+        
+        <!-- Demo -->
+        <section id="demo" class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg mt-16 p-8 mx-auto max-w-5xl">
+            <div class="container">
+                <h2>See MindOS In Action</h2>
+                <p>This interactive demo showcases how our system adapts to your decision style and provides a tailored experience.</p>
+                <button onclick="simulateCognitiveAdaptation()">Trigger Adaptive Demo</button>
+            </div>
+        </section>
+
         <!-- About -->
         <section id="about">
             <div
@@ -568,6 +582,37 @@
               Women's Collection
             </button>
           </div>
+
+          <!-- New LLM-powered Product Recommendation Section -->
+          <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-8 sm:p-12 max-w-4xl mx-auto mt-12 mb-12">
+            <h3 class="text-2xl font-bold text-center text-gray-900 mb-6">
+              Get Personalized Recommendations ✨
+            </h3>
+            <p class="text-center text-gray-700 mb-6">
+              Tell us what you're looking for, and our AI will suggest products!
+            </p>
+            <textarea
+              id="recommendation-input"
+              class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 mb-4"
+              rows="3"
+              placeholder="e.g., 'a comfortable sofa for a small apartment', 'headphones for gaming', 'a stylish dress for a summer party'"
+            ></textarea>
+            <button
+              id="get-recommendations-button"
+              class="btn-primary w-full py-3 flex items-center justify-center"
+            >
+              <span id="recommendation-button-text">Get Recommendations ✨</span>
+              <div id="recommendation-spinner" class="hidden spinner ml-3 w-5 h-5 border-t-white"></div>
+            </button>
+            <div id="recommended-products-container" class="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+              <!-- Recommended products will be rendered here -->
+            </div>
+            <p id="no-recommendations-message" class="text-center text-gray-500 mt-4 hidden">
+              No recommendations found for your query. Please try a different description.
+            </p>
+          </div>
+          <!-- End of LLM-powered Product Recommendation Section -->
+
           <div
             id="product-list"
             class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
@@ -1208,14 +1253,23 @@
       const feedbackListDiv = document.getElementById("feedback-list");
       const noFeedbackMessage = document.getElementById("no-feedback-message");
       const homeRatingsListDiv = document.getElementById("home-ratings-list"); // New DOM element for home page ratings
-      const mobileMenuButton = document.getElementById("mobile-menu-button");
-      const closeMenuButton = document.getElementById("close-menu-button");
-      const mobileNav = document.getElementById("mobile-nav");
+      // const mobileMenuButton = document.getElementById("mobile-menu-button"); // Original from index.html
+      // const closeMenuButton = document.getElementById("close-menu-button"); // Original from index.html
+      // const mobileNav = document.getElementById("mobile-nav"); // Original from index.html
       const mobileCartCount = document.getElementById("mobile-cart-count");
 
       // New DOM element for the main model-viewer
       const mainModelViewer = document.getElementById("main-model-viewer");
       const tryOnProductSelect = document.getElementById("tryOnProductSelect");
+
+      // LLM Recommendation Feature DOM Elements
+      const recommendationInput = document.getElementById("recommendation-input");
+      const getRecommendationsButton = document.getElementById("get-recommendations-button");
+      const recommendationButtonText = document.getElementById("recommendation-button-text");
+      const recommendationSpinner = document.getElementById("recommendation-spinner");
+      const recommendedProductsContainer = document.getElementById("recommended-products-container");
+      const noRecommendationsMessage = document.getElementById("no-recommendations-message");
+
 
       // --- Page Navigation and Routing ---
       function showPage() {
@@ -1283,28 +1337,46 @@
                 `.category-button[data-category='${finalCategory}']`
             );
             filterProducts(finalCategory, categoryButton);
+            // Clear previous recommendations when navigating to products page
+            recommendedProductsContainer.innerHTML = '';
+            noRecommendationsMessage.classList.add('hidden');
         }
       }
 
-      // --- Mobile Menu Toggle ---
+      // --- Mobile Menu Toggle (from test.html) ---
       function toggleMobileMenu() {
-        const mobileNav = document.getElementById("mobile-nav");
-        const mobileMenuButton = document.getElementById("mobile-menu-button");
-        const closeMenuButton = document.getElementById("close-menu-button");
-        const body = document.body;
+          const mobileNav = document.getElementById('mobile-nav');
+          const mobileMenuButton = document.getElementById('mobile-menu-button');
+          const closeMenuButton = document.getElementById('close-menu-button');
 
-        mobileNav.classList.toggle("open");
+          mobileNav.classList.toggle('hidden');
+          mobileNav.classList.toggle('flex'); // test.html uses flex for mobile nav
+          mobileNav.classList.toggle('open'); // For CSS transition
 
-        // Prevent scrolling when mobile menu is open
-        if (mobileNav.classList.contains("open")) {
-          body.style.overflow = "hidden";
-        } else {
-          body.style.overflow = "";
-        }
+          // Update cart count in mobile menu
+          mobileCartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+           // Prevent scrolling when mobile menu is open
+          if (mobileNav.classList.contains('open')) {
+              document.body.style.overflow = 'hidden';
+          } else {
+              document.body.style.overflow = '';
+          }
       }
 
-      mobileMenuButton.addEventListener("click", toggleMobileMenu);
-      closeMenuButton.addEventListener("click", toggleMobileMenu);
+      // Re-attach event listeners to new button IDs from test.html
+      document.addEventListener('DOMContentLoaded', () => {
+          const mobileMenuButton = document.getElementById('mobile-menu-button');
+          const closeMenuButton = document.getElementById('close-menu-button');
+
+          if (mobileMenuButton) {
+              mobileMenuButton.addEventListener('click', toggleMobileMenu);
+          }
+          if (closeMenuButton) {
+              closeMenuButton.addEventListener('click', toggleMobileMenu);
+          }
+      });
+
 
       // --- Product Filtering and Rendering ---
       function filterProducts(category, clickedButton) {
@@ -1321,11 +1393,20 @@
           category === "All"
             ? products
             : products.filter((p) => p.category === category);
-        renderProducts(filteredProducts);
+        renderProducts(filteredProducts, productListDiv); // Render to main product list
       }
 
-      function renderProducts(productsToRender) {
-        productListDiv.innerHTML = ""; // Clear existing products
+      function renderProducts(productsToRender, targetElement) {
+        targetElement.innerHTML = ""; // Clear existing products
+
+        if (productsToRender.length === 0) {
+            if (targetElement === recommendedProductsContainer) {
+                noRecommendationsMessage.classList.remove('hidden');
+            }
+            return;
+        } else {
+            noRecommendationsMessage.classList.add('hidden');
+        }
 
         productsToRender.forEach((product) => {
           const tryOnButton = product.modelPath
@@ -1363,7 +1444,7 @@
                         </div>
                     `;
 
-          productListDiv.innerHTML += productCard;
+          targetElement.innerHTML += productCard;
         });
       }
 
@@ -1781,6 +1862,73 @@
           [array[i], array[j]] = [array[j], array[i]];
         }
       }
+
+      // --- LLM Integration: Product Recommendations ---
+      getRecommendationsButton.addEventListener('click', async () => {
+          const userQuery = recommendationInput.value.trim();
+          if (!userQuery) {
+              showModal('Input Required', 'Please describe what kind of product you are looking for.', 'error');
+              return;
+          }
+
+          // Show loading state
+          recommendationButtonText.classList.add('hidden');
+          recommendationSpinner.classList.remove('hidden');
+          getRecommendationsButton.disabled = true;
+          recommendedProductsContainer.innerHTML = ''; // Clear previous recommendations
+          noRecommendationsMessage.classList.add('hidden'); // Hide no recommendations message
+
+          try {
+              const productNames = products.map(p => p.name).join(', ');
+              const prompt = `Given the following list of available products: ${productNames}. A user is looking for products based on this description: '${userQuery}'. Suggest up to 3 product names from the provided list that best match the user's description. Respond only with a comma-separated list of product names, exactly as they appear in the list, without any additional text or formatting.`;
+
+              let chatHistory = [];
+              chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+              const payload = { contents: chatHistory };
+              const apiKey = ""
+              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+              const response = await fetch(apiUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(payload)
+              });
+
+              const result = await response.json();
+
+              if (result.candidates && result.candidates.length > 0 &&
+                  result.candidates[0].content && result.candidates[0].content.parts &&
+                  result.candidates[0].content.parts.length > 0) {
+                  const recommendedNamesString = result.candidates[0].content.parts[0].text;
+                  const recommendedNames = recommendedNamesString.split(',').map(name => name.trim());
+
+                  const recommendedProducts = products.filter(product =>
+                      recommendedNames.includes(product.name)
+                  );
+
+                  renderProducts(recommendedProducts, recommendedProductsContainer);
+
+                  if (recommendedProducts.length === 0) {
+                      noRecommendationsMessage.classList.remove('hidden');
+                  }
+
+              } else {
+                  noRecommendationsMessage.classList.remove('hidden');
+                  console.error('Gemini API response did not contain expected content.', result);
+              }
+
+          } catch (error) {
+              console.error('Error fetching recommendations from Gemini API:', error);
+              showModal('Error', 'Failed to get recommendations. Please try again later.', 'error');
+              noRecommendationsMessage.classList.remove('hidden');
+          } finally {
+              // Hide loading state
+              recommendationButtonText.classList.remove('hidden');
+              recommendationSpinner.classList.add('hidden');
+              getRecommendationsButton.disabled = false;
+          }
+      });
+
 
       // --- Initial Load ---
       window.onload = function () {
