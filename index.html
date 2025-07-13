@@ -1413,19 +1413,17 @@
                             <p class="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">${
                               product.description
                             }</p>
-                            <div class="flex justify-between items-center mt-auto">
-                                <span class="text-sm sm:text-lg font-bold text-indigo-600">$${product.price.toFixed(
-                                  2
-                                )}</span>
-                                <div class="flex flex-col space-y-1">
-                                    <button class="btn-primary text-white py-1 px-3 rounded-full text-xs sm:text-sm font-semibold" onclick="addToCart(${
-                                      product.id
-                                    })">
-                                        Add to Cart
-                                    </button>
-                                    ${tryOnButton}
-                                </div>
+                            <div class="mt-auto text-center">
+                              <p class="text-sm sm:text-base font-bold text-indigo-600 mb-2">$${product.price.toFixed(2)}</p>
+                              <div class="flex justify-between gap-2 mt-2">
+                                <button class="btn-primary mini-button flex-1" onclick="addToCart(${product.id})">Add to Cart</button>
+                                <button class="btn-secondary mini-button flex-1" onclick="tryOnProduct(${product.id})">Try On</button>
+                              </div>
+
                             </div>
+
+
+
                         </div>
                     `;
 
@@ -1482,14 +1480,10 @@
                                     <img src="${item.image}" alt="${
               item.name
             }" class="w-20 h-20 object-cover rounded-lg mr-4">
-                                    <div>
-                                        <h4 class="text-lg font-medium text-gray-800">${
-                                          item.name
-                                        }</h4>
-                                        <p class="text-gray-600">$${item.price.toFixed(
-                                          2
-                                        )}</p>
-                                    </div>
+                                  <div class="flex flex-col">
+                                    <h4 class="text-base sm:text-lg font-medium text-gray-800 break-words">${item.name}</h4>
+                                    <p class="text-sm sm:text-base text-gray-600 mt-1">$${item.price.toFixed(2)}</p>
+                                  </div>
                                 </div>
                                 <div class="flex items-center space-x-3">
                                     <button class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center text-lg" onclick="updateQuantity(${
