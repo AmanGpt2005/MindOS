@@ -297,21 +297,6 @@ section h2::after {
     flex-grow: 1;
 }
 
-.product-card button {
-    background-color: var(--accent-color); /* Walmart Yellow/Gold */
-    color: var(--text-color); /* Changed to dark text for contrast on yellow */
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    width: 90%;
-    max-width: 200px;
-    outline: none;
-}
-
 .product-card .mini-button {
   padding: 4px 8px;
   font-size: 11px;
@@ -322,13 +307,6 @@ section h2::after {
   text-align: center;
 }
 
-
-.product-card button:hover,
-.product-card button:focus {
-    background-color: #E5B000; /* Darker shade of Walmart Yellow */
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 0 0 3px var(--accent-color), 0 5px 15px rgba(0,0,0,0.2);
-}
 
 /* Demo Section */
 #demo {
