@@ -315,6 +315,7 @@
             <!-- Navigation Links (Desktop Only) -->
             <nav id="desktop-nav" class="hidden md:flex items-center space-x-6">
             <a href="#home" class="text-gray-700 hover:text-indigo-600 font-medium">Home</a>
+            <a href="#products?category=All" class="text-gray-700 hover:text-indigo-600 transition duration-300 font-medium">Products</a>
             <a href="#try-on" onclick="showPage('try-on')" class="text-gray-700 hover:text-indigo-600 font-medium">Virtual Try-On</a>
             <a href="#about" onclick="showPage('about')" class="text-gray-700 hover:text-indigo-600 font-medium">About Us</a>
             <a href="#feedback" onclick="showPage('feedback')" class="text-gray-700 hover:text-indigo-600 font-medium">Feedback</a>
@@ -347,6 +348,7 @@
             </button>
 
             <a href="#home" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 font-medium" onclick="showPage('home'); toggleMobileMenu();">Home</a>
+            <a href="#products?category=All" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 font-medium" onclick="showPage('products'); toggleMobileMenu();">Products</a>
             <a href="#try-on" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 font-medium" onclick="showPage('try-on'); toggleMobileMenu();">Virtual Try-On</a>
             <a href="#about" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 font-medium" onclick="showPage('about'); toggleMobileMenu();">About Us</a>
             <a href="#feedback" class="block py-3 text-lg text-gray-700 hover:text-indigo-600 font-medium" onclick="showPage('feedback'); toggleMobileMenu();">Feedback</a>
@@ -831,6 +833,63 @@
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                   ></textarea>
                 </div>
+
+                <!-- New Payment Details Section -->
+                <h3 class="text-2xl font-bold text-gray-800 mt-8 mb-4">
+                  Payment Details
+                </h3>
+                <div>
+                  <label
+                    for="cardNumber"
+                    class="block text-sm font-medium text-gray-700"
+                    >Card Number</label
+                  >
+                  <input
+                    type="text"
+                    id="cardNumber"
+                    name="cardNumber"
+                    required
+                    pattern="[0-9]{13,19}"
+                    placeholder="e.g., 1234567890123456"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  />
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      for="expiryDate"
+                      class="block text-sm font-medium text-gray-700"
+                      >Expiry Date (MM/YY)</label
+                    >
+                    <input
+                      type="text"
+                      id="expiryDate"
+                      name="expiryDate"
+                      required
+                      pattern="(0[1-9]|1[0-2])\/[0-9]{2}"
+                      placeholder="MM/YY"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="cvv"
+                      class="block text-sm font-medium text-gray-700"
+                      >CVV</label
+                    >
+                    <input
+                      type="text"
+                      id="cvv"
+                      name="cvv"
+                      required
+                      pattern="[0-9]{3,4}"
+                      placeholder="e.g., 123"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    />
+                  </div>
+                </div>
+                <!-- End Payment Details Section -->
+
                 <button type="submit" class="btn-primary w-full py-3">
                   Proceed to Checkout
                 </button>
@@ -1281,6 +1340,7 @@
 
         // Ensure pageId is valid, default to home if not
         if (!document.getElementById(`${pageId}-page`)) {
+            console.warn(`Page ID "${pageId}" not found, defaulting to "home".`);
             pageId = 'home';
         }
 
@@ -1526,26 +1586,81 @@
       checkoutForm.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent default form submission
 
-        // Simulate payment processing
-        const isPaymentSuccessful = Math.random() > 0.1; // 90% chance of success
+        // Basic validation for payment fields
+        const cardNumber = document.getElementById("cardNumber").value;
+        const expiryDate = document.getElementById("expiryDate").value;
+        const cvv = document.getElementById("cvv").value;
 
-        if (isPaymentSuccessful) {
-          showModal(
-            "Order Placed!",
-            "Your order has been successfully placed. Thank you for shopping with us!",
-            "success"
-          );
-          cart = []; // Clear cart after successful order
-          updateCartUI();
-          checkoutForm.reset(); // Clear form fields
-          setTimeout(() => window.location.hash = '#home', 2000); // Redirect to home after 2 seconds
-        } else {
-          showModal(
-            "Payment Failed!",
-            "There was an issue processing your payment. Please try again or use a different card.",
-            "error"
-          );
+        if (cart.length === 0) {
+            showModal("Cart Empty", "Your cart is empty. Please add items before checking out.", "error");
+            return;
         }
+
+        if (!cardNumber || !expiryDate || !cvv) {
+            showModal("Missing Information", "Please fill in all payment details.", "error");
+            return;
+        }
+
+        // Simple regex for card number (13-19 digits), expiry (MM/YY), CVV (3-4 digits)
+        const cardNumberRegex = /^[0-9]{13,19}$/;
+        const expiryDateRegex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
+        const cvvRegex = /^[0-9]{3,4}$/;
+
+        if (!cardNumberRegex.test(cardNumber.replace(/\s/g, ''))) { // Remove spaces for validation
+            showModal("Invalid Card Number", "Please enter a valid card number (13-19 digits).", "error");
+            return;
+        }
+
+        if (!expiryDateRegex.test(expiryDate)) {
+            showModal("Invalid Expiry Date", "Please enter expiry date in MM/YY format (e.g., 12/25).", "error");
+            return;
+        }
+
+        const [month, year] = expiryDate.split('/').map(Number);
+        const currentYear = new Date().getFullYear() % 100; // Get last two digits of current year
+        const currentMonth = new Date().getMonth() + 1; // Month is 0-indexed
+
+        if (year < currentYear || (year === currentYear && month < currentMonth)) {
+            showModal("Card Expired", "Your card's expiry date is in the past.", "error");
+            return;
+        }
+
+
+        if (!cvvRegex.test(cvv)) {
+            showModal("Invalid CVV", "Please enter a valid CVV (3 or 4 digits).", "error");
+            return;
+        }
+
+        // Simulate payment processing
+        // Disable button and show loading indicator
+        const checkoutButton = event.submitter;
+        checkoutButton.disabled = true;
+        checkoutButton.textContent = "Processing...";
+
+        setTimeout(() => {
+            const isPaymentSuccessful = Math.random() > 0.1; // 90% chance of success
+
+            if (isPaymentSuccessful) {
+                showModal(
+                    "Order Placed!",
+                    "Your order has been successfully placed. Thank you for shopping with us!",
+                    "success"
+                );
+                cart = []; // Clear cart after successful order
+                updateCartUI();
+                checkoutForm.reset(); // Clear form fields
+                setTimeout(() => window.location.hash = '#home', 2000); // Redirect to home after 2 seconds
+            } else {
+                showModal(
+                    "Payment Failed!",
+                    "There was an issue processing your payment. Please try again or use a different card.",
+                    "error"
+                );
+            }
+            // Re-enable button and reset text
+            checkoutButton.disabled = false;
+            checkoutButton.textContent = "Proceed to Checkout";
+        }, 1500); // Simulate 1.5 seconds processing time
       });
 
       // --- Modal Functions ---
