@@ -72,10 +72,6 @@ To run MindOS, follow these steps:
 
 [Insert screenshots of the platform's UI and features]
 
-**API Reference**
-----------------
-
-[Insert API documentation if applicable]
 
 **Author**
 ---------
